@@ -1,3 +1,15 @@
 body{
     background: papayawhip;
+    margin: 0 0;
+    padding: 0 0;
+}
+.registration-box{
+    background-color: white;
+    width: 600px;
+    margin:auto;
+    padding: 50px 30px;
+}
+.registration-box input{
+    margin-right: 100px;
+    float: right;
 }

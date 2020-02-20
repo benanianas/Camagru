@@ -20,10 +20,7 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: test_db
-      MYSQL_USER: user
-      MYSQL_PASSWORD: passme
+      MYSQL_ROOT_PASSWORD: myrootpass
     ports:
       - 6033:3306
   phpmyadmin:

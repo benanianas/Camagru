@@ -2,13 +2,17 @@
 
 class Pages extends Controller{
 
+    private $postmodel;
+
     public function __construct()
     {
-    
+        $this->$postmodel = $this->model('Post');
+        
     }
     public function index()
     {
-        $this->view('pages/homepage');
+        $data = $this->$postmodel->getUsers();
+        $this->view('pages/homepage', $data);
     }
     public function about()
     {
