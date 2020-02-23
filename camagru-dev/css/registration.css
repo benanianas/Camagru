@@ -1,0 +1,77 @@
+body{
+    font-family: 'Tangerine', sans-serif;
+}
+.homepage{
+    height: 100vh;
+    width: 100%;
+    background-color: #00C99C;
+}
+.hp-navbar{
+    display: flex;
+    background-color: #003C48;
+    padding: 8px 40px;
+    height: 60px;
+    color: white;
+}
+.logo-side{
+    display: flex;
+}
+.logo-side a{
+    display: inline-block;
+    color: white;
+    font-size: large;
+}
+.logo {
+    margin-top: 5px;
+}
+.logo-title{
+    margin-left: 10px;
+    margin-top: 10px;
+}
+.logo-side a img{
+    height: 35px;
+}
+.logo-side a:hover{
+    color: white;
+}
+.login{
+    margin-left: auto;
+    margin-top: 13px;
+}
+.login a{
+    color: #00C99C;
+}
+.login a:hover{
+    color: white;
+}
+.registration-box{
+    background-color: #003C48;
+    width: 50%;
+    max-width: 500px;
+    margin: 50px auto;
+    border: #003C48 solid 2px;
+    border-radius: 3px;
+    box-shadow: 4px 6px 10px #696969;
+    color: white;
+    padding: 25px 30px;
+}
+.registration-box p:nth-child(1){
+    font-size: 30px;
+    color: #00C99C;
+    font-weight: 700;
+}
+.registration-box p:nth-child(2){
+    margin-top: -7px;
+}
+
+.myform{
+    margin-top: 30px;
+}
+
+.button{
+    margin-top: 15px;
+}
+.button.is-primary {
+    background-color: #00C99C;
+}
+/* #DBDBDB */

@@ -1,0 +1,84 @@
+/* colors
+#003C48
+#00B48C
+
+
+buttons #00C99C
+
+*/
+
+/* Home page css*/
+.homepage{
+    height: 100vh;
+    width: 100%;
+    background-color: #00C99C;
+}
+.hp-navbar{
+    display: flex;
+    background-color: #003C48;
+    padding: 8px 40px;
+    height: 60px;
+    color: white;
+}
+.logo-side{
+    display: flex;
+}
+.logo-side a{
+    display: inline-block;
+    color: white;
+    font-size: large;
+}
+.logo {
+    margin-top: 5px;
+}
+.logo-title{
+    margin-left: 10px;
+    margin-top: 10px;
+}
+.logo-side a img{
+    height: 35px;
+}
+.logo-side a:hover{
+    color: white;
+}
+.account-buttons{
+    font-family: 'Tangerine', sans-serif;
+    margin-top: 13px;
+    margin-left: auto;
+}
+
+.account-buttons a{
+    color: white;
+    margin-right: 12px;
+}
+.account-buttons a:nth-child(1):hover{
+    color: #00B48C;
+}
+.register{
+    border: solid #00B48C 1.3px ;
+    background-color: #00B48C;
+    padding: 3px 10px;
+    border-radius: 5px;
+}
+.register:hover{
+    color: white;
+    background-color: #003C48;
+}
+.home-content{
+    font-family: 'Krona One', sans-serif;
+    text-align: center;
+    font-size: 80px;
+    color: white;
+    width: 90%;
+    margin: auto;
+    margin-top: 100px;
+}
+.theimg{
+    height: 600px;
+    width: 60%;
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+
+
