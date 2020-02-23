@@ -22,13 +22,13 @@
     <div class="field">
         
         <label >Full Name</label>
-        <input class="input" name="full_name" type="text">
+        <input class="input" name="full_name" type="text" value="<?php if(!$data['full_name_err'])echo $data['full_name'];?>">
         <p class="help is-danger"><?php if($data['full_name_err']){echo $data['full_name_err'];} ?></p>
     </div>
     <div class="field">
         <label >Username</label>
         <div class="control has-icons-left has-icons-right">
-            <input class="input" name="username" type="text" >
+            <input class="input" name="username" type="text" value="<?php if(!$data['username_err'])echo $data['username'];?>">
             <span class="icon is-small is-left">
             <i class="fas fa-user"></i>
             </span>
@@ -38,7 +38,7 @@
     <div class="field">
         <label >Email</label>
         <div class="control has-icons-left has-icons-right">
-            <input class="input" name="email" type="text" >
+            <input class="input" name="email" type="text" value="<?php if(!$data['email_err'])echo $data['email'];?>">
             <span class="icon is-small is-left">
             <i class="fas fa-envelope"></i>
             </span>
@@ -48,7 +48,7 @@
     <div class="field">
         <label >Password</label>
         <div class="control has-icons-left has-icons-right">
-            <input class="input" name="password" type="password" >
+            <input class="input" name="password" type="password" value="<?php if(!$data['password_err'])echo $data['password'];?>">
             <span class="icon is-small is-left">
             <i class="fas fa-lock"></i>
             </span>
@@ -58,7 +58,7 @@
     <div class="field">
         <label >Confirm Password</label>
         <div class="control has-icons-left has-icons-right">
-            <input class="input" name="password_c" type="password" >
+            <input class="input" name="password_c" type="password" value="<?php if(!$data['password_c_err'])echo $data['password_c'];?>">
             <span class="icon is-small is-left">
             <i class="fas fa-lock"></i>
             </span>
