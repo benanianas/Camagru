@@ -9,7 +9,7 @@
         <div class="logo-title"><a href="<?php echo URLROOT?>"> Camagru</a></div>
     </div>
     <div class="account-buttons">
-    <a href="#">Log In</a>
+    <a href="<?php echo URLROOT?>/account/login">Log In</a>
     <a class="register" href ="<?php echo URLROOT?>/account/register">Register</a>
 
     </div>

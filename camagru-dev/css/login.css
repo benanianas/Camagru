@@ -42,7 +42,7 @@ html, section{
 .login a:hover{
     color: white;
 }
-.registration-box{
+.login-box{
     background-color: #003C48;
     width: 50%;
     max-width: 500px;
@@ -53,14 +53,12 @@ html, section{
     color: white;
     padding: 25px 30px;
 }
-.registration-box p:nth-child(1){
+.login-box p:nth-child(1){
     font-size: 30px;
     color: #00C99C;
     font-weight: 700;
 }
-.registration-box p:nth-child(2){
-    margin-top: -7px;
-}
+
 
 .myform{
     margin-top: 30px;
@@ -71,5 +69,19 @@ html, section{
 }
 .button.is-primary {
     background-color: #00C99C;
+}
+.myform a{
+    color: #00C99C;
+    ;
+}
+.myform a:hover{
+    color: white;
+}
+.control{
+    display: flex;
+}
+.f_pass{
+    margin-left: auto;
+    margin-top: 31px;
 }
 /* #DBDBDB */

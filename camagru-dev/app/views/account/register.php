@@ -10,7 +10,7 @@
     </div>
     <div class="login">
     Already have an account ?
-    <a href="#">Log In</a>
+    <a href="<?php echo URLROOT?>/account/login">Log In</a>
 </div>
 </div>
 <!-- registration box -->
@@ -18,12 +18,12 @@
 <div  class="registration-box">
     <p>Welcome to Camagru!</p>
     <p>Registration is free, fast, and simple.</p>
-    <form class="myform"action="<?php echo URLROOT?>/account/register" method="post">
+    <form class="myform" action="<?php echo URLROOT?>/account/register" method="post">
     <div class="field">
         
-        <label >Full Name</label>
-        <input class="input" name="full_name" type="text" value="<?php if(!$data['full_name_err'])echo $data['full_name'];?>">
-        <p class="help is-danger"><?php if($data['full_name_err']){echo $data['full_name_err'];} ?></p>
+        <label >First Name</label>
+        <input class="input" name="first_name" type="text" value="<?php if(!$data['first_name_err'])echo $data['first_name'];?>">
+        <p class="help is-danger"><?php if($data['first_name_err']){echo $data['first_name_err'];} ?></p>
     </div>
     <div class="field">
         <label >Username</label>

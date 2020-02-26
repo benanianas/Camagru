@@ -30,7 +30,7 @@ class Database{
         $this->stmt = $this->dbh->prepare($sql);
     }
 
-    public function placeholders($param, $value, $type = null)
+    public function placeholder($param, $value, $type = null)
     {
         if(is_null($type))
         {
@@ -47,20 +47,20 @@ class Database{
         $this->stmt->bindValue($param, $value, $type);
     }
 
-    public function execution()
+    public function execute()
     {
         return $this->stmt->execute();
     }
 
     public function result()
     {
-        $this->execution();
+        $this->execute();
         return $this->stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
     public function single()
     {
-        $this->execution();
+        $this->execute();
         return $this->stmt->fetch(PDO::FETCH_OBJ);
     }
 

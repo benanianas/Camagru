@@ -21,7 +21,7 @@ try{
 
     $sql = " CREATE TABLE IF NOT EXISTS `users`
     (`id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-     `fullname` VARCHAR(30) NOT NULL,
+     `first_name` VARCHAR(30) NOT NULL,
      `username` VARCHAR(25)  NOT NULL,
      `email` Varchar(50) NOT NULL,
      `password` Varchar(255) NOT NULL)
@@ -31,7 +31,7 @@ try{
 
     //just a users tabel test
     $sql = "INSERT INTO `users`
-     (`fullname`, `username`, `email`, `password`)
+     (`first_name`, `username`, `email`, `password`)
      VALUES
      ('anas benani','benanas','anas@gmail.com', 'passtest_djwjdijwijd'),
      ('mouad bhaya','dobby','bhaya@gmail.com', 'passtest_djwjdijwijd'),
