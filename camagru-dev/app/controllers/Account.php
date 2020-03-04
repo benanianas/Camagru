@@ -61,22 +61,26 @@ Class Account extends Controller{
 
             if(empty($data['password']))
                 $data['password_err'] = 'Please enter a password';
-            else{
-                if(strlen($data['password']) < 6)
-                {
-                    $data['password_err'] = 'password must be at least 6 characters';
-                    $data['password_c_err'] = ' ';
-                }
+            else
+            {
+                if(strlen($data['password']) < 8)
+                    $data['password_err'] = 'password must be at least 8 characters';
+                else if(strlen($data['password']) > 25)
+                    $data['password_err'] = 'password too long!';
+                else if(!preg_match('#[A-Z]#', $data['password']) || !preg_match('#[a-z]#', $data['password']) || !preg_match('#[\W]#', $data['password']))
+                    $data['password_err'] = 'password should contain at least :<br>• one uppercase character<br>• one lowercase character<br>• one special character';   
             }
 
 
-
-            if(empty($data['password_c']))
+            if(empty($data['password_c']) && empty($data['password_err']))
                 $data['password_c_err'] = 'Please Confirm your password';
             else{
-                    if($data['password'] != $data['password_c'])
-                    $data['password_c_err'] = 'Passwords do not match';
+                    if($data['password'] != $data['password_c'] && empty($data['password_err']))
+                        $data['password_c_err'] = 'Passwords do not match';
             }
+            if($data['password_err'])
+            $data['password_c'] = '';
+
 
 
             
@@ -84,14 +88,21 @@ Class Account extends Controller{
             empty($data['password_err']) && empty($data['password_c_err']))
                 {
                     $data['first_name'] = ucwords(strtolower($data['first_name']));
+                    $data['email'] = strtolower($data['email']);
+                    $data['username'] = strtolower($data['username']);
                     $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
-                    $this->model->register($data);
-                    die("success");
+                    if ($this->model->register($data))
+                    {
+                        $ret = $this->model->regVer($data);
+                        flash_msg('registration', 'You are registred now, we sent you a verification mail please verify your email to log in.');
+                        header("Location: ".URLROOT."/account/login");
+                        sendVerification($data, $ret->token);
+                    }
+                    else
+                        die("registration error!");
                 }
             else
-            {
                 $this->view('account/register', $data);
-            }
 
         }
         else
@@ -120,10 +131,11 @@ Class Account extends Controller{
         if($_SERVER['REQUEST_METHOD'] == 'POST')
         {
             $data = [
-                'login' => $_POST['login'],
+                'login' => trim($_POST['login']),
                 'password' => $_POST['password'],
                 'login_err' => '',
-                'password_err' => ''
+                'password_err' => '',
+                'verification' => ''
             ];
             if(empty($data['login']))
                 $data['login_err'] = "Please enter an email or a username";
@@ -144,10 +156,19 @@ Class Account extends Controller{
                         $data['password_err'] = "The password that you've entered is incorrect.";
                 }
             }
+            if(!empty($data['login_err']))
+                $data['password'] = '';
             if(empty($data['login_err']) && empty($data['password_err']))
             {
-                die ("success");
-                echo $data['email'];
+                if($this->model->checkIfVerified($data))
+                    die("success");
+                else
+                {
+                    $data['verification'] = "You need to verify your email first in order to log in.";
+                    $data['password'] = '';
+                    $this->view('account/login', $data);
+                }
+                
             }
             else
                 $this->view('account/login', $data);
@@ -158,9 +179,85 @@ Class Account extends Controller{
                 'login' => '',
                 'login_err' => '',
                 'password' => '',
-                'password_err' => ''
+                'password_err' => '',
+                'verification' => ''
             ];
             $this->view('account/login', $data);
         }
+    }
+
+    public function verify($token = '')
+    {
+        if(!empty($token))
+        {
+            if ($time = $this->model->tokenVerification($token))
+            {
+                $time = time() - strtotime($time);
+                if($time < 86400)
+                {
+                    $this->model->verifyUser($token);
+                    flash_msg('registration', 'Your email address is verified now.');
+                    redirect('/account/login');
+                }
+                else
+                {
+                    $data['msg'] = "The verification link is expired, enter your username or email to receive a new one";
+                    $data['status'] = 'danger';
+                    $this->view('account/verify', $data);
+                }
+            }
+            else
+            {
+                $data['msg'] = "Something went wrong, enter your username or email to receive a new one";
+                $data['status'] = 'danger';
+                $this->view('account/verify', $data);
+            }
+
+        }
+        if($_SERVER['REQUEST_METHOD'] == 'POST')
+        {
+            $data = [
+                'login' => trim($_POST['login']),
+                'login_err' => '',
+                'msg' => '',
+                'status' => ''
+            ];
+            if(!$this->model->checkIfLoginExist($data['login']))
+            {
+                if(filter_var($data['login'], FILTER_VALIDATE_EMAIL))
+                    $data['login_err'] = "The email address that you've entered doesn't match any account";
+                else
+                    $data['login_err'] = "The username that you've entered doesn't match any account";
+            }
+            else if ($this->model->checkIfVerified($data))
+                $data['msg'] = 'This account is already verified, <a href="'.URLROOT.'/account/login">Log In</a> now !';
+            if (empty($data['login_err']) && empty($data['msg']))
+            {
+                $ret = $this->model->getVerData($data);
+                $time = strtotime($ret->time);
+                $time = time() - $time;
+                $token = $ret->token;
+                $arg = [
+                    'email' => $ret->email,
+                    'first_name' => $ret->first_name
+                ];
+                if($time > 86400)
+                    $token = $this->model->updateToken($data);
+                sendVerification($arg, $token);
+                $data['msg'] = "We sent you a verification mail check your email address! ";
+            }
+            $this->view('account/verify', $data);
+        }
+        else
+        {
+            $data = [
+                'login' => $_SERVER['login'],
+                'login_err' => '',
+                'msg' => '',
+                'status' => ''
+            ];
+            $this->view('account/verify', $data);
+        }
+        
     }
 }

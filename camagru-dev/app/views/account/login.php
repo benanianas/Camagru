@@ -18,7 +18,24 @@
 <div  class="login-box">
     <p>Camagru login</p>
     <form class="myform" action="<?php echo URLROOT?>/account/login" method="post">
-   
+    <?php 
+    if ($_SESSION['registration'])
+    {
+        echo '<article class="message is-success is-small"><div class="message-body ">';
+        echo flash_msg('registration');
+        echo '</div></article>';
+    }
+    ?>
+    <?php 
+    if ($data['verification'])
+    {
+        echo '<article class="message is-danger is-small"><div class="message-body ">';
+        echo $data['verification']."<br><a href='";
+        echo URLROOT;
+        echo"/account/verify'>Verify now</a>";
+        echo '</div></article>';
+    }
+    ?>
     <div class="field">
         <label >Email or Username</label>
         <div class="control has-icons-left has-icons-right">

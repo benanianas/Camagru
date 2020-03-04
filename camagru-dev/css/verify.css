@@ -32,16 +32,30 @@ html, section{
 .logo-side a:hover{
     color: white;
 }
-.login{
-    margin-left: auto;
+.account-buttons{
+    font-family: 'Tangerine', sans-serif;
     margin-top: 13px;
+    margin-left: auto;
 }
-.login a{
-    color: #00C99C;
-}
-.login a:hover{
+
+.account-buttons a{
     color: white;
+    margin-right: 12px;
 }
+.account-buttons a:nth-child(1):hover{
+    color: #00B48C;
+}
+.register{
+    border: solid #00B48C 1.3px ;
+    background-color: #00B48C;
+    padding: 3px 10px;
+    border-radius: 5px;
+}
+.register:hover{
+    color: white;
+    background-color: #003C48;
+}
+
 .login-box{
     background-color: #003C48;
     width: 50%;

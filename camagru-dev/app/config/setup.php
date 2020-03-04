@@ -23,20 +23,11 @@ try{
     (`id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
      `first_name` VARCHAR(30) NOT NULL,
      `username` VARCHAR(25)  NOT NULL,
-     `email` Varchar(50) NOT NULL,
-     `password` Varchar(255) NOT NULL)
-    ";
-    $stmt = $db->prepare($sql);
-    $stmt->execute();
-
-    //just a users tabel test
-    $sql = "INSERT INTO `users`
-     (`first_name`, `username`, `email`, `password`)
-     VALUES
-     ('anas benani','benanas','anas@gmail.com', 'passtest_djwjdijwijd'),
-     ('mouad bhaya','dobby','bhaya@gmail.com', 'passtest_djwjdijwijd'),
-     ('mouad azami','aza_moud','mouadazami@gmail.com', 'passtest_djwjdijwijd'),
-     ('nourdine hamid','nhamid','hamidnourdin@gmail.com', 'passtest_djwjdijwijd')
+     `email` VARCHAR(50) NOT NULL,
+     `password` VARCHAR(255) NOT NULL,
+     `status` VARCHAR(2) NOT NULL,
+     `token` VARCHAR(255),
+     `time` DATETIME)
     ";
     $stmt = $db->prepare($sql);
     $stmt->execute();
