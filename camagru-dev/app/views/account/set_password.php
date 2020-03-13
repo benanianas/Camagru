@@ -17,8 +17,8 @@
 <!-- login box -->
 
 <div  class="login-box">
-    <p>Verify Email</p>
-    <form class="myform" action="<?php echo URLROOT?>/account/verify" method="post">
+    <p>Set a new passord</p>
+    <form class="myform" action="<?php echo URLROOT?>/account/set_password" method="post">
     <?php 
     if ($data['msg'])
     {
@@ -29,20 +29,30 @@
         echo '</div></article>';
     }
     ?>
-    <div class="field">
-        <label >Email or Username</label>
+     <div class="field">
+        <label >New Password</label>
         <div class="control has-icons-left has-icons-right">
-            <input class="input" name="login" type="text" value="<?php if(!$data['login_err'])echo $data['login'];?>">
+            <input class="input" name="password" type="password" value="<?php if(!$data['password_err'])echo $data['password'];?>">
             <span class="icon is-small is-left">
-            <i class="fas fa-user"></i>
+            <i class="fas fa-lock"></i>
             </span>
         </div>
-        <p class="help is-danger"><?php if($data['login_err']){echo $data['login_err'];} ?></p>
+        <p class="help is-danger"><?php if($data['password_err']){echo $data['password_err'];} ?></p>
     </div>
-  
+
+    <div class="field">
+        <label >Confirm Password</label>
+        <div class="control has-icons-left has-icons-right">
+            <input class="input" name="password_c" type="password" value="<?php if(!$data['password_err'])echo $data['password'];?>">
+            <span class="icon is-small is-left">
+            <i class="fas fa-lock"></i>
+            </span>
+        </div>
+        <p class="help is-danger"><?php if($data['password_c_err']){echo $data['password_c_err'];} ?></p>
+    </div>
     
         <div class="control">
-    <input type="submit" value="Verify" class="button is-linkclass is-primary">
+    <input type="submit" value="Submit" class="button is-linkclass is-primary">
 
 </form>
 </div>

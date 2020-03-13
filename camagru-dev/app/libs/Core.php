@@ -46,5 +46,4 @@ class Core {
             return $url;
         }
     }
-
 }

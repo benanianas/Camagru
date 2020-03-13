@@ -11,8 +11,11 @@ class Pages extends Controller{
     }
     public function index()
     {
-        $data = $this->$postmodel->getUsers();
-        $this->view('pages/homepage', $data);
+        //$data = $this->$postmodel->getUsers();
+        if (isLoggedIn())
+            $this->view('pages/home', $data);
+        else
+            $this->view('pages/homepage', $data);
     }
     public function about()
     {

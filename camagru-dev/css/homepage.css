@@ -21,21 +21,15 @@ html, section{
 }
 .logo-side{
     display: flex;
+    margin-left: 25px;
 }
-.logo-side a{
-    display: inline-block;
-    color: white;
-    font-size: large;
-}
+
 .logo {
     margin-top: 5px;
 }
-.logo-title{
-    margin-left: 10px;
-    margin-top: 10px;
-}
+
 .logo-side a img{
-    height: 35px;
+    height: 39px;
 }
 .logo-side a:hover{
     color: white;
@@ -72,12 +66,11 @@ html, section{
     margin: auto;
     margin-top: 100px;
 }
+
 .theimg{
     height: 600px;
     width: 60%;
     margin-left: 20%;
     margin-right: 20%;
 }
-
-
 

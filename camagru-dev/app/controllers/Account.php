@@ -9,10 +9,13 @@ Class Account extends Controller{
     public function index()
     {
         //$this->register();
+        //error 404
     }
     
     public function register()
     {
+        if(isLoggedIn())
+            redirect('/');
         if($_SERVER['REQUEST_METHOD'] == 'POST')
         {
             $data = [
@@ -128,6 +131,8 @@ Class Account extends Controller{
 
     public function login()
     {
+        if(isLoggedIn())
+            redirect('/');
         if($_SERVER['REQUEST_METHOD'] == 'POST')
         {
             $data = [
@@ -161,7 +166,10 @@ Class Account extends Controller{
             if(empty($data['login_err']) && empty($data['password_err']))
             {
                 if($this->model->checkIfVerified($data))
-                    die("success");
+                {
+                    $user = $this->model->getVerData($data);
+                    $this->createUserSession($user);
+                }
                 else
                 {
                     $data['verification'] = "You need to verify your email first in order to log in.";
@@ -188,6 +196,8 @@ Class Account extends Controller{
 
     public function verify($token = '')
     {
+        if(isLoggedIn())
+            redirect('/');
         if(!empty($token))
         {
             if ($time = $this->model->tokenVerification($token))
@@ -259,5 +269,149 @@ Class Account extends Controller{
             $this->view('account/verify', $data);
         }
         
+    }
+
+    public function reset_password($token = '')
+    {
+        if(isLoggedIn())
+            redirect('/');
+        if(!empty($token))
+        {
+            if($time = $this->model->tokenVerification($token))
+            {
+                $time = time() - strtotime($time);
+                if($time < 7200)
+                {
+                    $this->model->verifyUser($token);
+                    redirect('/account/set_password/'.$token);
+                }
+                else
+                {
+                    $data['msg'] = "the link is expired.";
+                    $data['status'] = "danger";
+                }
+            }
+            else
+            {
+                $data['msg'] = "something went wrong, enter your username or email to receive a new link";
+                $data['status'] = "danger";   
+            }
+            $this->view('account/reset_password', $data);
+        }
+        if($_SERVER['REQUEST_METHOD'] == 'POST')
+        {
+            $data = [
+                'login' => $_POST['login'],
+                'login_err' => '',
+                'msg' => '',
+                'status' => ''
+            ];
+            if($this->model->checkIfLoginExist($data['login']))
+            {
+                $token = $this->model->updateToken($data);
+                $ret = $this->model->getVerData($data);
+                $arg = [
+                    'first_name' => $ret->first_name,
+                    'email' => $ret->email
+                ];
+                sendPasswordReset($arg, $token);
+                $data['msg'] = 'an email is sent to you containing a link to reset your password.';
+            }
+            else
+            {
+                if(filter_var($data['login'], FILTER_VALIDATE_EMAIL))
+                    $data['login_err'] = "The email address that you've entered doesn't match any account";
+                else
+                    $data['login_err'] = "The username that you've entered doesn't match any account";
+            }
+            $this->view('account/reset_password', $data);
+        }
+        else
+        {
+            $data = [
+                'login' => '',
+                'login_err' => '',
+                'msg' => '',
+                'status' => ''
+            ];
+
+            $this->view('account/reset_password', $data);
+
+        }
+    }
+
+    public function set_password($token = '')
+    {
+        if(isLoggedIn())
+            redirect('/');
+        if($_SERVER['REQUEST_METHOD'] == 'POST')
+        {
+            $data = [
+                'password' => $_POST['password'],
+                'password_c' => $_POST['password_c'],
+                'password_err' => '',
+                'password_c_err' => ''
+            ];   
+            if(empty($data['password']))
+                $data['password_err'] = 'Please enter a password';
+            else
+            {
+                if(strlen($data['password']) < 8)
+                    $data['password_err'] = 'password must be at least 8 characters';
+                else if(strlen($data['password']) > 25)
+                    $data['password_err'] = 'password too long!';
+                else if(!preg_match('#[A-Z]#', $data['password']) || !preg_match('#[a-z]#', $data['password']) || !preg_match('#[\W]#', $data['password']))
+                    $data['password_err'] = 'password should contain at least :<br>• one uppercase character<br>• one lowercase character<br>• one special character';   
+            }
+            if(empty($data['password_c']) && empty($data['password_err']))
+                $data['password_c_err'] = 'Please Confirm your password';
+            else{
+                    if($data['password'] != $data['password_c'] && empty($data['password_err']))
+                        $data['password_c_err'] = 'Passwords do not match';
+            }
+            if($data['password_err'])
+            {
+                $data['password_c'] = '';
+                $data['password_c_err'] = '';
+            }
+            if(empty($data['password_err']) && empty($data['password_c_err']))
+            {
+                $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+                $this->model->resetPassword($data['password'], $_SESSION['token']);
+                unset($_SESSION['token']);
+                flash_msg('registration', 'Password changed, you can login now!');
+                redirect('/account/login');
+            }
+            else
+                $this->view('account/set_password', $data);
+        }
+        else
+        {
+        $data = [
+            'password' => '',
+            'password_c' => '',
+            'password_err' => '',
+            'password_c_err' => ''
+        ];
+        $_SESSION['token'] = $token;
+        $this->view('account/set_password', $data);
+        }
+    }
+
+    public function createUserSession($user)
+    {
+        $_SESSION['id'] = $user->id;
+        $_SESSION['email'] = $user->email;
+        $_SESSION['username'] = $user->username;
+        redirect('');
+    }
+
+    public function logout()
+    {
+        unset($_SESSION['id']);
+        unset($_SESSION['email']);
+        unset($_SESSION['username']);
+        session_destroy();
+        redirect('/account/login');
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 define ('APPROOT', dirname(dirname(__FILE__)));
-define ('URLROOT', 'http://10.12.6.15:8000');
+define ('URLROOT', 'http://localhost:8000');
 define ('SITENAME', 'Camagru');
 
 

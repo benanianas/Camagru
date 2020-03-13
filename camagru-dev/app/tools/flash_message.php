@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 function flash_msg($name = '', $msg = '')
 {

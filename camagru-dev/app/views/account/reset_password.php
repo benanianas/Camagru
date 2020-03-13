@@ -17,8 +17,8 @@
 <!-- login box -->
 
 <div  class="login-box">
-    <p>Verify Email</p>
-    <form class="myform" action="<?php echo URLROOT?>/account/verify" method="post">
+    <p>Reset Password</p>
+    <form class="myform" action="<?php echo URLROOT?>/account/reset_password" method="post">
     <?php 
     if ($data['msg'])
     {
@@ -42,7 +42,7 @@
   
     
         <div class="control">
-    <input type="submit" value="Verify" class="button is-linkclass is-primary">
+    <input type="submit" value="Continue" class="button is-linkclass is-primary">
 
 </form>
 </div>

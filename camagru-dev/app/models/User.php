@@ -119,10 +119,19 @@ class User{
             return FALSE;
     }
 
-    public function verifyUSer($token)
+    public function verifyUser($token)
     {
         $this->db->query("UPDATE `users` set `status` = 1 WHERE `token` = :token");
         $this->db->placeholder(':token', $token);
+        $this->db->execute();
+    }
+
+    public function resetPassword($password, $token)
+    {
+        $this->db->query("UPDATE `users` SET `token` = :newtoken, `password` = :pass WHERE `token` = :token");
+        $this->db->placeholder(':pass', $password);
+        $this->db->placeholder(':token', $token);
+        $this->db->placeholder(':newtoken', 'nothinghere');
         $this->db->execute();
     }
 }

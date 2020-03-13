@@ -1,0 +1,37 @@
+.hp-navbar{
+    display: flex;
+    background-color: #003C48;
+    padding: 8px 40px;
+    height: 60px;
+    color: white;
+    border-bottom: 3px solid #00B48C;
+}
+
+.logo-side{
+    display: flex;
+    margin-left: 25px;
+}
+
+.logo {
+    margin-top: 5px;
+}
+
+.logo-side a img{
+    height: 39px;
+}
+.logo-side a:hover{
+    color: white;
+}
+.account-buttons{
+    font-family: 'Tangerine', sans-serif;
+    margin-top: 13px;
+    margin-left: auto;
+}
+
+.account-buttons a{
+    color: white;
+    margin-right: 12px;
+}
+.account-buttons a:hover{
+    color: #00B48C;
+}

@@ -1,12 +1,12 @@
 <?php require APPROOT.'/views/inc/header.php'?>
 <link rel="stylesheet" href="<?php echo URLROOT?>/css/login.css">
+<link rel="stylesheet" href="<?php echo URLROOT?>/css/footer.css">
 </head>
 <body>
-<div class="homepage">
+<div class="thecontent">
 <div class="hp-navbar">
     <div class="logo-side">
         <div class="logo"><a href="<?php echo URLROOT?>"> <img src="<?php echo URLROOT?>/img/logo.png"></a></div>
-        <div class="logo-title"><a href="<?php echo URLROOT?>"> Camagru</a></div>
     </div>
     <div class="login">
     Don't have an account yet?
@@ -59,7 +59,7 @@
     
         <div class="control">
     <input type="submit" value="Log In" class="button is-linkclass is-primary">
-    <div class="f_pass"><a href="#">Forgot password ?</a></div>
+    <div class="f_pass"><a href="<?php echo URLROOT?>/account/reset_password">Forgot password ?</a></div>
 </form>
 </div>
 </div>

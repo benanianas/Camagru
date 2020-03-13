@@ -1,0 +1,56 @@
+.thecontent {
+    background-color: #FAFAFA;
+    font-family: 'Tangerine', sans-serif;
+}
+body{
+    font-family: 'Tangerine', sans-serif;
+}
+.settings{
+    width: 70%;
+    max-width: 950px;
+    height: 500px;
+    background-color: white;
+    margin: auto;
+    margin-top: 30px;
+    border: solid 1px #dbdbdb;
+    border-radius: 3px;
+}
+.tab{
+    float: left;
+    border-right: solid 1px #dbdbdb;
+    width: 20%;
+    height: 500px;
+}
+.tab button {
+    font-family: 'Tangerine', sans-serif;
+    display: block;
+    background-color: white;
+    color: black;
+    padding: 22px 16px;
+    width: 100%;
+    border: none;
+    outline: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: 17px;
+  }
+  .tab a{
+      color: black;
+  }
+  .tab button:hover{
+      padding-left: 13px;
+      background-color: #FAFAFA;
+      border-left: solid 3px #dbdbdb;
+  }
+  #selected{
+    border-left: solid 3px #262626;
+    padding-left: 13px;
+  }
+  .tabcontent{
+      color: black;
+      float: right;
+      display: block;
+      width: 80%;
+      padding: 20px 60px;
+  }
+  

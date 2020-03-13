@@ -1,0 +1,20 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+.thecontent{
+    min-height: 100%;
+    margin-bottom: -70px;
+}
+.myfooter{
+    text-align: center;
+    height: 70px;
+    background-image: linear-gradient(#00202F,rgb(8, 72, 85));
+    font-family: 'Tangerine', sans-serif;
+    color: white;
+    padding: 20px;
+}
+.push{
+    height: 70px;
+}

@@ -6,7 +6,7 @@ require_once 'config/setup.php';
 require_once 'tools/url_redirection.php';
 require_once 'tools/flash_message.php';
 require_once 'tools/ver_mail.php';
-
+require_once 'tools/loggedin.php';
 
 /*
 require_once 'libs/Controller.php';

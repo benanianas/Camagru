@@ -13,21 +13,14 @@ html, section{
 }
 .logo-side{
     display: flex;
-}
-.logo-side a{
-    display: inline-block;
-    color: white;
-    font-size: large;
+    margin-left: 25px;
 }
 .logo {
     margin-top: 5px;
 }
-.logo-title{
-    margin-left: 10px;
-    margin-top: 10px;
-}
+
 .logo-side a img{
-    height: 35px;
+    height: 39px;
 }
 .logo-side a:hover{
     color: white;

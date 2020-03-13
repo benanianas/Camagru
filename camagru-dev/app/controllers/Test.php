@@ -24,8 +24,7 @@ class Test extends Controller{
 //         echo $token;
 //         */
 //         header("Location: ".URLROOT."/account/login");
-$time = '2020-03-04 09:19:15';
-echo time();
+
 
 }
 }
