@@ -11,3 +11,20 @@
 //     the_c.style.display = "block";
     
 // }
+
+function deleteNotif()
+{
+    var element = document.getElementsByClassName("changedpass");
+    element[0].style.display = "none";
+}
+
+
+
+function changeNStatus(id, name)
+{
+    var val =  document.getElementById(id).checked;
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", window.location.href , true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+    xhr.send(name+"="+val );
+}

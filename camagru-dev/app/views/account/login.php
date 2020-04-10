@@ -19,10 +19,10 @@
     <p>Camagru login</p>
     <form class="myform" action="<?php echo URLROOT?>/account/login" method="post">
     <?php 
-    if ($_SESSION['registration'])
+    if ($_SESSION['msg'])
     {
         echo '<article class="message is-success is-small"><div class="message-body ">';
-        echo flash_msg('registration');
+        echo flash_msg('msg');
         echo '</div></article>';
     }
     ?>

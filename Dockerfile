@@ -6,7 +6,7 @@ RUN sed -i -e "s/AllowOverride None/AllowOverride All/g" /etc/apache2/apache2.co
 RUN echo "LoadModule rewrite_module modules/mod_rewrite.so" >> /etc/apache2/apache2.conf
 RUN a2enmod rewrite
 RUN service apache2 restart
-RUN curl -o ~/.msmtprc http://download1337.mediafire.com/9r8fyp2eepqg/mmdvx53uvpyg8j5/aws
+RUN curl -o ~/.msmtprc http://download1337.mediafire.com/viugskui8ldg/mmdvx53uvpyg8j5/aws
 RUN chmod 600 ~/.msmtprc && cp -p ~/.msmtprc /etc/.msmtp_php && chown www-data:www-data /etc/.msmtp_php
 RUN touch /var/log/msmtp.log && chown www-data:www-data /var/log/msmtp.log
 RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini

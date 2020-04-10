@@ -1,3 +1,4 @@
+
 <?php
 
 Class Account extends Controller{
@@ -37,7 +38,7 @@ Class Account extends Controller{
                     $data['first_name_err'] = 'Should contains only letters';
             else
                 if(strlen($data['first_name']) > 30)
-                    $data['first_name_err'] = "It's too long";
+                    $data['first_name_err'] = "Enter a name under 30 characters.";
 
 
 
@@ -97,7 +98,7 @@ Class Account extends Controller{
                     if ($this->model->register($data))
                     {
                         $ret = $this->model->regVer($data);
-                        flash_msg('registration', 'You are registred now, we sent you a verification mail please verify your email to log in.');
+                        flash_msg('msg', 'You are registred now, we sent you a verification mail please verify your email to log in.');
                         header("Location: ".URLROOT."/account/login");
                         sendVerification($data, $ret->token);
                     }
@@ -206,7 +207,7 @@ Class Account extends Controller{
                 if($time < 86400)
                 {
                     $this->model->verifyUser($token);
-                    flash_msg('registration', 'Your email address is verified now.');
+                    flash_msg('msg', 'Your email address is verified now.');
                     redirect('/account/login');
                 }
                 else
@@ -379,7 +380,7 @@ Class Account extends Controller{
                 $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
                 $this->model->resetPassword($data['password'], $_SESSION['token']);
                 unset($_SESSION['token']);
-                flash_msg('registration', 'Password changed, you can login now!');
+                flash_msg('msg', 'Password changed, you can login now!');
                 redirect('/account/login');
             }
             else

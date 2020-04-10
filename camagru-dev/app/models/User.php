@@ -7,17 +7,14 @@ class User{
     {
         $this->db = new Database;
     }
-    
-
 
     public function register($data)
     {
-        $this->db->query('INSERT INTO `users` (`first_name`,`username`,`email`,`password`,`status`,`token`, `time`) VALUES (:first_name, :username, :email, :passwd, :stat, :tok, now())');
+        $this->db->query("INSERT INTO `users` (`first_name`,`username`,`email`,`password`,`comments_n`,`likes_n`,`status`,`token`, `time`) VALUES (:first_name, :username, :email, :passwd, '1', '1', '0', :tok, now())");
         $this->db->placeholder(':first_name', $data['first_name']);
         $this->db->placeholder(':username', $data['username']);
         $this->db->placeholder(':email', $data['email']);
         $this->db->placeholder(':passwd', $data['password']);
-        $this->db->placeholder(':stat', '0');
         $token = bin2hex(random_bytes(16));
         $this->db->placeholder(':tok', $token);
         return $this->db->execute();
