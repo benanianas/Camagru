@@ -22,7 +22,7 @@
         <br>
         <br>
         <label class="checkbox">
-        <input id ="like_n" name='likes_n' type="checkbox" <?php if ($data['comments_n'] == '1') echo 'checked';?> onchange="changeNStatus(this.id, this.name)">
+        <input id ="like_n" name='likes_n' type="checkbox" <?php if ($data['likes_n'] == '1') echo 'checked';?> onchange="changeNStatus(this.id, this.name)">
         Recieve Likes notifications 
         </label>
         </form>

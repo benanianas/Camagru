@@ -4,11 +4,13 @@ class Pages extends Controller{
 
     private $postmodel;
 
-    public function __construct()
+    /*public function __construct()
     {
         $this->$postmodel = $this->model('Post');
         
-    }
+    }*/
+
+    
     public function index()
     {
         //$data = $this->$postmodel->getUsers();
