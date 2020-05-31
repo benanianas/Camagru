@@ -73,6 +73,7 @@
     margin-bottom: 20px;
     border: solid 1px;
     position: relative;
+    background-color: gray;
 }
 .emoji{
     position: absolute;
@@ -84,10 +85,37 @@
 }
 
 #withcamera{
-    display: none;
+    display: inline-block;
     margin-top: 20px;
     margin-bottom: 20px;
 }
 #withcamera button{
-    margin-left: 20px;
+    margin-left: 2px;
 }
+
+.uploader {
+    /* text-align: center; */
+    display: inline-block;
+}
+.uploader label{
+    margin-bottom: 15px;
+}
+.uploader button{
+    margin-left: 10px;
+} 
+
+#err-msg{
+    margin-top: 5px;
+    margin-bottom: -29px;
+    color: red;
+    display: none;
+}
+#camera-err{
+    /* to remove if there is a problem while working on responsivity */
+    position: absolute;
+    top: 40%;
+    right: 20%;
+    color: white;
+    display: block;
+}
+

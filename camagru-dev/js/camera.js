@@ -1,12 +1,17 @@
-var video = document.getElementById('video');
-var canvas = document.getElementById('canvas');
-var context = canvas.getContext('2d');
-var emoji = document.getElementsByClassName('emoji');
-var btn = document.getElementById('snap');
-var camera = document.getElementById('takepic');
-var ifcamera = document.getElementById('withcamera');
-var selected = document.getElementById('react');
-var check = 0;
+var video = document.getElementById('video'),
+    canvas = document.getElementById('canvas'),
+    context = canvas.getContext('2d'),
+    emoji = document.getElementsByClassName('emoji'),
+    btn = document.getElementById('snap'),
+    camera = document.getElementById('takepic'),
+    ifcamera = document.getElementById('withcamera'),
+    selected = document.getElementById('react'),
+    selected2 = document.getElementById('react2'),
+    pic = document.getElementById('up-pic'),
+    upform = document.getElementById('up-form'),
+    check = 0,
+    msg = document.getElementById('err-msg'),
+    camerr = document.getElementById('camera-err');
 
 if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
     navigator.mediaDevices.getUserMedia({ video: {width: 640,height:480,} }).then(function(stream) {
@@ -14,14 +19,21 @@ if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         video.play();
 
         if(video)
-            ifcamera.style.display = "inline-block";
+        {
+            selected.disabled = false;
+            camerr.style.display = "none";
+        }
     });
 }
 
 
-document.getElementById("snap").addEventListener("click", function() {
-    context.drawImage(video,0, 0, 640,480,0,0,640,480);
-    var canvasdata = canvas.toDataURL("image/png");
+function snapIt(camera)
+{
+    if (camera)
+    {
+        context.drawImage(video,0, 0, 640,480,0,0,640,480);
+        var canvasdata = canvas.toDataURL("image/png");
+    }
     
     var xhr = new XMLHttpRequest();
 
@@ -32,8 +44,37 @@ document.getElementById("snap").addEventListener("click", function() {
     };
     xhr.open("POST", window.location.href , true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
-    xhr.send("photo="+canvasdata+"&selected="+selected.value );
-});
+    if(camera)
+        xhr.send("photo="+canvasdata+"&selected="+selected.value+"&camera=1" );
+    else
+    {
+        var finput = pic.files[0];
+        var allowed = ["image/png", "image/jpeg", "image/jpg"];
+        if(allowed.includes(finput.type) == true && finput.size < 1000000)
+        {
+            msg.style.display = "none";
+            // console.log("Good!");
+            var reader = new FileReader();
+            reader.addEventListener("load", function(){
+    
+                // console.log(reader.result);
+                xhr.send("photo="+reader.result+"&selected="+selected2.value+"&camera=0");
+            });
+            reader.readAsDataURL(finput);
+        }
+        else if(allowed.includes(finput.type) == false)
+        {
+            msg.style.display = "block";
+            msg.innerHTML = "You cannot upload files of this type!";
+        }
+        else
+        {
+            msg.style.display = "block";
+            msg.innerHTML = "Your file is too big!";
+        }
+    }
+}
+
 
 function changeEmoji()
 {
@@ -62,5 +103,19 @@ function changeEmoji()
         emoji[4].style.display = "block";
     if(react == 'angry')
         emoji[5].style.display = "block";
+}
+
+function enableBtn()
+{
+    var react = document.getElementById('react2').value;
+    var btn2 = document.getElementById('send');
+    var up = document.getElementById('up-pic');
+    if(react == 'none' || !up.value)
+    {
+        btn2.disabled = true;
+        return;
+    }
+    btn2.disabled = false;
+    
 }
 
