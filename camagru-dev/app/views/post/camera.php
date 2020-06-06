@@ -73,6 +73,19 @@
 <div class="images">
 </div>
 </div>
+
+<div id="modal">
+<div class="modal-content">
+<span id="close">&times;</span>
+<img id="rimg" src="<?php echo URLROOT?>/img/tmp/1b30e8affcf96229f1591389069.png"/>
+<div class="modal-buttons">
+<button class="button is-success" type="button" id="post-btn">Post</button>
+<div class="divider"></div>
+<button class="button is-danger" type="button" id="del-btn">Delete</button>
+</div>
+</div>
+</div>
+
 <canvas id="canvas" width="640" height="480"></canvas>
 <?php $jsfile = "camera.js"?>
 <?php require APPROOT.'/views/inc/footer.php'?>

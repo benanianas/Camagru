@@ -11,7 +11,11 @@ var video = document.getElementById('video'),
     upform = document.getElementById('up-form'),
     check = 0,
     msg = document.getElementById('err-msg'),
-    camerr = document.getElementById('camera-err');
+    camerr = document.getElementById('camera-err'),
+    closem = document.getElementById("close"),
+    modal = document.getElementById("modal"),
+    post_btn = document.getElementById("post-btn"),
+    delete_btn = document.getElementById("del-btn");
 
 if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
     navigator.mediaDevices.getUserMedia({ video: {width: 640,height:480,} }).then(function(stream) {
@@ -40,7 +44,11 @@ function snapIt(camera)
     xhr.onreadystatechange = function()
     {
         if(this.readyState == 4 && this.status == 200)
-            console.log(this.responseText);
+        {
+            // console.log(this.responseText);
+            document.getElementById("rimg").src = this.responseText;
+            modal.style.display = "block";
+        }
     };
     xhr.open("POST", window.location.href , true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
@@ -117,5 +125,18 @@ function enableBtn()
     }
     btn2.disabled = false;
     
+}
+closem.onclick = function(){deleteIt();};
+delete_btn.onclick = function(){deleteIt();};
+post_btn.onclick = function(){postIt();};
+
+function deleteIt()
+{
+    modal.style.display = "none";
+}
+
+function postIt()
+{
+    modal.style.display = "none";
 }
 
