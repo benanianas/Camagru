@@ -133,10 +133,36 @@ post_btn.onclick = function(){postIt();};
 function deleteIt()
 {
     modal.style.display = "none";
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function()
+    {
+        if(this.readyState == 4 && this.status == 200)
+        {
+            console.log(this.responseText);
+        }
+    };
+    xhr.open("POST", window.location.href , true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+    xhr.send("post=0&imgpath="+document.getElementById("rimg").src);
 }
 
 function postIt()
 {
     modal.style.display = "none";
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function()
+    {
+        if(this.readyState == 4 && this.status == 200)
+        {
+            console.log(this.responseText);
+        }
+    };
+    xhr.open("POST", window.location.href , true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+    xhr.send("post=1&imgpath="+document.getElementById("rimg").src);
 }
 

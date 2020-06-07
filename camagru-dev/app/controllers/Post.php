@@ -68,6 +68,19 @@ Class Post extends Controller{
                         echo URLROOT.'/img/tmp/'.$fileName.'.png';
                     }
                 }
+                else if(isset($_POST['post']))
+                {
+                    if(!$_POST['post'])
+                    {
+                        $img = end(explode('/',$_POST['imgpath']));
+                        unlink('/var/www/html/img/tmp/'.$img);
+                    }
+                    else
+                    {
+                        $img = end(explode('/',$_POST['imgpath']));
+                        rename('/var/www/html/img/tmp/'.$img, '/var/www/html/img/posts/'.$img);
+                    }
+                }
                         
             }
             else
