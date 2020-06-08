@@ -42,18 +42,20 @@
     min-height: 300px;
     vertical-align: middle;
 }
-.images{
+#images{
     text-align: center;
     border: solid 1px #dbdbdb;
     background-color: white;
     margin-top: 30px;
     margin-bottom: 30px;
     width: 20%;
-    height: 600px;
+    height: 630px;
     display: inline-block;
     min-width: 250px;
     margin-right: 30px;
     vertical-align: middle;
+    padding: 0px 10px 10px 10px;
+    overflow: auto;
 }
 #video{
     width: 100%;
@@ -133,6 +135,7 @@
 }
 
 .modal-content{
+    border-radius: 10px;
     background-color: white;
     height: 450px;
     /* width: 50%;
@@ -149,8 +152,8 @@
     position: absolute;
     color: #aaaaaa;
     right: 13px;
-    top: -6px;
-    font-size: 40px;
+    top: -11px;
+    font-size: 46px;
     font-weight: bold;
 }
 #close:hover, #close:focus {
@@ -174,4 +177,99 @@
     height:auto;
     display:inline-block;
 }
+#img-container{
+    width: 98%;
+    margin: auto;
+    padding: 7px;
+    padding-bottom: 2px;
+    margin-top: 10px;
+    background-color: #FAFAFA;
+    border: solid 1px #dbdbdb;
+    position: relative;
+}
+#img-container img{
+    width: 100%;
+    height: auto;
+    transition: .5s ease;
+}
 
+.rm-btn{
+    transition: .4s ease;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    opacity: 0;
+  }
+  #img-container:hover img{
+    opacity: 0.3;
+  }
+  #img-container:hover .rm-btn{
+    opacity: 1;
+  }
+  #emptymsg{
+      color: grey;
+      margin-top: 10px;
+  }
+
+
+
+  /* second modaql */
+
+  #rm-modal{
+    display: none;
+    position: fixed;
+    z-index: 5;
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+    background-color: rgba(0,0,0,0.4);
+    padding-top: 200px; 
+    overflow: auto;
+}
+  .rm-modal-content{
+    border-radius: 10px;
+    background-color: white;
+    height: 170px;
+    width: 50%;
+    min-width: 450px;
+    max-width: 700px; 
+    margin: auto;
+    padding: 30px;
+    border: 1px solid #888;
+    position: relative;
+    text-align: center;
+    
+}
+#close1{
+    position: absolute;
+    color: #aaaaaa;
+    right: 13px;
+    top: -11px;
+    font-size: 46px;
+    font-weight: bold;
+}
+#modal-titel{
+    position: absolute;
+    top: 17px;
+    font-size: 20px;
+    font-weight: bold;
+}
+#rm-modal-qust{
+    margin-top: -10px;
+    margin-bottom: 15px;
+}
+#close1:hover, #close1:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+.modal-content .button.is-success {
+    width: 82px;
+}
+.divider{
+    width:30px;
+    height:auto;
+    display:inline-block;
+}

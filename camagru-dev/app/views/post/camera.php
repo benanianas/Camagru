@@ -70,7 +70,21 @@
 </div>
 </div>
 
-<div class="images">
+<div id="images">
+
+<?php
+if($data)
+{
+  foreach ($data as $elm)
+  {
+    echo '<div id="img-container"><img src="'.URLROOT.$elm->img.'"><button class="rm-btn button is-danger" type="button">Delete</button></div>';
+  }
+}
+else{
+  echo "<div id='emptymsg'> No Post found!<div>";
+}
+?>
+
 </div>
 </div>
 
@@ -81,7 +95,20 @@
 <div class="modal-buttons">
 <button class="button is-success" type="button" id="post-btn">Post</button>
 <div class="divider"></div>
-<button class="button is-danger" type="button" id="del-btn">Delete</button>
+<button class="button is-danger" type="button" id="del-btn">Cancel</button>
+</div>
+</div>
+</div>
+
+<div id="rm-modal">
+<div class="rm-modal-content">
+  <div id="modal-titel">Delete Post?</div><hr>
+  <div id="rm-modal-qust">Are you sure you want to delete this post?</div>
+<span id="close1">&times;</span>
+<div class="modal-buttons">
+<button class="button is-info is-light" type="button" id="cancel-btn">Cancel</button>
+<div class="divider"></div>
+<button class="button is-danger is-light" type="button" id="delete-btn">Delete</button>
 </div>
 </div>
 </div>

@@ -11,18 +11,16 @@ Class Post extends Controller{
     {
         if (isLoggedIn())
         {
-            //$dest = imagecreatefrompng('/var/www/html/img/tmp/1.png');
-            // $this->view('post/camera', $data);
 
             if($_SERVER['REQUEST_METHOD'] == 'POST')
             {
                 if(isset($_POST['camera']))
                 {
-                    $files = glob('/var/www/html/img/tmp/*');  
-                    foreach($files as $file) { 
-                        if(is_file($file))  
-                        unlink($file);
-                    } 
+                    // $files = glob('/var/www/html/img/posts/*');  
+                    // foreach($files as $file) { 
+                    //     if(is_file($file))  
+                    //     unlink($file);
+                    // } 
                     if($_POST['camera'])
                     {
                         $imgData = str_replace(' ','+',$_POST['photo']);
@@ -62,8 +60,8 @@ Class Post extends Controller{
 
                         $dest = imagecreatefrompng($filePath);
                         $src = imagecreatefrompng('/var/www/html/img/'.$_POST['selected'].'.png');
-                        $mid = ($param[1]+$param[2])/4;
-                        imagecopyresampled ($dest, $src, $param[1]/8, $param[1]/8, 0, 0, $mid, $mid, 128, 128);
+                        $mid = ($param[1]+$param[2])/6;
+                        imagecopyresampled ($dest, $src, $param[1]/10, $param[0]/10, 0, 0, $mid, $mid, 128, 128);
                         imagepng($dest, '/var/www/html/img/tmp/'.$fileName.'.png');
                         echo URLROOT.'/img/tmp/'.$fileName.'.png';
                     }
@@ -79,12 +77,17 @@ Class Post extends Controller{
                     {
                         $img = end(explode('/',$_POST['imgpath']));
                         rename('/var/www/html/img/tmp/'.$img, '/var/www/html/img/posts/'.$img);
+                        $this->model->postIt($_SESSION['id'], '/img/posts/'.$img);
                     }
                 }
                         
             }
             else
+            {
+                $data = $this->model->getPosts($_SESSION['id']);
                 $this->view('post/camera', $data);
+                // print_r($data);
+            }
         }
         else
             $this->view('account/login', $data);

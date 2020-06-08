@@ -1,0 +1,12 @@
+defaults
+auth on
+tls on
+tls_trust_file /etc/ssl/certs/ca-certificates.crt
+logfile /var/log/msmtp.log
+account amazon
+host email-smtp.us-east-1.amazonaws.com
+port 587
+from no-reply@camagru.social
+user AKIA2THFRROH2GWDHDSE
+password BGoZvCkUpq3aHLnH5Ho4rLi/hfb0u88FvSUpNdG1NjMz
+account default : amazon

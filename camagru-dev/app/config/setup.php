@@ -34,5 +34,39 @@ try{
     $stmt = $db->prepare($sql);
     $stmt->execute();
 
+
+    // create posts table
+
+    $sql = " CREATE TABLE IF NOT EXISTS `posts`
+    (`id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+     `user_id` int NOT NULL,
+     `img` VARCHAR(255) NOT NULL,
+     `created_at`TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP())
+    ";
+    $stmt = $db->prepare($sql);
+    $stmt->execute();
+
+    
+    //create likes table
+   
+    $sql = " CREATE TABLE IF NOT EXISTS `likes`
+    (`post_id` int NOT NULL,
+     `user_id` int NOT NULL)
+    ";
+    $stmt = $db->prepare($sql);
+    $stmt->execute();
+
+
+
+    //create comments table
+    $sql = " CREATE TABLE IF NOT EXISTS `comments`
+    (`post_id` int NOT NULL,
+     `user_id` int NOT NULL,
+     `comment` text NOT NULL,
+     `created_at`TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP())
+    ";
+    $stmt = $db->prepare($sql);
+    $stmt->execute();
+
 }
 

@@ -15,7 +15,9 @@ var video = document.getElementById('video'),
     closem = document.getElementById("close"),
     modal = document.getElementById("modal"),
     post_btn = document.getElementById("post-btn"),
-    delete_btn = document.getElementById("del-btn");
+    delete_btn = document.getElementById("del-btn"),
+    rm_btn = document.getElementsByClassName("rm-btn"),
+    sidebar = document.getElementById("images");
 
 if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
     navigator.mediaDevices.getUserMedia({ video: {width: 640,height:480,} }).then(function(stream) {
@@ -151,9 +153,10 @@ function deleteIt()
 function postIt()
 {
     modal.style.display = "none";
-
+    var imglink = document.getElementById("rimg").src;
+    
     var xhr = new XMLHttpRequest();
-
+    
     xhr.onreadystatechange = function()
     {
         if(this.readyState == 4 && this.status == 200)
@@ -163,6 +166,43 @@ function postIt()
     };
     xhr.open("POST", window.location.href , true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
-    xhr.send("post=1&imgpath="+document.getElementById("rimg").src);
+    xhr.send("post=1&imgpath="+imglink);
+    postToSidebar(imglink);
+}
+
+function postToSidebar(img)
+{
+    var cont = document.createElement("div");
+    cont.innerHTML = '<div id="img-container"><img src="'+img+
+    '"><button class="rm-btn button is-danger" type="button">Delete</button></div>';
+    sidebar.insertBefore(cont, sidebar.firstChild);
+    
+    Array.prototype.forEach.call(rm_btn, function(element) {
+        element.onclick = function(){
+            document.getElementById("rm-modal").style.display = "block";
+            document.getElementById("close1").onclick = function(){document.getElementById("rm-modal").style.display = "none";};
+            document.getElementById("cancel-btn").onclick = function(){document.getElementById("rm-modal").style.display = "none";};
+            document.getElementById("delete-btn").onclick = function(){removePost(element);};
+
+        };
+    });
+    document.getElementById("emptymsg").remove();
+}
+
+Array.prototype.forEach.call(rm_btn, function(element) {
+    element.onclick = function(){
+        document.getElementById("rm-modal").style.display = "block";
+        document.getElementById("close1").onclick = function(){document.getElementById("rm-modal").style.display = "none";};
+        document.getElementById("cancel-btn").onclick = function(){document.getElementById("rm-modal").style.display = "none";};
+        document.getElementById("delete-btn").onclick = function(){removePost(element);};
+    };
+});
+
+function removePost(elm)
+{
+    document.getElementById("rm-modal").style.display = "none";
+    elm.parentElement.remove();
+
+    //i need to use ajax here
 }
 
