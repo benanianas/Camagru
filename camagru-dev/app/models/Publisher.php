@@ -31,5 +31,25 @@ class Publisher{
         return $this->db->result();
     }
 
+    public function deletePost($id, $img)
+    {
+        $this->db->query("SELECT * FROM `posts` WHERE `img` = :img AND `user_id` = :id");
+        $this->db->placeholder(':id', $id);
+        $this->db->placeholder(':img', $img);
+
+        $this->db->single();
+        $row = $this->db->rowcount();
+
+        if ($row)
+        {
+            $this->db->query("DELETE FROM `posts` WHERE `img` = :img");
+            $this->db->placeholder(':img', $img);
+            $this->db->execute();
+            return TRUE;
+        }
+        else
+            return FALSE;
+    }
+
     
 }

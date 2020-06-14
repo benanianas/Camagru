@@ -7,6 +7,7 @@ Class Post extends Controller{
         $this->model = $this->model('Publisher');
     }
 
+  
     public function index()
     {
         if (isLoggedIn())
@@ -78,7 +79,14 @@ Class Post extends Controller{
                         $img = end(explode('/',$_POST['imgpath']));
                         rename('/var/www/html/img/tmp/'.$img, '/var/www/html/img/posts/'.$img);
                         $this->model->postIt($_SESSION['id'], '/img/posts/'.$img);
+                        echo URLROOT.'/img/posts/'.$img;
                     }
+                }
+                else if(isset($_POST['delete']))
+                {
+                    $img = end(explode('/',$_POST['imgpath']));
+                    if($this->model->deletePost($_SESSION['id'], '/img/posts/'.$img))
+                        unlink('/var/www/html/img/posts/'.$img); 
                 }
                         
             }

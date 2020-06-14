@@ -19,5 +19,6 @@
     <br>
 <img class="theimg" src="<?php echo URLROOT?>/img/home.svg">
 </div>
+<?php print_r($data);?>
 
 <?php require APPROOT.'/views/inc/footer.php'?>

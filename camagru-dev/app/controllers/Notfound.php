@@ -1,15 +1,17 @@
 <?php
 
-class Test extends Controller{
+class Notfound extends Controller{
     
     public function __construct()
     {
         $this->model = $this->model('Settings');
     }
 
-    public function justest()
+    public function index()
     {
-        $this->view('pages/about', $data);
+        echo "<h1> ERROR 404<h1>";
     }
+
+    
 
 }

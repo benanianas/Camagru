@@ -14,6 +14,14 @@
     </div>
     <div class="tabcontent">
         <h3><b>Edit Profile</b></h3>
+        <div id="photo">
+        <div id="profile-photo">
+        <img id="pimg" src="<?php echo URLROOT.$data['pic'] ?>">
+        <i id="c-icon" class="fas fa-camera" onclick="openModal()"></i>
+        </div>
+        <div id="photo-err"></div>
+        </div>
+
         <form class='sform' action="<?php echo URLROOT?>/edit/profile" method="post">
         <div class="field">
         <label>First Name </label>
@@ -50,4 +58,26 @@
         </form>
     </div>
 </div>
+<div id="profile-modal">
+<div class="profile-modal-content">
+  <div id="modal-titel">Change Profile Photo?</div><hr>
+<span id="close">&times;</span>
+<div class="modal-buttons">
+<label class="file-label" onclick="">
+    <input  class="file-input" type="file" name="file" id="p-photo" onchange="uplaodPPic()">
+    <span class="file-cta">
+      <span class="file-icon">
+        <i class="fas fa-upload"></i>
+      </span>
+      <span class="file-label">
+        Upload Photo
+      </span>
+    </span>
+</label>
+<div class="divider"></div>
+<button class="button is-danger is-light" type="button" id="delete-btn" onclick="removePPic()" >Remove Current Photo</button>
+</div>
+</div>
+</div>
+<?php $jsfile = "settings.js"?>
 <?php require APPROOT.'/views/inc/footer.php'?>

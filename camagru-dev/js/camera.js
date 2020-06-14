@@ -90,7 +90,7 @@ function changeEmoji()
 {
     var react = document.getElementById('react').value;
     var i = 0;
-    while(i < 6)
+    while(i < 10)
     {
         emoji[i].style.display = "none"; 
         i++;
@@ -113,6 +113,14 @@ function changeEmoji()
         emoji[4].style.display = "block";
     if(react == 'angry')
         emoji[5].style.display = "block";
+    if(react == 'mina3ima')
+        emoji[6].style.display = "block";
+    if(react == 'niba')
+        emoji[7].style.display = "block";
+    if(react == 'raghibamine')
+        emoji[8].style.display = "block";
+    if(react == 'tasir')
+        emoji[9].style.display = "block";
 }
 
 function enableBtn()
@@ -152,8 +160,8 @@ function deleteIt()
 
 function postIt()
 {
-    modal.style.display = "none";
     var imglink = document.getElementById("rimg").src;
+    modal.style.display = "none";
     
     var xhr = new XMLHttpRequest();
     
@@ -161,13 +169,12 @@ function postIt()
     {
         if(this.readyState == 4 && this.status == 200)
         {
-            console.log(this.responseText);
+            postToSidebar(this.responseText);
         }
     };
     xhr.open("POST", window.location.href , true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
     xhr.send("post=1&imgpath="+imglink);
-    postToSidebar(imglink);
 }
 
 function postToSidebar(img)
@@ -186,7 +193,7 @@ function postToSidebar(img)
 
         };
     });
-    document.getElementById("emptymsg").remove();
+    document.getElementById("emptymsg").style.display = "none";
 }
 
 Array.prototype.forEach.call(rm_btn, function(element) {
@@ -201,8 +208,17 @@ Array.prototype.forEach.call(rm_btn, function(element) {
 function removePost(elm)
 {
     document.getElementById("rm-modal").style.display = "none";
-    elm.parentElement.remove();
+    elm.parentElement.style.display ="none";
 
+    // alert(elm.previousSibling.src);
     //i need to use ajax here
+
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.open("POST", window.location.href , true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+    xhr.send("delete=1&imgpath="+elm.previousSibling.src);
+
 }
 

@@ -2,7 +2,7 @@
 // i Create Urls & load contoller (URL FORMAT : /controller/method/params)
 
 class Core {
-    protected $controller = 'Pages';
+    protected $controller = 'Homepage';
     protected $method = 'index';
     protected $param = [];
 
@@ -11,13 +11,16 @@ class Core {
         $url = $this->getUrl();
 
         //controller part
-
+        
         if (file_exists("app/controllers/".ucwords($url[0]).".php"))
         {
             //search for the first $url value in app/controllers & if exits set it as a $controller
             $this->controller = ucwords($url[0]);
             unset($url[0]);
         }
+        else if(!empty($url[0]))
+            $this->controller =  'Notfound';
+
 
         require_once 'app/controllers/'.$this->controller.'.php';
         $this->controller = new $this->controller;
@@ -25,8 +28,16 @@ class Core {
         //method part
 
         if (isset($url[1]))
+        {
             if (method_exists($this->controller, $url[1]))
                 $this->method = $url[1];
+            else
+            {
+                $this->controller =  'Notfound';
+                require_once 'app/controllers/'.$this->controller.'.php';
+                $this->controller = new $this->controller;
+            }
+        }
         unset($url[1]);
 
         //params part

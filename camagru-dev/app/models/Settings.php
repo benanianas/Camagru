@@ -15,6 +15,14 @@ class Settings{
         return $this->db->single(); 
     }
 
+    public function updatePic($img, $id)
+    {
+        $this->db->query('UPDATE `users` SET `p_photo` = :img WHERE `id` = :id');
+        $this->db->placeholder(':img', $img);
+        $this->db->placeholder(':id', $id);
+        $this->db->execute();
+    }
+
     public function checkIfUsernameExist($username)
     {
         $this->db->query('SELECT * FROM `users` WHERE `username` = :username');
@@ -23,9 +31,11 @@ class Settings{
         $row = $this->db->rowcount();
 
         if ($row)
-            return TRUE;
+        {
+            
+        }
         else
-            return FALSE;
+            return 0;
     }
     public function checkIfEmailExist($email)
     {

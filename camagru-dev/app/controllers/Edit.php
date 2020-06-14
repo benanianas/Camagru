@@ -7,6 +7,10 @@ class Edit extends Controller{
         $this->model = $this->model('Settings');
     }
 
+    public function index()
+    {
+        $this->profile();
+    }
     public function profile()
     {
         if (isLoggedIn())
@@ -14,60 +18,93 @@ class Edit extends Controller{
             $ret = $this->model->getDataById($_SESSION['id']);
             if ($_SERVER['REQUEST_METHOD'] == 'POST')
             {
+                if(isset($_POST['photo']))
+                {
+                    if($_POST['photo'])
+                    {
+                        $ret = $this->model->getDataById($_SESSION['id']);
+                        if ($ret->p_photo != '/img/profile.png')
+                            unlink("/var/www/html".$ret->p_photo);
+                        $imgData = str_replace(' ','+',$_POST['photo']);
+                        $imgData =  str_replace('data:image/png;base64,','',$imgData);
+                        $imgData =  str_replace('data:image/jpeg;base64,','',$imgData);
+                        $imgData = base64_decode($imgData);
+                        
+                        $fileName = '/img/profiles/'.$_SESSION['id'].bin2hex(random_bytes(8)).time().'.png';
+                        $filePath = '/var/www/html'.$fileName;
+                            
+                        $this->model->updatePic($fileName, $_SESSION['id']);
+                        $img = imagecreatefromstring($imgData);
+                        imagepng($img, $filePath);
+                        echo URLROOT.$fileName;
+                    }
+                    else
+                    {
+                        if ($ret->p_photo != '/img/profile.png')
+                        {
+                            unlink("/var/www/html".$ret->p_photo);
+                            $this->model->updatePic('/img/profile.png', $_SESSION['id']);
+                            echo URLROOT.'/img/profile.png';
+                        }
+                    }
+                }
+                else
+                {
                 $data = [
                     'name' => $_POST['name'],
                     'username' => $_POST['username'],
                     'email' => $_POST['email'],
+                    'pic' => $ret->p_photo,
                     'name_err' => '',
                     'username_err' => '',
                     'email_err' => ''
                 ];
 
-            if(empty($data['name']))
-                $data['name_err'] = 'Please enter your first name';
-            else if(!preg_match("/^[a-zA-Z]*$/",$data['name']))
-                    $data['name_err'] = 'Should contains only letters';
-            else
-                if(strlen($data['name']) > 30)
-                    $data['name_err'] = "Enter a name under 30 characters.";
+                if(empty($data['name']))
+                    $data['name_err'] = 'Please enter your first name';
+                else if(!preg_match("/^[a-zA-Z]*$/",$data['name']))
+                        $data['name_err'] = 'Should contains only letters';
+                else
+                    if(strlen($data['name']) > 30)
+                        $data['name_err'] = "Enter a name under 30 characters.";
 
 
-            if(empty($data['username']))
-                $data['username_err'] = 'Please enter a username';
-            else if(!preg_match("/^[0-9a-zA-Z_.]*$/",$data['username']))
-                $data['username_err'] = 'Username can only use letters, numbers, underscores';
-            else if($data['username'] != $ret->username && $this->model->checkIfUsernameExist($data['username']))
-                $data['username_err'] = 'Username has already been taken';
+                if(empty($data['username']))
+                    $data['username_err'] = 'Please enter a username';
+                else if(!preg_match("/^[0-9a-zA-Z_.]*$/",$data['username']))
+                    $data['username_err'] = 'Username can only use letters, numbers, underscores';
+                else if($data['username'] != $ret->username && $this->model->checkIfUsernameExist($data['username']))
+                    $data['username_err'] = 'Username has already been taken';
 
 
-            if(empty($data['email']))
-                $data['email_err'] = 'Please enter an email';
-            else if(!filter_var($data['email'], FILTER_VALIDATE_EMAIL))
-                $data['email_err'] = 'Please enter an e-mail address';
-            else if($data['email'] != $ret->email && $this->model->checkIfEmailExist($data['email']))
-                $data['email_err'] = 'Email has already been taken';
-    
-            
-            if(empty($data['name_err']) && empty($data['username_err']) && empty($data['email_err']))
-            {
-                if ($data['name'] != $ret->first_name)
-                    $this->model->updateName($data, $_SESSION['id']);
-                if ($data['usename'] != $ret->username)
-                    $this->model->updateUsername($data, $_SESSION['id']);
-                if ($data['email'] != $ret->email)
+                if(empty($data['email']))
+                    $data['email_err'] = 'Please enter an email';
+                else if(!filter_var($data['email'], FILTER_VALIDATE_EMAIL))
+                    $data['email_err'] = 'Please enter an e-mail address';
+                else if($data['email'] != $ret->email && $this->model->checkIfEmailExist($data['email']))
+                    $data['email_err'] = 'Email has already been taken';
+        
+                
+                if(empty($data['name_err']) && empty($data['username_err']) && empty($data['email_err']))
                 {
-                    $token = $this->model->updateEmail($data, $_SESSION['id']);
-                    flash_msg('msg', 'You changed your email, we sent you a verification mail please verify your email to log in.');
-                    $user = [
-                        'first_name' => $data['name'],
-                        'email' => $data['email']
-                    ];
-                    sendVerification($user, $token);
-                    $this->logout();
+                    if ($data['name'] != $ret->first_name)
+                        $this->model->updateName($data, $_SESSION['id']);
+                    if ($data['usename'] != $ret->username)
+                        $this->model->updateUsername($data, $_SESSION['id']);
+                    if ($data['email'] != $ret->email)
+                    {
+                        $token = $this->model->updateEmail($data, $_SESSION['id']);
+                        flash_msg('msg', 'You changed your email, we sent you a verification mail please verify your email to log in.');
+                        $user = [
+                            'first_name' => $data['name'],
+                            'email' => $data['email']
+                        ];
+                        sendVerification($user, $token);
+                        $this->logout();
+                    }
                 }
-            }
-            
-            $this->view('edit/profile', $data);
+                $this->view('edit/profile', $data);
+                }
             }
             else
             {
@@ -75,6 +112,7 @@ class Edit extends Controller{
                     'name' => $ret->first_name,
                     'username' => $ret->username,
                     'email' => $ret->email,
+                    'pic' => $ret->p_photo,
                 ];
 
                 $this->view('edit/profile', $data);

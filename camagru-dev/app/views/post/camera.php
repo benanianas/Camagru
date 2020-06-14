@@ -19,6 +19,11 @@
 <img class="emoji" src="<?php echo URLROOT?>/img/sleepy.png">
 <img class="emoji" src="<?php echo URLROOT?>/img/sad.png">
 <img class="emoji" src="<?php echo URLROOT?>/img/angry.png">
+<img class="emoji" src="<?php echo URLROOT?>/img/mina3ima.png">
+<img class="emoji" src="<?php echo URLROOT?>/img/niba.png">
+<img class="emoji" src="<?php echo URLROOT?>/img/raghibamine.png">
+<img class="emoji" src="<?php echo URLROOT?>/img/tasir.png">
+
 </div>
 <span class="select">
 <select id="react" disabled onchange="changeEmoji()">
@@ -29,6 +34,10 @@
   <option value="sleepy">Sleepy</option>
   <option value="sad">Sad</option>
   <option value="angry">Angry</option>
+  <option value="mina3ima">mi na3ima</option>
+  <option value="raghibamine">raghibe amine</option>
+  <option value="niba">niba</option>
+  <option value="tasir">ta sir</option>
 </select>
 </span>
 <button class="button is-primary" id="snap" onclick="snapIt(1)" disabled>Snap Photo</button>
@@ -60,6 +69,10 @@
   <option value="sleepy">Sleepy</option>
   <option value="sad">Sad</option>
   <option value="angry">Angry</option>
+  <option value="mina3ima">mi na3ima</option>
+  <option value="raghibamine">raghibe amine</option>
+  <option value="niba">niba</option>
+  <option value="tasir">ta sir</option>
 </select>
 </span>
 <button class="btn2 button is-primary" type="button" id="send" onclick="snapIt(0)" disabled><i class="fas fa-paper-plane"></i></button>
@@ -79,9 +92,10 @@ if($data)
   {
     echo '<div id="img-container"><img src="'.URLROOT.$elm->img.'"><button class="rm-btn button is-danger" type="button">Delete</button></div>';
   }
+  echo "<div id='emptymsg' style='display: none;'> No Post found!</div>";
 }
 else{
-  echo "<div id='emptymsg'> No Post found!<div>";
+  echo "<div id='emptymsg'> No Post found!</div>";
 }
 ?>
 

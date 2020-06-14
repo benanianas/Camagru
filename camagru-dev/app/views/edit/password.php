@@ -61,4 +61,5 @@
         </form>
     </div>
 </div>
+<?php $jsfile = "settings.js"?>
 <?php require APPROOT.'/views/inc/footer.php'?>

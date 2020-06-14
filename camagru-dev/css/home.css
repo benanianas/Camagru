@@ -9,7 +9,141 @@ buttons #00C99C
 
 /* Home page css*/
 
+.thecontent{
+    background-color: #FAFAFA;
+}
+.posts{
+    /* height: 2000px; */
+    width: 100%;
+    max-width: 650px;
+    margin: 30px auto;
+    /* background-color: white;
+    border: solid 1px #dbdbdb;
+    border-radius: 1x; */
+    padding: 0px;
+}
 
+.post{
+    background-color: white;
+    border: solid 1px #dbdbdb;
+    border-radius: 3px;
+    padding-bottom: 0px;
+    margin-bottom: 40px;
+}
+
+.post-header{
+    padding: 10px 10px;
+    display: flex;
+    align-items: center;
+}
+
+.username{
+    display: inline-block;
+    margin-left: 20px;
+    font-weight: 500;
+    color: #000;
+}
+.profile{
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.post-img{
+    width: 100%;
+    height: auto;
+    margin: 0px;
+}
+
+.actions i{
+    color: black;
+    font-size: 27px;
+    margin-left: 25px;
+}
+
+.actions i:hover{
+    cursor: pointer;
+}
+
+#likes-number{
+    padding-left: 25px;
+    font-weight: 550;
+    color: black;
+}
+
+.comments{
+    padding: 0px 25px;
+    margin-top: 5px;
+    /* display: flex; */
+}
+#comment{
+    line-height: 1;
+    margin-bottom: 6px;
+}
+.c-user{
+    font-weight: 550;
+    color: black;
+    padding-right: 5px;
+}
+.comment{
+    color: black;
+    font-size: 14px;
+    font-weight: 380;
+    font-family: 'Raleway', sans-serif;
+    /* width: 90%; */
+}
+.comment-action{
+    padding: 10px 25px;
+    border-top: solid .5px #dbdbdb;
+    margin-top: 12px;
+}
+.comment-action input {
+    border: none;
+    background: transparent;
+    width: 90%;
+}
+.comment-action input:focus{
+    outline: none;
+}
+#send-comment{
+    float: right;
+    color: #00B48C;
+    color: #00B48C;
+    font-weight: 550;
+    opacity: .5;
+}
+#send-comment:hover{
+    cursor: pointer;
+}
+#comment-holder{
+    width: 94%;
+    display: inline-block;
+    vertical-align: text-top;
+
+}
+#edit{
+    display: inline-block;
+    vertical-align: text-top;
+    float: right;
+    font-size: 13px;
+    opacity: 0.9;
+}
+#edit:hover{
+    cursor: pointer;
+}
+
+.liked{
+    display: none;
+}
+
+.to-show{
+    display: inline;
+} 
+
+.to-hide{
+    display: none;
+}
 
 
 

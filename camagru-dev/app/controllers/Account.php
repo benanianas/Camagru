@@ -9,8 +9,7 @@ Class Account extends Controller{
     }
     public function index()
     {
-        //$this->register();
-        //error 404
+        $this->login();
     }
     
     public function register()

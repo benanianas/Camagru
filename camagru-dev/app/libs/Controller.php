@@ -12,6 +12,6 @@
         if (file_exists('app/views/'.$view.'.php'))
             require_once 'app/views/'.$view.'.php';
         else
-            echo 'view does not exist';
+            echo '<h1>view does not exist<h1>';
     }
  }
