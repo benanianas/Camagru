@@ -1,104 +1,63 @@
 <?php
 
-Class Post extends Controller{
+class Post extends Controller{
 
     public function __construct()
     {
-        $this->model = $this->model('Publisher');
+        $this->model = $this->model('Postm');
     }
 
-  
     public function index()
     {
-        if (isLoggedIn())
+        echo "error";
+    }
+    public function i($id = '')
+    {
+        if($id == '')
+            echo "error";
+        else
         {
-
-            if($_SERVER['REQUEST_METHOD'] == 'POST')
+            $data = $this->model->getPost($id);
+            if($data)
             {
-                if(isset($_POST['camera']))
+                if($_SERVER['REQUEST_METHOD'] == 'POST')
                 {
-                    // $files = glob('/var/www/html/img/posts/*');  
-                    // foreach($files as $file) { 
-                    //     if(is_file($file))  
-                    //     unlink($file);
-                    // } 
-                    if($_POST['camera'])
+                    if(isset($_POST['like']))
                     {
-                        $imgData = str_replace(' ','+',$_POST['photo']);
-                        $imgData =  str_replace('data:image/png;base64,','',$imgData);
-                        $imgData = base64_decode($imgData);
-                    
-                        $fileName = $_SESSION['id'].bin2hex(random_bytes(8)).time();
-                        $filePath = '/var/www/html/img/tmp/'.$fileName.'.png';
-                        
-                        // $file = fopen($filePath, 'w');
-                        // fwrite($file, $imgData);
-                        // fclose($file);
-                        $dest = imagecreatefromstring($imgData);
-                        imagepng($dest, $filePath);
+                        if($_POST['like'])
+                        {
+                            $img = '/img/posts/'.end(explode('/',$_POST['img']));
+                            $this->model->likePost($img);
+                        }
+                        else
+                        {
+                            $img = '/img/posts/'.end(explode('/',$_POST['img']));
+                            $this->model->unlikePost($img);
+                        }
+                    }
 
-                        $dest = imagecreatefrompng($filePath);
-                        $src = imagecreatefrompng('/var/www/html/img/'.$_POST['selected'].'.png');
-                        imagecopyresampled ($dest, $src, 77, 57, 0, 0, 100, 96, 128, 128);
-                        //header('Content-Type: image/png');
-                        imagepng($dest, '/var/www/html/img/tmp/'.$fileName.'.png');
-                        echo URLROOT.'/img/tmp/'.$fileName.'.png';
-                    }
-                    else
+                    else if(isset($_POST['comment']))
                     {
-                        $imgData = str_replace(' ','+',$_POST['photo']);
-                        $imgData =  str_replace('data:image/png;base64,','',$imgData);
-                        $imgData =  str_replace('data:image/jpeg;base64,','',$imgData);
-                        $imgData = base64_decode($imgData);
-                    
-                        $fileName = $_SESSION['id'].bin2hex(random_bytes(8)).time();
-                        $filePath = '/var/www/html/img/tmp/'.$fileName.'.png';
-                        
-                        
-                        $dest = imagecreatefromstring($imgData);
-                        imagepng($dest, $filePath);
-                        $param = getimagesize('/var/www/html/img/tmp/'.$fileName.'.png');
-
-                        $dest = imagecreatefrompng($filePath);
-                        $src = imagecreatefrompng('/var/www/html/img/'.$_POST['selected'].'.png');
-                        $mid = ($param[1]+$param[2])/6;
-                        imagecopyresampled ($dest, $src, $param[1]/10, $param[0]/10, 0, 0, $mid, $mid, 128, 128);
-                        imagepng($dest, '/var/www/html/img/tmp/'.$fileName.'.png');
-                        echo URLROOT.'/img/tmp/'.$fileName.'.png';
+                        $img = '/img/posts/'.end(explode('/',$_POST['post'])).'.png';
+                        $cmt_id = $this->model->postComment($img, $_POST['comment']);
+                        echo $_SESSION['username'].'/'.$cmt_id;
+                    }
+                    else if(isset($_POST['delete']))
+                    {
+                        $this->model->deleteComment($_POST['cmt']);
+                    }
+                    else if(isset($_POST['edit']))
+                    {
+                        echo $_POST['id']." :  ".$_POST['cmt'];
+                        $this->model->editComment($_POST['id'], $_POST['cmt']);
                     }
                 }
-                else if(isset($_POST['post']))
-                {
-                    if(!$_POST['post'])
-                    {
-                        $img = end(explode('/',$_POST['imgpath']));
-                        unlink('/var/www/html/img/tmp/'.$img);
-                    }
-                    else
-                    {
-                        $img = end(explode('/',$_POST['imgpath']));
-                        rename('/var/www/html/img/tmp/'.$img, '/var/www/html/img/posts/'.$img);
-                        $this->model->postIt($_SESSION['id'], '/img/posts/'.$img);
-                        echo URLROOT.'/img/posts/'.$img;
-                    }
-                }
-                else if(isset($_POST['delete']))
-                {
-                    $img = end(explode('/',$_POST['imgpath']));
-                    if($this->model->deletePost($_SESSION['id'], '/img/posts/'.$img))
-                        unlink('/var/www/html/img/posts/'.$img); 
-                }
-                        
+                else
+                    $this->view('posts/postv', $data);
             }
             else
-            {
-                $data = $this->model->getPosts($_SESSION['id']);
-                $this->view('post/camera', $data);
-                // print_r($data);
-            }
+                echo "error3";
         }
-        else
-            $this->view('account/login', $data);
     }
 
 }

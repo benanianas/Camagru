@@ -47,7 +47,7 @@
 <br>
 
 <div class="uploader">
-<form id='up-form' action="<?php echo URLROOT?>/post" method="post" enctype="multipart/form-data">
+<form id='up-form' action="<?php echo URLROOT?>/camera" method="post" enctype="multipart/form-data">
   <label class="file-label">
     <input id="up-pic" class="file-input" type="file" name="file" onchange="enableBtn()">
     <span class="file-cta">

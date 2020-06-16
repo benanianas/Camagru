@@ -61,7 +61,8 @@ try{
 
     //create comments table
     $sql = " CREATE TABLE IF NOT EXISTS `comments`
-    (`post_id` int NOT NULL,
+    (`id_c` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+     `post_id` int NOT NULL,
      `user_id` int NOT NULL,
      `comment` text NOT NULL,
      `created_at`TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP())

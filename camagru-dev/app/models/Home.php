@@ -28,7 +28,7 @@ class Home{
                 $elm->liked = $liked;
             }
 
-            $this->db->query("SELECT `username`, `comment` FROM `comments` JOIN `users` ON `comments`.`user_id` = `users`.`id` WHERE `post_id` = ".$elm->id);
+            $this->db->query("SELECT `id`,`username`, `comment` FROM `comments` JOIN `users` ON `comments`.`user_id` = `users`.`id` WHERE `post_id` = ".$elm->id." ORDER BY `created_at` DESC LIMIT 3");
             $comments = $this->db->result();
             $elm->comments = $comments;
 

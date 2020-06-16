@@ -10,9 +10,6 @@ class Homepage extends Controller{
     public function index()
     {
         $data = $this->model->getPosts();
-        if (isLoggedIn())
-        {
-
             if($_SERVER['REQUEST_METHOD'] == 'POST')
             {
                 if(isset($_POST['like']))
@@ -31,9 +28,6 @@ class Homepage extends Controller{
             }
             else
                 $this->view('homepage/userhome', $data);
-        }
-        else
-            $this->view('homepage/publichome', $data);
     }
     
 }

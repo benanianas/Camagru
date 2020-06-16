@@ -6,7 +6,11 @@
 
 <body>
     <div class="thecontent">
-        <?php require APPROOT.'/views/inc/home-nav.php'?>
+        <?php if (isLoggedIn())
+        require APPROOT.'/views/inc/home-nav.php';
+        else
+        require APPROOT.'/views/inc/nav.php';
+        ?>
         <div class="posts">
 
 
@@ -29,28 +33,39 @@ foreach($data as $elm)
                     if($elm->liked)
                         echo " to-show";
                     echo"' style='color:red;'></i>
-                    <i class='far fa-comment'></i>
+                    <a href='";
+                    echo URLROOT.'/post/i/'.explode('.',end(explode('/',$elm->img)))[0];
+                    echo "'><i class='far fa-comment'></i></a>
                     <i class='far fa-paper-plane'></i>
                 </div>
                 <div id='likes-number'><span class='nbr'>".$elm->likes."</span> likes</div>
 
                 <div class='comments'>";
-                foreach($elm->comments as $celm)
+                // foreach($elm->comments as $celm)
+                if(!$elm->comments)
+                    echo "<div id='no-comment'>No comment yet !</div>";
+                
+                else
                 {
-                    echo "<div id='comment-holder'>
-                        <div id='comment'>
-                        <span class='c-user'>".$celm->username."</span>
-                        <span class='comment'>".$celm->comment."</span>
-                        </div></div>
-                        <div id='edit'><i class='fas fa-ellipsis-v'></i></div>
-                        ";
+                    for($i = 0; $i < 2; $i++)
+                    {
+                        if ($elm->comments[$i])
+                        {
+                        echo "<div id='comment-holder' data-comment='$celm->id_c'>
+                            <div id='comment'>
+                            <span class='c-user'>".$elm->comments[$i]->username."</span>
+                            <span class='comment'>".htmlspecialchars($elm->comments[$i]->comment)."</span>
+                            </div></div>";
+                            if($elm->comments[$i]->id == $_SESSION['id'])echo"<div id='edit'><i class='fas fa-ellipsis-v'></i></div>
+                            ";
+                        }
+                    }
+                    if($elm->comments[2])
+                    echo "<div id='see-all'><a href='".URLROOT.'/post/i/'.explode('.',end(explode('/',$elm->img)))[0]."'>See All comments </a></div>";
                 }
                 echo "
                 </div>
-                <div class='comment-action'>
-                    <input type='text' placeholder='Add a comment...'>
-                    <span id='send-comment'>Post</span>
-                </div>
+               
 
             </div>";
 }
@@ -60,5 +75,9 @@ foreach($data as $elm)
 
 
         </div>
-        <?php $jsfile = "userhome.js"?>
+        <?php if (isLoggedIn())
+        $jsfile = "userhome.js";
+        else
+        $jsfile = "vhome.js";
+        ?>
         <?php require APPROOT.'/views/inc/footer.php'?>

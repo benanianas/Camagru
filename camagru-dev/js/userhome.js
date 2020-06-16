@@ -34,13 +34,13 @@ function likeToServer(bl, img)
 {
     var xhr = new XMLHttpRequest();
     
-        xhr.onreadystatechange = function()
-        {
-            if(this.readyState == 4 && this.status == 200)
-            {
-                console.log(this.responseText);
-            }
-        };
+        // xhr.onreadystatechange = function()
+        // {
+        //     if(this.readyState == 4 && this.status == 200)
+        //     {
+        //         console.log(this.responseText);
+        //     }
+        // };
         xhr.open("POST", window.location.href , true);
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
         xhr.send("like="+bl+"&img="+img);
