@@ -25,6 +25,21 @@ class Homepage extends Controller{
                         $this->model->unlikePost($img);
                     }
                 }
+                else if(isset($_POST['comment']))
+                {
+                    $img = '/img/posts/'.end(explode('/',$_POST['post'])).'.png';
+                    $cmt_id = $this->model->postComment($img, $_POST['comment']);
+                    echo $_SESSION['username'].'/'.$cmt_id;
+                }
+                else if(isset($_POST['delete']))
+                {
+                    $this->model->deleteComment($_POST['cmt']);
+                }
+                else if(isset($_POST['edit']))
+                {
+                    echo $_POST['id']." :  ".$_POST['cmt'];
+                    $this->model->editComment($_POST['id'], $_POST['cmt']);
+                }
             }
             else
                 $this->view('homepage/userhome', $data);
