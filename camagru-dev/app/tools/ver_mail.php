@@ -45,3 +45,48 @@ function sendPasswordReset($data, $token)
 
     mail($recipient, $subject, $message, $headers);
 }
+
+
+function sendLikeNotif($data)
+{
+    $sender = 'no-reply@camagru.social';
+    $recipient = $data->email;
+
+    $subject = "Someone Liked your Post";
+    $link = $data->link;
+    $message = " <img style='display:block;margin: 0 auto;' src='".URLROOT."/img/camagrugreen.png'>";
+    $message .= "<div class='mail' style ='padding: 40px; '><h1>See What's New</h1>";
+    $message .= "Hi ".$data->first_name.", ".$_SESSION['username']." Liked Your Post.<br>";
+    $message .= "<div style='margin-top:20px; margin-bottom: 20px; text-align: center; width: 100%;'><a href='".$link."' style='background-color: #00C99C;border: none;color: white;padding: 15px 32px;
+    text-align: center;text-decoration: none;display: inline-block;font-size: 16px;width:80px;margin: auto;
+    cursor: pointer;border-radius: 5px;text-align:center;'>See Post</a></div>";
+    $message .= "If that doesn't work, copy and paste the following link in your browser:<br>".$link;
+    $message .= "<br><br><br><br>Cheers,<br>Camagru";
+    $headers = 'From: Camagru <' . $sender.">\r\n";
+    $headers .= "MIME-Version: 1.0\r\n";
+    $headers .= "content-Type: text/html; charset=ISO-8859-1\r\n"; 
+
+    mail($recipient, $subject, $message, $headers);
+}
+
+function sendCommentNotif($data)
+{
+    $sender = 'no-reply@camagru.social';
+    $recipient = $data->email;
+
+    $subject = "Someone commented on your Post";
+    $link = $data->link;
+    $message = " <img style='display:block;margin: 0 auto;' src='".URLROOT."/img/camagrugreen.png'>";
+    $message .= "<div class='mail' style ='padding: 40px; '><h1>See What's New</h1>";
+    $message .= "Hi ".$data->first_name.", ".$_SESSION['username']." commented on Your Post.<br>";
+    $message .= "<div style='margin-top:20px; margin-bottom: 20px; text-align: center; width: 100%;'><a href='".$link."' style='background-color: #00C99C;border: none;color: white;padding: 15px 32px;
+    text-align: center;text-decoration: none;display: inline-block;font-size: 16px;width:80px;margin: auto;
+    cursor: pointer;border-radius: 5px;text-align:center;'>See The comment</a></div>";
+    $message .= "If that doesn't work, copy and paste the following link in your browser:<br>".$link;
+    $message .= "<br><br><br><br>Cheers,<br>Camagru";
+    $headers = 'From: Camagru <' . $sender.">\r\n";
+    $headers .= "MIME-Version: 1.0\r\n";
+    $headers .= "content-Type: text/html; charset=ISO-8859-1\r\n"; 
+
+    mail($recipient, $subject, $message, $headers);
+}

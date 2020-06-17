@@ -66,7 +66,7 @@ class Home{
             $this->db->query("INSERT INTO `likes` (`post_id`, `user_id`) VALUES (:postid, :userid)");
             $this->db->placeholder(":postid", $postId);
             $this->db->placeholder(":userid", $_SESSION['id']);
-            $this->db->execute();
+            return $this->db->execute();
         }
     }
 
@@ -145,4 +145,11 @@ class Home{
         $this->db->execute();
     }
 
+
+    public function getNotifdata($img){
+
+        $this->db->query("SELECT `users`.`first_name`, `users`.email, `users`.`id`, `users`.`likes_n`, `users`.`comments_n` FROM `posts` JOIN `users` ON `posts`.`user_id` = `users`.`id` WHERE `img` = :img");
+        $this->db->placeholder(":img", $img);
+        return $this->db->single();
+    }
 }

@@ -39,6 +39,7 @@ comment.addEventListener("input", function(){
         send.style.cursor = "auto";
         comment_err.style.display = "block";
     }
+    
 });
 
 comment.addEventListener("keyup", function(event) {
@@ -53,7 +54,12 @@ var sendComment = function(){
     if(empty != null)
         empty.style.display = "none";
     
-
+    send.removeEventListener("click", sendComment);
+    send.style.opacity = "0.5";
+    send.style.cursor = "auto";
+    comment_err.style.display = "none";
+    if (comment.value.trim().length >0)
+    {
     var xhr = new XMLHttpRequest();
     
     xhr.onreadystatechange = function()
@@ -80,15 +86,38 @@ var sendComment = function(){
                 });
                 
             });
-            
+            if(this.responseText.split('/')[1])
+                sendCommentNotif(window.location.href);
         }
     };
 
     xhr.open("POST", window.location.href , true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
     xhr.send("comment="+comment.value.trim()+"&post="+window.location.href);
+}
 
 };
+
+
+function sendCommentNotif(link)
+{
+    var xhr = new XMLHttpRequest();
+
+
+    // xhr.onreadystatechange = function()
+    //         {
+    //             if(this.readyState == 4 && this.status == 200)
+    //             {
+    //                 console.log(this.responseText);
+    //             }
+    //         };
+    
+    xhr.open("POST", window.location.href , true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+    xhr.send("cmt-notif=1&link="+link);
+}
+
+
 
 like.addEventListener("click", function(){
 
@@ -115,6 +144,15 @@ liked.addEventListener("click", function(){
 function likeToServer(bl, img)
 {
     var xhr = new XMLHttpRequest();
+
+
+    // xhr.onreadystatechange = function()
+    //         {
+    //             if(this.readyState == 4 && this.status == 200)
+    //             {
+    //                 console.log(this.responseText);
+    //             }
+    //         };
     
     xhr.open("POST", window.location.href , true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
@@ -159,13 +197,7 @@ function deleteComment(elm){
 
     var xhr = new XMLHttpRequest();
     
-    // xhr.onreadystatechange = function()
-    // {
-    //     if(this.readyState == 4 && this.status == 200)
-    //     {
-    //         console.log(this.responseText);
-    //     }
-    // };
+    
     xhr.open("POST", window.location.href , true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
     xhr.send("delete=1&cmt="+cmt_id);
@@ -205,13 +237,7 @@ function editComment(elm){
             
             var xhr = new XMLHttpRequest();
     
-            xhr.onreadystatechange = function()
-            {
-                if(this.readyState == 4 && this.status == 200)
-                {
-                    console.log(this.responseText);
-                }
-            };
+            
             xhr.open("POST", window.location.href , true);
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
             xhr.send("edit=1&id="+cmt_id+"&cmt="+document.getElementById("edit-input").value.trim());

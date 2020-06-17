@@ -17,7 +17,13 @@ class Homepage extends Controller{
                     if($_POST['like'])
                     {
                         $img = '/img/posts/'.end(explode('/',$_POST['img']));
-                        $this->model->likePost($img);
+                        if ($this->model->likePost($img))
+                            {
+                                $notif = $this->model->getNotifdata($img);
+                                $notif->link = URLROOT."/post/i/".end(explode("/",explode('.',$_POST['img'])[0]));
+                                if ($notif->id != $_SESSION['id'] && $notif->likes_n)
+                                    sendLikeNotif($notif);
+                            }
                     }
                     else
                     {

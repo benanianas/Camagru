@@ -27,7 +27,14 @@ class Post extends Controller{
                         if($_POST['like'])
                         {
                             $img = '/img/posts/'.end(explode('/',$_POST['img']));
-                            $this->model->likePost($img);
+                            if ($this->model->likePost($img))
+                            {
+                                $notif = $this->model->getNotifdata($img);
+                                $notif->link = URLROOT."/post/i/".end(explode("/",explode('.',$_POST['img'])[0]));
+                                if ($notif->id != $_SESSION['id'] && $notif->likes_n)
+                                    sendLikeNotif($notif);
+                            }
+
                         }
                         else
                         {
@@ -39,9 +46,19 @@ class Post extends Controller{
                     else if(isset($_POST['comment']))
                     {
                         $img = '/img/posts/'.end(explode('/',$_POST['post'])).'.png';
-                        $cmt_id = $this->model->postComment($img, $_POST['comment']);
+                        if($cmt_id = $this->model->postComment($img, $_POST['comment']))
                         echo $_SESSION['username'].'/'.$cmt_id;
                     }
+
+                    else if(isset($_POST['cmt-notif']))
+                    {
+                        $img = '/img/posts/'.end(explode('/',$_POST['link'])).'.png';
+                        $notif = $this->model->getNotifdata($img);
+                        $notif->link = $_POST['link'];
+                        if ($notif->id != $_SESSION['id'] && $notif->comments_n)
+                            sendCommentNotif($notif);      
+                    }
+
                     else if(isset($_POST['delete']))
                     {
                         $this->model->deleteComment($_POST['cmt']);
