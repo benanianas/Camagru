@@ -9,9 +9,15 @@ class Home{
         $this->db = new Database;
     }
 
-    public function getPosts()
+    public function postsNbr()
     {
-        $this->db->query("SELECT `posts`.`id`,`p_photo`,`username`,`img`,`user_id` FROM `posts` LEFT JOIN `users` ON `posts`.`user_id` = `users`.`id` ORDER BY `created_at` DESC");
+        $this->db->query("SELECT COUNT(`id`) AS 'nbr' FROM `posts`");
+        return $this->db->single()->nbr;
+    }
+
+    public function getPosts($f, $ppp)
+    {
+        $this->db->query("SELECT `posts`.`id`,`p_photo`,`username`,`img`,`user_id` FROM `posts` LEFT JOIN `users` ON `posts`.`user_id` = `users`.`id` ORDER BY `created_at` DESC LIMIT ".$f.",".$ppp);
         $data = $this->db->result();
         
         foreach ($data as $elm)

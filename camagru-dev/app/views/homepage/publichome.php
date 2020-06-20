@@ -4,21 +4,16 @@
 </head>
 <body>
 <div class="thecontent">
-<div class="hp-navbar">
-    <div class="logo-side">
-        <div class="logo"><a href="<?php echo URLROOT?>"> <img src="<?php echo URLROOT?>/img/logo.png"></a></div>
-    </div>
-    <div class="account-buttons">
-    <a href="<?php echo URLROOT?>/account/login">Log In</a>
-    <a class="register" href ="<?php echo URLROOT?>/account/register">Register</a>
-
-    </div>
-</div>
+<?php 
+        if (isLoggedIn())
+        require APPROOT.'/views/inc/home-nav.php';
+        else
+        require APPROOT.'/views/inc/nav.php';
+        ?>
 <div class="home-content">
     The Worst social media Ever !
     <br>
 <img class="theimg" src="<?php echo URLROOT?>/img/home.svg">
 </div>
-<?php print_r($data);?>
 
 <?php require APPROOT.'/views/inc/footer.php'?>

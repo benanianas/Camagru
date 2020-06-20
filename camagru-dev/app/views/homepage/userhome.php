@@ -6,7 +6,8 @@
 
 <body>
     <div class="thecontent">
-        <?php if (isLoggedIn())
+        <?php 
+        if (isLoggedIn())
         require APPROOT.'/views/inc/home-nav.php';
         else
         require APPROOT.'/views/inc/nav.php';
@@ -15,7 +16,7 @@
 
 
 <?php 
-foreach($data as $elm)
+foreach($data['posts'] as $elm)
 {
             echo "<div class='post'>
                 <div class='post-header'>
@@ -36,7 +37,6 @@ foreach($data as $elm)
                     <a href='";
                     echo URLROOT.'/post/i/'.explode('.',end(explode('/',$elm->img)))[0];
                     echo "'><i class='far fa-comment'></i></a>
-                    <i class='far fa-paper-plane'></i>
                 </div>
                 <div id='likes-number'><span class='nbr'>".$elm->likes."</span> likes</div>
 
@@ -77,9 +77,20 @@ foreach($data as $elm)
 }
             ?>
 
-
-
-
+            <?php 
+            $prev = $data['page'] - 1;
+            $next = $data['page'] + 1;
+            
+            ?>
+            <div id="pagination">
+            <?php if($prev != 0) echo "<a href='".URLROOT."?page=".$prev."'>";?>
+            <i id="left" class="p-btn fas fa-arrow-circle-left" <?php if($prev == 0) echo "style='opacity: 0.5;'";?>></i>
+            <?php if($prev != 0) echo"</a>";?>
+            <div id="p-divider"></div>
+            <?php if($next <= $data['max']) echo "<a href='".URLROOT."?page=".$next."'>";?>
+            <i id="right" class="p-btn fas fa-arrow-circle-right" <?php if($next > $data['max']) echo "style='opacity: 0.5;'";?>></i>
+            <?php if($next <= $data['max']) echo "</a>";?>
+            </div>
         </div>
 
 
@@ -112,6 +123,19 @@ foreach($data as $elm)
 </div>
 </div>
 
+
+<div id="login-modal">
+<div id="login-modal-content">
+  <div id="modal-titel">You need to Log In first!</div><hr>
+  <!-- <div id="rm-modal-qust">Are you sure you want to delete this comment?</div> -->
+<span id="login-close1">&times;</span>
+<div class="modal-buttons">
+<a href="<?php echo URLROOT.'/account/login'?>"><button class="button is-info is-light" type="button" id="edit-cancel-btn">Log In</button></a>
+<div class="divider"></div>
+<a href="<?php echo URLROOT.'/account/register'?>"><button class="button is-success is-light" type="button" id="edit-delete-btn">Sign Up</button></a>
+</div>
+</div>
+</div>
 
 
         <?php if (isLoggedIn())

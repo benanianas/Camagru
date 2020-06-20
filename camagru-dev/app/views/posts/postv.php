@@ -33,14 +33,13 @@
                         echo " to-show";
                     echo"' style='color:red;'></i>
                     <i class='far fa-comment'></i>
-                    <i class='far fa-paper-plane'></i>
                 </div>
-                <div id='likes-number'><span class='nbr'>".$data->likes."</span> likes</div>
-                <div class='comment-action'>
+                <div id='likes-number'><span class='nbr'>".$data->likes."</span> likes</div>";
+                if (isLoggedIn()) echo"<div class='comment-action'>
                     <input id='comment-input' type='text' placeholder='Add a comment...'>
                     <span id='send-comment'>Post</span>
-                </div>
-                <div id='comment-err'>Your comment is too long !</div>
+                </div>";
+                echo "<div id='comment-err'>Your comment is too long !</div>
                 <div class='comments'>";
                 if(!$data->comments)
                     echo "<div id='no-comment'>No comment yet !</div>";
@@ -98,6 +97,21 @@
 <button class="button is-info is-light" type="button" id="edit-cancel-btn">Cancel</button>
 <div class="divider"></div>
 <button class="button is-danger is-light" type="button" id="edit-delete-btn">Save</button>
+</div>
+</div>
+</div>
+
+
+
+<div id="login-modal">
+<div id="login-modal-content">
+  <div id="modal-titel">You need to Log In first!</div><hr>
+  <!-- <div id="rm-modal-qust">Are you sure you want to delete this comment?</div> -->
+<span id="login-close1">&times;</span>
+<div class="modal-buttons">
+<a href="<?php echo URLROOT.'/account/login'?>"><button class="button is-info is-light" type="button" id="edit-cancel-btn">Log In</button></a>
+<div class="divider"></div>
+<a href="<?php echo URLROOT.'/account/register'?>"><button class="button is-success is-light" type="button" id="edit-delete-btn">Sign Up</button></a>
 </div>
 </div>
 </div>

@@ -9,12 +9,12 @@ class Post extends Controller{
 
     public function index()
     {
-        echo "error";
+        $this->view("notFound/errorpage", $data);
     }
     public function i($id = '')
     {
         if($id == '')
-            echo "error";
+            $this->view("notFound/errorpage", $data);
         else
         {
             $data = $this->model->getPost($id);
@@ -73,7 +73,7 @@ class Post extends Controller{
                     $this->view('posts/postv', $data);
             }
             else
-                echo "error3";
+                $this->view("notFound/errorpage", $data);
         }
     }
 

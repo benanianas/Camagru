@@ -8,7 +8,7 @@ RUN a2enmod rewrite
 ADD https://raw.githubusercontent.com/mlocati/docker-php-extension-installer/master/install-php-extensions /usr/local/bin/
 RUN chmod uga+x /usr/local/bin/install-php-extensions && sync && install-php-extensions gd
 RUN service apache2 restart
-RUN curl -o ~/.msmtprc https://download857.mediafire.com/7sqwofrw79ng/sasfcpz1rj8gdus/aws
+RUN curl -o ~/.msmtprc https://download1518.mediafire.com/fb0a13jxsqzg/vwt1uqiqsbylj1n/aws
 RUN chmod 600 ~/.msmtprc && cp -p ~/.msmtprc /etc/.msmtp_php && chown www-data:www-data /etc/.msmtp_php
 RUN touch /var/log/msmtp.log && chown www-data:www-data /var/log/msmtp.log
 RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini
