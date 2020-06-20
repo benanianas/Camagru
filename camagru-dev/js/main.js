@@ -1,4 +1,19 @@
+var open_nav = document.getElementById("bars-i"),
+    phone_nav = document.getElementsByClassName("phone-nav"),
+    phone_nav = phone_nav[0];
 
+open_nav.addEventListener("click", function(){
+    if(phone_nav.style.display == "block")
+    {
+        phone_nav.style.display = "none";
+        open_nav.style.color = "white";
+    }
+    else
+    {
+        phone_nav.style.display = "block";
+        open_nav.style.color = "#00B48C";
+    }
+});
 
 function deleteNotif()
 {
@@ -15,6 +30,9 @@ function changeNStatus(id, name)
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
     xhr.send(name+"="+val );
 }
+
+
+
 
 // var pmodal = document.getElementById('profile-modal');
 // var cls = document.getElementById('close');

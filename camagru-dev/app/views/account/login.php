@@ -12,7 +12,11 @@
     Don't have an account yet?
     <a href="<?php echo URLROOT?>/account/register">Register</a>
 </div>
+<i id="bars-i" class="bars-i fa fa-bars"></i>
 </div>
+    <div class="phone-nav">
+        <a href="<?php echo URLROOT?>/account/register"><div class="nav-link">Register</div></a>
+    </div>
 <!-- login box -->
 
 <div  class="login-box">

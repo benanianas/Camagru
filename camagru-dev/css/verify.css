@@ -51,8 +51,8 @@ html, section{
 
 .login-box{
     background-color: #003C48;
-    width: 50%;
-    max-width: 500px;
+    width: 95%;
+    max-width: 550px;
     margin: 50px auto;
     border: #003C48 solid 2px;
     border-radius: 3px;

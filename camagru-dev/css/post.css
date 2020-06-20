@@ -106,7 +106,7 @@ buttons #00C99C
 .comment-action input {
     border: none;
     background: transparent;
-    width: 90%;
+    width: 85%;
 }
 .comment-action input:focus{
     outline: none;

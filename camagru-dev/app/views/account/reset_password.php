@@ -1,5 +1,6 @@
 <?php require APPROOT.'/views/inc/header.php'?>
 <link rel="stylesheet" href="<?php echo URLROOT?>/css/verify.css">
+<link rel="stylesheet" href="<?php echo URLROOT?>/css/login.css">
 <link rel="stylesheet" href="<?php echo URLROOT?>/css/footer.css">
 </head>
 <body>
@@ -13,7 +14,12 @@
     <a class="register" href ="<?php echo URLROOT?>/account/register">Register</a>
 
     </div>
+    <i id="bars-i" class="bars-i fa fa-bars"></i>
 </div>
+    <div class="phone-nav">
+        <a href="<?php echo URLROOT?>/account/login"><div class="nav-link">Log In</div></a>
+        <a href="<?php echo URLROOT?>/account/register"><div class="nav-link">Register</div></a>
+    </div>
 <!-- login box -->
 
 <div  class="login-box">

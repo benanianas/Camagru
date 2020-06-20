@@ -13,17 +13,14 @@ buttons #00C99C
     background-color: #FAFAFA;
 }
 .posts{
-    /* height: 2000px; */
     width: 100%;
     max-width: 650px;
     margin: 30px auto;
-    /* background-color: white;
-    border: solid 1px #dbdbdb;
-    border-radius: 1x; */
     padding: 0px;
 }
 
 .post{
+    width: 100%;
     background-color: white;
     border: solid 1px #dbdbdb;
     border-radius: 3px;
@@ -130,9 +127,7 @@ buttons #00C99C
     padding-top: 5px;
     position: relative;
 }
-/* #edit:hover #options{
-    display: block;
-} */
+
 #edit:hover .op-edit{
     opacity: 1;
 }
@@ -362,12 +357,12 @@ margin-bottom: 10px;
 
 #pagination{
     text-align: center;
-    width: 50%;
+    width: 100%;
     margin: auto;
     /* background-color: gray; */
 }
 #p-divider{
-    width: 40%;
+    width: 30%;
     height: auto;
     display: inline-block;
 }
@@ -381,3 +376,9 @@ margin-bottom: 10px;
 #right{
     float: right;
 } */
+
+
+@media (max-width:600px) { 
+   
+
+}

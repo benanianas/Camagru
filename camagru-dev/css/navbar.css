@@ -35,3 +35,59 @@
 .account-buttons a:hover{
     color: #00B48C;
 }
+
+.bars-i{
+    display: none;
+}
+.phone-nav{
+    display: none;
+}
+
+.phone-nav a{
+    display: none;
+}
+
+@media (max-width:600px) { 
+   .account-buttons{
+       display: none;
+   }
+   .logo-side{
+       margin: auto;
+   }
+   .hp-navbar{
+       position: relative;
+   }
+   .bars-i{
+    position: absolute;
+    display: inline;
+    right: 14px;
+    top: 55%;
+    font-size: 23px;
+    transform: translate(-50%, -50%);
+   }
+   .bars-i:hover{
+       cursor: pointer;
+   }
+
+   .phone-nav{
+    text-align: center;
+    display: none;
+   }
+   .phone-nav a{
+       display: block;
+       color:  #003C48;
+   }
+   .phone-nav a:hover{
+       color: white;
+   }
+   .nav-link{
+       background-color: #00B48C;
+       height: 37px;
+       padding-top: 4px;   
+   }
+
+   /* .nav-link:hover{
+    background-color: #003C48;
+   } */
+}
+   

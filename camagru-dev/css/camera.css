@@ -137,7 +137,7 @@
 .modal-content{
     border-radius: 10px;
     background-color: white;
-    height: 450px;
+    height: auto;
     /* width: 50%;
     min-width: 450px;
     max-width: 800px; */
@@ -231,10 +231,9 @@
   .rm-modal-content{
     border-radius: 10px;
     background-color: white;
-    height: 170px;
-    width: 50%;
-    min-width: 450px;
-    max-width: 700px; 
+    height: auto;
+    width: 95%;
+    max-width: 650px; 
     margin: auto;
     padding: 30px;
     border: 1px solid #888;
@@ -272,4 +271,22 @@
     width:30px;
     height:auto;
     display:inline-block;
+}
+
+@media (max-width:787px) { 
+    .camera{
+        margin-top: 30px;
+    }
+    .photobooth{
+        display: block;
+        width: 95%;
+        margin: auto;
+        margin-bottom: 50px;
+    }
+    #images{
+        display: block;
+        width: 80%;
+        margin: auto;
+        margin-bottom: 40px;
+    }
 }

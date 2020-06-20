@@ -1,4 +1,5 @@
 <?php require APPROOT.'/views/inc/header.php'?>
+<link rel="stylesheet" href="<?php echo URLROOT?>/css/navbar.css">
 <link rel="stylesheet" href="<?php echo URLROOT?>/css/homepage.css">
 <link rel="stylesheet" href="<?php echo URLROOT?>/css/footer.css">
 </head>

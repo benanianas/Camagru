@@ -10,6 +10,7 @@ html, section{
     padding: 8px 40px;
     height: 60px;
     color: white;
+    border-bottom: 3px solid #00B48C;
 }
 .logo-side{
     display: flex;
@@ -78,3 +79,68 @@ html, section{
     margin-top: 31px;
 }
 /* #DBDBDB */
+.bars-i{
+    display: none;
+}
+.phone-nav{
+    display: none;
+}
+.phone-nav a{
+    display: none;
+}
+
+@media (max-width:600px) { 
+    .account-buttons{
+        display: none;
+    }
+    .login{
+        display: none;
+    }
+    .logo-side{
+        margin: auto;
+    }
+    .hp-navbar{
+        position: relative;
+    }
+    .bars-i{
+     position: absolute;
+     display: inline;
+     right: 14px;
+     top: 55%;
+     font-size: 23px;
+     transform: translate(-50%, -50%);
+    }
+    .bars-i:hover{
+        cursor: pointer;
+    }
+ 
+    .phone-nav{
+     text-align: center;
+     display: none;
+    }
+    .phone-nav a{
+        color:  white;
+    }
+    .phone-nav a:hover{
+        color: #00C99C;
+    }
+    .nav-link{
+        background-color: #003C48;
+        height: 37px;
+        padding-top: 4px;   
+    }
+    /* .nav-link:hover{
+     background-color: #;
+    } */
+ }
+ @media (min-width:601px) {
+    .phone-nav{
+        display: none;
+       }
+       .nav-link{
+        display: none;
+    }
+
+ }
+    
+ 
