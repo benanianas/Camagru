@@ -85,9 +85,7 @@ html, section{
 .phone-nav{
     display: none;
 }
-.phone-nav a{
-    display: none;
-}
+
 
 @media (max-width:600px) { 
     .account-buttons{

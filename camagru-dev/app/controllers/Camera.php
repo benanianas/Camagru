@@ -22,6 +22,11 @@ Class Camera extends Controller{
                     //     if(is_file($file))  
                     //     unlink($file);
                     // } 
+
+                    if (!file_exists('/var/www/html/img/tmp')) {
+                        mkdir('/var/www/html/img/tmp', 0777);
+                    }
+
                     if($_POST['camera'])
                     {
                         $imgData = str_replace(' ','+',$_POST['photo']);
@@ -76,6 +81,9 @@ Class Camera extends Controller{
                     }
                     else
                     {
+                        if (!file_exists('/var/www/html/img/posts')) {
+                            mkdir('/var/www/html/img/posts', 0777);
+                        }
                         $img = end(explode('/',$_POST['imgpath']));
                         rename('/var/www/html/img/tmp/'.$img, '/var/www/html/img/posts/'.$img);
                         $this->model->postIt($_SESSION['id'], '/img/posts/'.$img);
