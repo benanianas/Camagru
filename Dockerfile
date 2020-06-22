@@ -15,4 +15,4 @@ RUN touch /var/log/msmtp.log && chown www-data:www-data /var/log/msmtp.log
 RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini
 RUN rm -rf /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini-production
 RUN echo "sendmail_path = \"/usr/bin/msmtp -C /etc/.msmtp_php --logfile /var/log/msmtp.log -a amazon -t\"" >> /usr/local/etc/php/php.ini
-RUN chown -R www-data:www-data /var/www
+#RUN chown -R www-data:www-data /var/www/html/img
