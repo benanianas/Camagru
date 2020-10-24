@@ -17,14 +17,12 @@ Class Camera extends Controller{
             {
                 if(isset($_POST['camera']))
                 {
-                    // $files = glob('/var/www/html/img/posts/*');  
-                    // foreach($files as $file) { 
-                    //     if(is_file($file))  
-                    //     unlink($file);
-                    // } 
+                    
 
                     if (!file_exists('/var/www/html/img/tmp')) {
+                        chmod('/var/www/html/img', 0777);
                         mkdir('/var/www/html/img/tmp', 0777);
+                        chmod('/var/www/html/img/tmp', 0777);
                     }
 
                     if($_POST['camera'])
@@ -40,9 +38,7 @@ Class Camera extends Controller{
                         // fwrite($file, $imgData);
                         // fclose($file);
                         $dest = imagecreatefromstring($imgData);
-                        imagepng($dest, $filePath);
 
-                        $dest = imagecreatefrompng($filePath);
                         $src = imagecreatefrompng('/var/www/html/img/'.$_POST['selected'].'.png');
                         imagecopyresampled ($dest, $src, 77, 57, 0, 0, 100, 96, 128, 128);
                         //header('Content-Type: image/png');
@@ -63,8 +59,9 @@ Class Camera extends Controller{
                         $dest = imagecreatefromstring($imgData);
                         imagepng($dest, $filePath);
                         $param = getimagesize('/var/www/html/img/tmp/'.$fileName.'.png');
+                        unlink($filePath);
 
-                        $dest = imagecreatefrompng($filePath);
+                        // $dest = imagecreatefrompng($filePath);
                         $src = imagecreatefrompng('/var/www/html/img/'.$_POST['selected'].'.png');
                         $mid = ($param[1]+$param[2])/6;
                         imagecopyresampled ($dest, $src, $param[1]/10, $param[0]/10, 0, 0, $mid, $mid, 128, 128);
@@ -83,6 +80,7 @@ Class Camera extends Controller{
                     {
                         if (!file_exists('/var/www/html/img/posts')) {
                             mkdir('/var/www/html/img/posts', 0777);
+                            chmod('/var/www/html/img/posts', 0777);
                         }
                         $img = end(explode('/',$_POST['imgpath']));
                         rename('/var/www/html/img/tmp/'.$img, '/var/www/html/img/posts/'.$img);

@@ -23,7 +23,9 @@ class Edit extends Controller{
                     if($_POST['photo'])
                     {
                         if (!file_exists('/var/www/html/img/profiles')) {
+                            chmod('/var/www/html/img', 0777);
                             mkdir('/var/www/html/img/profiles', 0777);
+                            chmod('/var/www/html/img/profiles', 0777);
                         }
                         $ret = $this->model->getDataById($_SESSION['id']);
                         if ($ret->p_photo != '/img/profile.png')
