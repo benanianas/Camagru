@@ -30,7 +30,7 @@ class Post extends Controller{
                             if ($this->model->likePost($img))
                             {
                                 $notif = $this->model->getNotifdata($img);
-                                $notif->link = URLROOT."/post/i/".end(explode("/",explode('.',$_POST['img'])[0]));
+                                $notif->link = URLROOT."/post/i/".explode(".",end(explode("/",$_POST['img'])))[0];
                                 if ($notif->id != $_SESSION['id'] && $notif->likes_n)
                                     sendLikeNotif($notif);
                             }
