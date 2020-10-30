@@ -104,7 +104,10 @@ Class Camera extends Controller{
             }
         }
         else
+        {
+            $data['link'] = '/camera';
             $this->view('account/login', $data);
+        }
     }
 
 }

@@ -32,6 +32,19 @@ if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
     });
 }
 
+function ifImage(finput)
+{
+    var image = new Image();
+
+    image.onerror = function(){
+        return(false);
+    };
+    image.onload = function() {
+        return(true);
+    };
+
+    image.src = URL.createObjectURL(finput); 
+}
 
 function snapIt(camera)
 {
@@ -59,29 +72,42 @@ function snapIt(camera)
     else
     {
         var finput = pic.files[0];
-        var allowed = ["image/png", "image/jpeg", "image/jpg"];
-        if(allowed.includes(finput.type) == true && finput.size < 1000000)
-        {
-            msg.style.display = "none";
-            // console.log("Good!");
-            var reader = new FileReader();
-            reader.addEventListener("load", function(){
-    
-                // console.log(reader.result);
-                xhr.send("photo="+reader.result+"&selected="+selected2.value+"&camera=0");
-            });
-            reader.readAsDataURL(finput);
-        }
-        else if(allowed.includes(finput.type) == false)
-        {
+        var image = new Image();
+
+        image.onload = function() {
+            var allowed = ["image/png", "image/jpeg", "image/jpg"];
+            if(allowed.includes(finput.type) == true && finput.size < 1000000)
+            {
+                
+                msg.style.display = "none";
+                // console.log("Good!");
+                // console.log(finput);
+                var reader = new FileReader();
+                reader.addEventListener("load", function(){
+        
+                    // console.log(reader.result);
+                    xhr.send("photo="+reader.result+"&selected="+selected2.value+"&camera=0");
+                });
+                reader.readAsDataURL(finput);
+            }
+            else if(allowed.includes(finput.type) == false)
+            {
+                msg.style.display = "block";
+                msg.innerHTML = "You cannot upload files of this type!";
+            }
+            else
+            {
+                msg.style.display = "block";
+                msg.innerHTML = "Your file is too big!";
+            }  
+        };
+        image.onerror = function(){
             msg.style.display = "block";
             msg.innerHTML = "You cannot upload files of this type!";
-        }
-        else
-        {
-            msg.style.display = "block";
-            msg.innerHTML = "Your file is too big!";
-        }
+        };
+        image.src = URL.createObjectURL(finput); 
+        
+        
     }
 }
 

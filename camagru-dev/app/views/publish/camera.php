@@ -84,7 +84,6 @@
 </div>
 
 <div id="images">
-
 <?php
 if($data)
 {

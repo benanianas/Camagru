@@ -60,7 +60,7 @@
         </div>
         <p class="help is-danger"><?php if($data['password_err']){echo $data['password_err'];} ?></p>
     </div>
-    
+    <input type="hidden" name="link" value="<?= $data['link']?>">    
         <div class="control">
     <input type="submit" value="Log In" class="button is-linkclass is-primary">
     <div class="f_pass"><a href="<?php echo URLROOT?>/account/reset_password">Forgot password ?</a></div>

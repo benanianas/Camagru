@@ -124,7 +124,10 @@ class Edit extends Controller{
             }
         }
         else
-            $this->view('pages/homepage', $data);
+        {
+            $data['link'] = '/edit/profile';
+            $this->view('account/login', $data);
+        }  
     }
     public function password()
     {
@@ -195,7 +198,10 @@ class Edit extends Controller{
             }
         }
         else
-            $this->view('pages/homepage', $data);
+        {
+            $data['link'] = '/edit/password';
+            $this->view('account/login', $data);
+        }
     }
     public function email_notifications()
     {
@@ -228,7 +234,10 @@ class Edit extends Controller{
             }
         }
         else
-            $this->view('pages/homepage', $data);
+        {
+            $data['link'] = '/edit/email_notifications';
+            $this->view('account/login', $data);
+        }
     }
 
     public function logout()

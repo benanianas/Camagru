@@ -140,7 +140,8 @@ Class Account extends Controller{
                 'password' => $_POST['password'],
                 'login_err' => '',
                 'password_err' => '',
-                'verification' => ''
+                'verification' => '',
+                'link' => $_POST['link']
             ];
             if(empty($data['login']))
                 $data['login_err'] = "Please enter an email or a username";
@@ -169,6 +170,7 @@ Class Account extends Controller{
                 {
                     $user = $this->model->getVerData($data);
                     $this->createUserSession($user);
+                    redirect($_POST['link']);
                 }
                 else
                 {
