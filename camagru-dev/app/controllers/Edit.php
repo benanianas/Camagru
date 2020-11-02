@@ -66,6 +66,8 @@ class Edit extends Controller{
                             $this->model->updatePic('/img/profile.png', $_SESSION['id']);
                             echo URLROOT.'/img/profile.png';
                         }
+                        else
+                            echo URLROOT.'/img/profile.png';
                     }
                 }
                 else

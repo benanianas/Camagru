@@ -61,7 +61,7 @@
   </label>
 
   <span class="select">
-<select id="react2" name="selected" onclick="enableBtn()">
+<select id="react2" name="selected" onchange="enableBtn()">
   <option value="none">none</option>
   <option value="like">Like</option>
   <option value="love">Love</option>
