@@ -28,7 +28,7 @@ function changeNStatus(id, name)
     var xhr = new XMLHttpRequest();
     xhr.open("POST", window.location.href , true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
-    xhr.send(name+"="+val );
+    xhr.send(name+"="+val+"&token="+csrfToken);
 }
 
 

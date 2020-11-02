@@ -18,6 +18,21 @@ class Edit extends Controller{
             $ret = $this->model->getDataById($_SESSION['id']);
             if ($_SERVER['REQUEST_METHOD'] == 'POST')
             {
+                $data = [
+                    'name' => $_POST['name'],
+                    'username' => $_POST['username'],
+                    'email' => $_POST['email'],
+                    'pic' => $ret->p_photo,
+                    'name_err' => '',
+                    'username_err' => '',
+                    'email_err' => ''
+                ];
+                
+                if($_SESSION['token'] != $_POST['token'])
+                {
+                    $this->view('edit/profile', $data);
+                    return;
+                }
                 if(isset($_POST['photo']))
                 {
                     if($_POST['photo'])
@@ -55,15 +70,8 @@ class Edit extends Controller{
                 }
                 else
                 {
-                $data = [
-                    'name' => $_POST['name'],
-                    'username' => $_POST['username'],
-                    'email' => $_POST['email'],
-                    'pic' => $ret->p_photo,
-                    'name_err' => '',
-                    'username_err' => '',
-                    'email_err' => ''
-                ];
+                
+
 
                 if(empty($data['name']))
                     $data['name_err'] = 'Please enter your first name';
@@ -217,6 +225,11 @@ class Edit extends Controller{
 
             if($_SERVER['REQUEST_METHOD'] == 'POST')
             {
+                if($_SESSION['token'] != $_POST['token'])
+                {
+                    $this->view('edit/email_notifications', $data);
+                    return;
+                }
                 if(isset($_POST['comments_n']))
                 {
                     if($_POST['comments_n'] == 'true')

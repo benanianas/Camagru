@@ -93,7 +93,7 @@ var sendComment = function(){
 
     xhr.open("POST", window.location.href , true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
-    xhr.send("comment="+comment.value.trim()+"&post="+window.location.href);
+    xhr.send("comment="+comment.value.trim()+"&post="+window.location.href+"&token="+csrfToken);
 }
 
 };
@@ -114,7 +114,7 @@ function sendCommentNotif(link)
     
     xhr.open("POST", window.location.href , true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
-    xhr.send("cmt-notif=1&link="+link);
+    xhr.send("cmt-notif=1&link="+link+"&token="+csrfToken);
 }
 
 
@@ -156,7 +156,7 @@ function likeToServer(bl, img)
     
     xhr.open("POST", window.location.href , true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
-    xhr.send("like="+bl+"&img="+img);
+    xhr.send("like="+bl+"&img="+img+"&token="+csrfToken);
 }
 
 
@@ -200,7 +200,7 @@ function deleteComment(elm){
     
     xhr.open("POST", window.location.href , true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
-    xhr.send("delete=1&cmt="+cmt_id);
+    xhr.send("delete=1&cmt="+cmt_id+"&token="+csrfToken);
 
 }
 function editCmt(elm)
@@ -240,7 +240,7 @@ function editComment(elm){
             
             xhr.open("POST", window.location.href , true);
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
-            xhr.send("edit=1&id="+cmt_id+"&cmt="+document.getElementById("edit-input").value.trim());
+            xhr.send("edit=1&id="+cmt_id+"&cmt="+document.getElementById("edit-input").value.trim()+"&token="+csrfToken);
         }
         document.getElementById("edit-modal").style.display = "none";
     }

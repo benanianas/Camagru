@@ -68,7 +68,7 @@ function snapIt(camera)
     xhr.open("POST", window.location.href , true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
     if(camera)
-        xhr.send("photo="+canvasdata+"&selected="+selected.value+"&camera=1" );
+        xhr.send("photo="+canvasdata+"&selected="+selected.value+"&camera=1&token="+csrfToken);
     else
     {
         var finput = pic.files[0];
@@ -86,7 +86,7 @@ function snapIt(camera)
                 reader.addEventListener("load", function(){
         
                     // console.log(reader.result);
-                    xhr.send("photo="+reader.result+"&selected="+selected2.value+"&camera=0");
+                    xhr.send("photo="+reader.result+"&selected="+selected2.value+"&camera=0&token="+csrfToken);
                 });
                 reader.readAsDataURL(finput);
             }
@@ -181,7 +181,7 @@ function deleteIt()
     // };
     xhr.open("POST", window.location.href , true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
-    xhr.send("post=0&imgpath="+document.getElementById("rimg").src);
+    xhr.send("post=0&imgpath="+document.getElementById("rimg").src+"&token="+csrfToken);
 }
 
 function postIt()
@@ -200,7 +200,7 @@ function postIt()
     };
     xhr.open("POST", window.location.href , true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
-    xhr.send("post=1&imgpath="+imglink);
+    xhr.send("post=1&imgpath="+imglink+"&token="+csrfToken);
 }
 
 function postToSidebar(img)
@@ -244,7 +244,6 @@ function removePost(elm)
 
     xhr.open("POST", window.location.href , true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
-    xhr.send("delete=1&imgpath="+elm.previousSibling.src);
+    xhr.send("delete=1&imgpath="+elm.previousSibling.src+"&token="+csrfToken);
 
 }
-

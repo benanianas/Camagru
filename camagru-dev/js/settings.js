@@ -1,9 +1,13 @@
 var pmodal = document.getElementById('profile-modal');
 var cls = document.getElementById('close');
 
-cls.addEventListener("click", function(){
-    pmodal.style.display = "none";
-  });
+
+if (cls)
+{
+    cls.addEventListener("click", function(){
+        pmodal.style.display = "none";
+    });
+}
 function openModal()
 {
     pmodal.style.display = "block";
@@ -44,7 +48,7 @@ function uplaodPPic()
             reader.addEventListener("load", function(){
 
                 // console.log(reader.result);
-                xhr.send("photo="+reader.result);
+                xhr.send("photo="+reader.result+"&token="+csrfToken);
             });
             reader.readAsDataURL(pfinput);
 
@@ -83,6 +87,6 @@ function removePPic(){
     
     xhr.open("POST", window.location.href , true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
-    xhr.send("photo=0");
+    xhr.send("photo=0&token="+csrfToken);
 
 }

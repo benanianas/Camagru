@@ -36,6 +36,11 @@ class Homepage extends Controller{
 
         if($_SERVER['REQUEST_METHOD'] == 'POST')
         {
+            if($_SESSION['token'] != $_POST['token'])
+            {
+                $this->view('homepage/userhome', $data);
+                return;
+            }
             if(isset($_POST['like']))
             {
                 if($_POST['like'])

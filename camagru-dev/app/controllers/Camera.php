@@ -12,9 +12,14 @@ Class Camera extends Controller{
     {
         if (isLoggedIn())
         {
-
+            $data = $this->model->getPosts($_SESSION['id']);
             if($_SERVER['REQUEST_METHOD'] == 'POST')
             {
+                if($_SESSION['token'] != $_POST['token'])
+                {
+                    $this->view('publish/camera', $data);
+                    return;
+                }
                 if(isset($_POST['camera']))
                 {
                     
@@ -98,9 +103,7 @@ Class Camera extends Controller{
             }
             else
             {
-                $data = $this->model->getPosts($_SESSION['id']);
                 $this->view('publish/camera', $data);
-                // print_r($data);
             }
         }
         else

@@ -8,5 +8,5 @@ host smtp.gmail.com
 port 587
 from camagru.social.noreply@gmail.com
 user camagru.social.noreply@gmail.com
-password ***********
+password *******
 account default : gmail

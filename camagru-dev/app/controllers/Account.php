@@ -405,6 +405,7 @@ Class Account extends Controller{
         $_SESSION['id'] = $user->id;
         $_SESSION['email'] = $user->email;
         $_SESSION['username'] = $user->username;
+        $_SESSION['token'] = bin2hex(random_bytes(12));
         redirect('');
     }
 
@@ -413,6 +414,7 @@ Class Account extends Controller{
         unset($_SESSION['id']);
         unset($_SESSION['email']);
         unset($_SESSION['username']);
+        unset($_SESSION['token']);
         session_destroy();
         redirect('/account/login');
     }

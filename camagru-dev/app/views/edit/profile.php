@@ -54,10 +54,9 @@
         <p class="help is-danger"><?php if($data['email_err']){echo $data['email_err'];} ?></p>
         <br>
         </div>
-        <input type="hidden" name="csrf" value="<?php echo $data['csrf']?>">
+        <input type="hidden" name="token" value="<?php echo $_SESSION['token']?>">
         <button type='submit' class="button is-light">Save Changes</button>
         </form>
-        <?=$data['csrf'] ?>
     </div>
 </div>
 <div id="profile-modal">
