@@ -17,6 +17,8 @@ Class Camera extends Controller{
             {
                 if($_SESSION['token'] != $_POST['token'])
                 {
+                    unset($_SESSION['token']);
+                    $_SESSION['token'] = bin2hex(random_bytes(12));
                     $this->view('publish/camera', $data);
                     return;
                 }

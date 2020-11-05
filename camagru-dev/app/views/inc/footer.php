@@ -8,6 +8,7 @@ if (isLoggedIn())
 echo 
 "<script>
 var csrfToken = '".$_SESSION["token"]."';
+var sid = '".$_SESSION['id']."'
 </script>"
 ?>
 <script src="<?php echo URLROOT ?>/js/main.js";></script>

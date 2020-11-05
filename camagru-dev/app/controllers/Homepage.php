@@ -10,7 +10,8 @@ class Homepage extends Controller{
     public function index()
     {
         //pagination Beginning
-        $posts_per_page = 5;
+        
+        $posts_per_page = 2;
         $posts_count = $this->model->postsNbr();
         $pages_nbr = ceil($posts_count / $posts_per_page);
         $page = 1;
@@ -19,14 +20,16 @@ class Homepage extends Controller{
             $this->view('homepage/publichome', $data);
             return;
         }
-        if(isset($_GET['page']))
-        {
-            if(is_numeric($_GET['page']) && $_GET['page'] > 0 && $_GET['page'] <= $pages_nbr )
-                $page = $_GET['page'];
-        }
+        // if(isset($_GET['page']))
+        // {
+        //     if(is_numeric($_GET['page']) && $_GET['page'] > 0 && $_GET['page'] <= $pages_nbr )
+        //         $page = $_GET['page'];
+        // }
         $from = ($page - 1)*$posts_per_page;
 
         // pagination End
+
+
         $posts = $this->model->getPosts($from, $posts_per_page);
         $data = [
             'posts' => $posts,
@@ -36,8 +39,24 @@ class Homepage extends Controller{
 
         if($_SERVER['REQUEST_METHOD'] == 'POST')
         {
+            if(isset($_POST['page']))
+            {
+                $from = ($_POST['page'] - 1)*$posts_per_page;
+                $posts = $this->model->getPosts($from, $posts_per_page);
+                $data = [
+                    'posts' => $posts,
+                    'page' => $page,
+                    'max' =>  $pages_nbr
+                ];
+
+
+                echo json_encode($data);
+                return;
+            }
             if($_SESSION['token'] != $_POST['token'])
             {
+                unset($_SESSION['token']);
+                $_SESSION['token'] = bin2hex(random_bytes(12));
                 $this->view('homepage/userhome', $data);
                 return;
             }
@@ -80,5 +99,4 @@ class Homepage extends Controller{
         else
             $this->view('homepage/userhome', $data);
     }
-    
 }

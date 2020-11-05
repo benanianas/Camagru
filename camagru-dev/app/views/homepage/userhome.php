@@ -77,7 +77,7 @@ foreach($data['posts'] as $elm)
 }
             ?>
 
-            <?php 
+            <!-- <?php 
             $prev = $data['page'] - 1;
             $next = $data['page'] + 1;
             
@@ -91,7 +91,15 @@ foreach($data['posts'] as $elm)
             <i id="right" class="p-btn fas fa-arrow-circle-right" <?php if($next > $data['max']) echo "style='opacity: 0.5;'";?>></i>
             <?php if($next <= $data['max']) echo "</a>";?>
             </div>
+        </div> -->
+
+        <div id="load-more">
+        See More
         </div>
+    
+
+
+        
 
 
         <div id="rm-modal">

@@ -214,6 +214,11 @@ function editCmt(elm)
     document.getElementById("edit-close1").onclick = function(){document.getElementById("edit-modal").style.display = "none";};
     document.getElementById("edit-cancel-btn").onclick = function(){document.getElementById("edit-modal").style.display = "none";};
     document.getElementById("edit-delete-btn").onclick = function(){editComment(elm);};
+    document.getElementById("edit-input").addEventListener("keyup", function(event) {
+        if (event.keyCode === 13) {
+            editComment(elm);
+        }
+      });
 }
 
 function editComment(elm){

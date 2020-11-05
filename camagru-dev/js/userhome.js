@@ -37,20 +37,13 @@ Array.prototype.forEach.call(liked_icons, function(liked, index) {
     
 });
 
+
 function likeToServer(bl, img)
 {
     var xhr = new XMLHttpRequest();
-    
-        // xhr.onreadystatechange = function()
-        // {
-        //     if(this.readyState == 4 && this.status == 200)
-        //     {
-        //         console.log(this.responseText);
-        //     }
-        // };
-        xhr.open("POST", window.location.href , true);
-        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
-        xhr.send("like="+bl+"&img="+img+"&token="+csrfToken);
+    xhr.open("POST", window.location.href , true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+    xhr.send("like="+bl+"&img="+img+"&token="+csrfToken);
 }
 
 
@@ -114,6 +107,11 @@ function editCmt(elm)
     document.getElementById("edit-close1").onclick = function(){document.getElementById("edit-modal").style.display = "none";};
     document.getElementById("edit-cancel-btn").onclick = function(){document.getElementById("edit-modal").style.display = "none";};
     document.getElementById("edit-delete-btn").onclick = function(){editComment(elm);};
+    document.getElementById("edit-input").addEventListener("keyup", function(event) {
+        if (event.keyCode === 13) {
+            editComment(elm);
+        }
+      });
 }
 
 function editComment(elm){
@@ -137,18 +135,135 @@ function editComment(elm){
             
             var xhr = new XMLHttpRequest();
     
-            xhr.onreadystatechange = function()
-            {
-                if(this.readyState == 4 && this.status == 200)
-                {
-                    console.log(this.responseText);
-                }
-            };
+            // xhr.onreadystatechange = function()
+            // {
+            //     if(this.readyState == 4 && this.status == 200)
+            //     {
+            //         // console.log(this.responseText);
+            //     }
+            // };
             xhr.open("POST", window.location.href , true);
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
             xhr.send("edit=1&id="+cmt_id+"&cmt="+document.getElementById("edit-input").value.trim()+"&token="+csrfToken);
         }
         document.getElementById("edit-modal").style.display = "none";
     }
+
+}
+
+
+// infinite pagination start
+// *************************
+// *************************
+// *************************
+
+var loader = document.getElementById("load-more");
+var page = 2;
+loader.onclick = function(){
+
+
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function()
+    {
+        if(this.readyState == 4 && this.status == 200)
+        {
+            var posts = JSON.parse(this.responseText);
+            posts.posts.forEach(addPost);
+        }
+    };
+    xhr.open("POST", window.location.href , true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+    xhr.send("page="+page);
+    
+
+    
+    page++;
+};
+function addPost(post)
+{
+    var elm = document.createElement('div');
+    var htmlcode = `
+    <div class='post'>
+    <div class='post-header'>
+    <img class='profile' src='${post.p_photo}'>
+                    <div class='username'>${post.username}</div>
+                </div>
+                <img class='post-img' src='${window.location.href+post.img}' />
+
+                <div class='actions'>
+                    <i class='like far fa-heart'></i>
+                    <i class='liked fas fa-heart' style='color:red;'></i>
+                    <a href='${window.location.href}/post/i/${post.img.split('/')[3].split('.')[0]}'><i class='far fa-comment'></i></a>
+                </div>
+                <div id='likes-number'><span class='nbr'>${post.likes}</span> likes</div>
+                <div class='comments'>
+    `;
+
+    if (!post.comments[0])
+    {
+        htmlcode += `<div id='no-comment'>No comment yet !</div>`;
+    }
+    else
+    {
+        for(i=0; i < 2; i++)
+        {
+            if(post.comments[i])
+            {
+                htmlcode += `<div id='comment-holder' data-comment='${post.comments[i].id_c}'>
+                            <div id='comment'>
+                            <span class='c-user'>${post.comments[i].username}</span>
+                            <span class='comment'>${post.comments[i].comment}</span>
+                            </div></div>
+                            `;
+            if(post.comments[0].id == sid)
+            
+            htmlcode += `<div class='edit-o' id='edit'><i class='op-edit fas fa-ellipsis-v'></i>
+            <div class='options-o' id='options'><button id='delete-comment' onclick='deleteCmt(this)'>Delete</button><div id='btn-spr'>
+            </div><button id='delete-comment' onclick='editCmt(this)'>Edit</button></div></div>
+            `;
+            else if(post.user_id == sid)
+            htmlcode += `<div class='edit-o' id='edit'><i class='op-edit fas fa-ellipsis-v'></i>
+                        <div class='options-o' id='options'><button id='delete-comment' onclick='deleteCmt(this)'>Delete</button><div id='btn-spr'>
+                        </div></div></div>
+                        `;
+            }
+        }
+        if(post.comments[2])
+            htmlcode += `<div id='see-all'><a href='${window.location.href}/post/i/${post.img.split('/')[3].split('.')[0]}'>See All comments </a></div>`;
+    }
+
+    htmlcode += "</div></div>";
+    elm.innerHTML = htmlcode;
+    
+
+    loader.parentNode.insertBefore(elm, loader);
+    var llike = document.getElementsByClassName('like');
+    llike = llike[llike.length - 1];
+    var lliked = document.getElementsByClassName('liked');
+    lliked = lliked[lliked.length - 1];
+    var nbr = document.getElementsByClassName('nbr');
+    nbr = nbr[nbr.length - 1];
+    if (post.liked)
+        llike.classList.add('to-hide');
+    if (post.liked)
+        lliked.classList.add('to-show');
+        
+    llike.addEventListener("click", function(){
+
+        llike.style.display = "none";
+        lliked.style.display = "inline";
+        var num = parseInt(nbr.innerHTML);
+        nbr.innerHTML = ++num;
+        likeToServer(1, window.location.href+post.img);
+    });
+
+    lliked.addEventListener("click", function(){
+
+        lliked.style.display = "none";
+        llike.style.display = "inline";
+        var num = parseInt(nbr.innerHTML);
+        nbr.innerHTML = --num;
+        likeToServer(0, window.location.href+post.img);
+    });
 
 }

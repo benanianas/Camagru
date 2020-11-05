@@ -30,6 +30,8 @@ class Edit extends Controller{
                 
                 if($_SESSION['token'] != $_POST['token'])
                 {
+                    unset($_SESSION['token']);
+                    $_SESSION['token'] = bin2hex(random_bytes(12));
                     $this->view('edit/profile', $data);
                     return;
                 }
@@ -229,6 +231,8 @@ class Edit extends Controller{
             {
                 if($_SESSION['token'] != $_POST['token'])
                 {
+                    unset($_SESSION['token']);
+                    $_SESSION['token'] = bin2hex(random_bytes(12));
                     $this->view('edit/email_notifications', $data);
                     return;
                 }
