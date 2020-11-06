@@ -67,7 +67,6 @@ document.body.addEventListener("click", function () {
 function deleteCmt(elm)
 {
     elm.parentNode.style.display = "none";
-    
     document.getElementById("rm-modal").style.display = "block";
 
     document.getElementById("close1").onclick = function(){document.getElementById("rm-modal").style.display = "none";};
@@ -77,10 +76,10 @@ function deleteCmt(elm)
 
 function deleteComment(elm){
     elm.parentNode.parentNode.style.display = "none";
-    elm.parentNode.parentNode.previousSibling.style.display = "none";
+    elm.parentNode.parentNode.previousElementSibling.style.display = "none";
     document.getElementById("rm-modal").style.display = "none";
 
-    var cmt_id = elm.parentNode.parentNode.previousSibling.getAttribute("data-comment");
+    var cmt_id = elm.parentNode.parentNode.previousElementSibling.getAttribute("data-comment");
 
     var xhr = new XMLHttpRequest();
     
@@ -100,7 +99,7 @@ function editCmt(elm)
 {
     elm.parentNode.style.display = "none";
     
-    document.getElementById("edit-input").value = elm.parentNode.parentNode.previousSibling.getElementsByClassName("comment")[0].innerText;
+    document.getElementById("edit-input").value = elm.parentNode.parentNode.previousElementSibling.getElementsByClassName("comment")[0].innerText;
     document.getElementById("edit-modal").style.display = "block";
     document.getElementById("edit-err").innerText = "";
 
@@ -117,7 +116,7 @@ function editCmt(elm)
 function editComment(elm){
 
 
-    var comment = elm.parentNode.parentNode.previousSibling.getElementsByClassName("comment")[0];
+    var comment = elm.parentNode.parentNode.previousElementSibling.getElementsByClassName("comment")[0];
 
     if(document.getElementById("edit-input").value.trim().length == 0)
     {
@@ -131,7 +130,7 @@ function editComment(elm){
         if(comment.innerText != document.getElementById("edit-input").value.trim())
         {
             comment.innerText = document.getElementById("edit-input").value.trim();
-            var cmt_id = elm.parentNode.parentNode.previousSibling.getAttribute("data-comment");
+            var cmt_id = elm.parentNode.parentNode.previousElementSibling.getAttribute("data-comment");
             
             var xhr = new XMLHttpRequest();
     
@@ -223,8 +222,8 @@ function addPost(post)
             `;
             else if(post.user_id == sid)
             htmlcode += `<div class='edit-o' id='edit'><i class='op-edit fas fa-ellipsis-v'></i>
-                        <div class='options-o' id='options'><button id='delete-comment' onclick='deleteCmt(this)'>Delete</button><div id='btn-spr'>
-                        </div></div></div>
+            <div class='options-o' id='options'><button id='delete-comment' onclick='deleteCmt(this)'>Delete</button><div id='btn-spr'>
+            </div></div></div>
                         `;
             }
         }
@@ -266,4 +265,17 @@ function addPost(post)
         likeToServer(0, window.location.href+post.img);
     });
 
+    var edit = document.getElementsByClassName("op-edit");
+    var option = document.getElementsByClassName("options-o");
+
+    Array.prototype.forEach.call(edit, function(elm, index){
+        elm.addEventListener("click", function (ev) {
+            Array.prototype.forEach.call(option, function(elm){
+                elm.style.display = "none";
+            });
+            option[index].style.display = "block";
+            ev.stopPropagation(); 
+        });
+        
+    });
 }
