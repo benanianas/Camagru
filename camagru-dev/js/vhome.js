@@ -23,3 +23,112 @@ document.getElementById("login-close1").addEventListener("click", function(){
 
     modal.style.display = "none";
 });
+// infinite pagination start
+// *************************
+// *************************
+// *************************
+
+if (infinite)
+{
+    var loader = document.getElementById("load-more");
+    var n_pagination = document.getElementById("pagination");
+    var page = 2;
+    loader.style.display = "block";
+    n_pagination.style.display = "none";
+
+    loader.onclick = function(){
+
+        document.getElementById('load-text').style.display = "none";
+        document.getElementById('load-anim').style.display = "block";
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function()
+        {
+            if(this.readyState == 4 && this.status == 200)
+            {
+                var ret = JSON.parse(this.responseText);
+                if (page == ret.max)
+                    loader.style.display = "none";
+                ret.posts.forEach(addPost);
+                page++;
+            }
+        };
+        xhr.open("POST", window.location.href , true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+        
+        setTimeout(() => {  
+        document.getElementById('load-text').style.display = "block";
+        document.getElementById('load-anim').style.display = "none";
+        xhr.send("page="+page);
+    }, 600);  
+    };
+
+
+    function addPost(post, index)
+    {
+        var elm = document.createElement('div');
+        var htmlcode = `
+        <div class='post'>
+        <div class='post-header'>
+        <img class='profile' src='${post.p_photo}'>
+                        <div class='username'>${post.username}</div>
+                    </div>
+                    <img class='post-img' src='${window.location.href+post.img}' />
+
+                    <div class='actions'>
+                        <i class='like far fa-heart'></i>
+                        <i class='liked fas fa-heart' style='color:red;'></i>
+                        <a href='${window.location.href}/post/i/${post.img.split('/')[3].split('.')[0]}'><i class='far fa-comment'></i></a>
+                    </div>
+                    <div id='likes-number'><span class='nbr'>${post.likes}</span> likes</div>
+                    <div class='comments'>
+        `;
+
+        if (!post.comments[0])
+        {
+            htmlcode += `<div id='no-comment'>No comment yet !</div>`;
+        }
+        else
+        {
+            for(i=0; i < 2; i++)
+            {
+                if(post.comments[i])
+                {
+                    htmlcode += `<div id='comment-holder' data-comment='${post.comments[i].id_c}'>
+                                <div id='comment'>
+                                <span class='c-user'>${post.comments[i].username}</span>
+                                <span class='comment'>${post.comments[i].comment}</span>
+                                </div></div>
+                                `;
+                
+                }
+            }
+            if(post.comments[2])
+                htmlcode += `<div id='see-all'><a href='${window.location.href}/post/i/${post.img.split('/')[3].split('.')[0]}'>See All comments </a></div>`;
+        }
+
+        htmlcode += "</div></div>";
+        elm.innerHTML = htmlcode;
+        
+
+        loader.parentNode.insertBefore(elm, loader);
+        if(index == 0)
+            elm.scrollIntoView({ behavior: 'smooth', block: "start",inline: "end"});
+        var like = document.getElementsByClassName('like');
+        like = like[like.length - 1];
+        like.addEventListener("click", function(e){
+
+            modal.style.display = "block";
+        });
+
+
+    
+    }
+}
+else
+{
+    var loader = document.getElementById("load-more");
+    var n_pagination = document.getElementById("pagination");
+    
+    loader.style.display = "none";
+    n_pagination.style.display = "block";
+}

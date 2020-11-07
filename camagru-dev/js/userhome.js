@@ -10,6 +10,14 @@ var like_icons = document.getElementsByClassName("like"),
     edits = document.getElementsByClassName("op-edit"),
     options = document.getElementsByClassName("options-o");
 
+
+
+    // pagination
+
+        // var infinite = true;
+
+    //
+
 // alert(typeof parseInt(like_icons[0].parentElement.nextElementSibling.firstChild.innerHTML));
 Array.prototype.forEach.call(like_icons, function(like, index) {
 
@@ -75,24 +83,82 @@ function deleteCmt(elm)
 }
 
 function deleteComment(elm){
-    elm.parentNode.parentNode.style.display = "none";
-    elm.parentNode.parentNode.previousElementSibling.style.display = "none";
+
+    // var img = elm.parentNode.parentNode.parentNode.parentNode.getElementsByTagName('img')[1].src;
+    var img = elm.parentNode.parentNode.parentNode.parentNode.getElementsByTagName('img')[1].src
+    img =  img.split('/');
+    img = img[img.length - 1];
+    img = img.split('.')[0];
+    console.log(img);
+    
+    //
+    // elm.parentNode.parentNode.style.display = "none";
+    // elm.parentNode.parentNode.previousElementSibling.style.display = "none";
+    //
+
     document.getElementById("rm-modal").style.display = "none";
 
     var cmt_id = elm.parentNode.parentNode.previousElementSibling.getAttribute("data-comment");
 
     var xhr = new XMLHttpRequest();
     
-    // xhr.onreadystatechange = function()
-    // {
-    //     if(this.readyState == 4 && this.status == 200)
-    //     {
-    //         console.log(this.responseText);
-    //     }
-    // };
+    xhr.onreadystatechange = function()
+    {
+        if(this.readyState == 4 && this.status == 200)
+        {
+            var comments = JSON.parse(this.responseText);
+            var htmlcode = "";
+            // console.log(comments);
+            if (!comments.c[0])
+                htmlcode += `<div id='no-comment'>No comment yet !</div>`;
+            for(i=0; i < 3; i++)
+            {
+                if(comments.c[i])
+                {
+                    htmlcode += `<div id='comment-holder' data-comment='${comments.c[i].id_c}'>
+                                <div id='comment'>
+                                <span class='c-user'>${comments.c[i].username}</span>
+                                <span class='comment'>${comments.c[i].comment}</span>
+                                </div></div>
+                                `;
+                if(comments.c[0].id == sid)
+                
+                htmlcode += `<div class='edit-o' id='edit'><i class='op-edit fas fa-ellipsis-v'></i>
+                <div class='options-o' id='options'><button id='delete-comment' onclick='deleteCmt(this)'>Delete</button><div id='btn-spr'>
+                </div><button id='delete-comment' onclick='editCmt(this)'>Edit</button></div></div>
+                `;
+                else if(comment.pid == sid)
+                htmlcode += `<div class='edit-o' id='edit'><i class='op-edit fas fa-ellipsis-v'></i>
+                <div class='options-o' id='options'><button id='delete-comment' onclick='deleteCmt(this)'>Delete</button><div id='btn-spr'>
+                </div></div></div>
+                            `;
+                }
+            }
+            if(comments.c[3])
+                htmlcode += `<div id='see-all'><a href='${window.location.href}/post/i/${img}'>See All comments </a></div>`;
+                var node = elm.parentNode.parentNode.parentNode;
+                node.innerHTML = htmlcode;
+
+            var edit = document.getElementsByClassName("op-edit");
+            var option = document.getElementsByClassName("options-o");
+
+            Array.prototype.forEach.call(edit, function(elm, index){
+                elm.addEventListener("click", function (ev) {
+                    Array.prototype.forEach.call(option, function(elm){
+                        elm.style.display = "none";
+                    });
+                    option[index].style.display = "block";
+                    ev.stopPropagation(); 
+                });
+                
+            });
+        }
+    };
     xhr.open("POST", window.location.href , true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
     xhr.send("delete=1&cmt="+cmt_id+"&token="+csrfToken);
+
+    
 
 }
 function editCmt(elm)
@@ -155,127 +221,153 @@ function editComment(elm){
 // *************************
 // *************************
 // *************************
-
-var loader = document.getElementById("load-more");
-var page = 2;
-loader.onclick = function(){
-
-
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function()
-    {
-        if(this.readyState == 4 && this.status == 200)
-        {
-            var posts = JSON.parse(this.responseText);
-            posts.posts.forEach(addPost);
-        }
-    };
-    xhr.open("POST", window.location.href , true);
-    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
-    xhr.send("page="+page);
-    
-
-    
-    page++;
-};
-function addPost(post)
+if (infinite)
 {
-    var elm = document.createElement('div');
-    var htmlcode = `
-    <div class='post'>
-    <div class='post-header'>
-    <img class='profile' src='${post.p_photo}'>
-                    <div class='username'>${post.username}</div>
-                </div>
-                <img class='post-img' src='${window.location.href+post.img}' />
-
-                <div class='actions'>
-                    <i class='like far fa-heart'></i>
-                    <i class='liked fas fa-heart' style='color:red;'></i>
-                    <a href='${window.location.href}/post/i/${post.img.split('/')[3].split('.')[0]}'><i class='far fa-comment'></i></a>
-                </div>
-                <div id='likes-number'><span class='nbr'>${post.likes}</span> likes</div>
-                <div class='comments'>
-    `;
-
-    if (!post.comments[0])
-    {
-        htmlcode += `<div id='no-comment'>No comment yet !</div>`;
-    }
-    else
-    {
-        for(i=0; i < 2; i++)
-        {
-            if(post.comments[i])
-            {
-                htmlcode += `<div id='comment-holder' data-comment='${post.comments[i].id_c}'>
-                            <div id='comment'>
-                            <span class='c-user'>${post.comments[i].username}</span>
-                            <span class='comment'>${post.comments[i].comment}</span>
-                            </div></div>
-                            `;
-            if(post.comments[0].id == sid)
-            
-            htmlcode += `<div class='edit-o' id='edit'><i class='op-edit fas fa-ellipsis-v'></i>
-            <div class='options-o' id='options'><button id='delete-comment' onclick='deleteCmt(this)'>Delete</button><div id='btn-spr'>
-            </div><button id='delete-comment' onclick='editCmt(this)'>Edit</button></div></div>
-            `;
-            else if(post.user_id == sid)
-            htmlcode += `<div class='edit-o' id='edit'><i class='op-edit fas fa-ellipsis-v'></i>
-            <div class='options-o' id='options'><button id='delete-comment' onclick='deleteCmt(this)'>Delete</button><div id='btn-spr'>
-            </div></div></div>
-                        `;
-            }
-        }
-        if(post.comments[2])
-            htmlcode += `<div id='see-all'><a href='${window.location.href}/post/i/${post.img.split('/')[3].split('.')[0]}'>See All comments </a></div>`;
-    }
-
-    htmlcode += "</div></div>";
-    elm.innerHTML = htmlcode;
     
+    var loader = document.getElementById("load-more");
+    var n_pagination = document.getElementById("pagination");
+    var page = 2;
+    loader.style.display = "block";
+    n_pagination.style.display = "none";
 
-    loader.parentNode.insertBefore(elm, loader);
-    var llike = document.getElementsByClassName('like');
-    llike = llike[llike.length - 1];
-    var lliked = document.getElementsByClassName('liked');
-    lliked = lliked[lliked.length - 1];
-    var nbr = document.getElementsByClassName('nbr');
-    nbr = nbr[nbr.length - 1];
-    if (post.liked)
-        llike.classList.add('to-hide');
-    if (post.liked)
-        lliked.classList.add('to-show');
+    loader.onclick = function(){
+
+        document.getElementById('load-text').style.display = "none";
+        document.getElementById('load-anim').style.display = "block";
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function()
+        {
+            if(this.readyState == 4 && this.status == 200)
+            {
+                var ret = JSON.parse(this.responseText);
+                if (page == ret.max)
+                    loader.style.display = "none";
+                ret.posts.forEach(addPost);
+                page++;
+            }
+        };
+        xhr.open("POST", window.location.href , true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
         
-    llike.addEventListener("click", function(){
+        setTimeout(() => {  
+        document.getElementById('load-text').style.display = "block";
+        document.getElementById('load-anim').style.display = "none";
+        xhr.send("page="+page);
+    }, 400);  
+    };
 
-        llike.style.display = "none";
-        lliked.style.display = "inline";
-        var num = parseInt(nbr.innerHTML);
-        nbr.innerHTML = ++num;
-        likeToServer(1, window.location.href+post.img);
-    });
 
-    lliked.addEventListener("click", function(){
+    function addPost(post, index)
+    {
+        var elm = document.createElement('div');
+        var htmlcode = `
+        <div class='post'>
+        <div class='post-header'>
+        <img class='profile' src='${post.p_photo}'>
+                        <div class='username'>${post.username}</div>
+                    </div>
+                    <img class='post-img' src='${window.location.href.split('/')[0]+post.img}' />
 
-        lliked.style.display = "none";
-        llike.style.display = "inline";
-        var num = parseInt(nbr.innerHTML);
-        nbr.innerHTML = --num;
-        likeToServer(0, window.location.href+post.img);
-    });
+                    <div class='actions'>
+                        <i class='like far fa-heart'></i>
+                        <i class='liked fas fa-heart' style='color:red;'></i>
+                        <a href='${window.location.href.split('/')[0]}/post/i/${post.img.split('/')[3].split('.')[0]}'><i class='far fa-comment'></i></a>
+                    </div>
+                    <div id='likes-number'><span class='nbr'>${post.likes}</span> likes</div>
+                    <div class='comments'>
+        `;
 
-    var edit = document.getElementsByClassName("op-edit");
-    var option = document.getElementsByClassName("options-o");
+        if (!post.comments[0])
+        {
+            htmlcode += `<div id='no-comment'>No comment yet !</div>`;
+        }
+        else
+        {
+            for(i=0; i < 3; i++)
+            {
+                if(post.comments[i])
+                {
+                    htmlcode += `<div id='comment-holder' data-comment='${post.comments[i].id_c}'>
+                                <div id='comment'>
+                                <span class='c-user'>${post.comments[i].username}</span>
+                                <span class='comment'>${post.comments[i].comment}</span>
+                                </div></div>
+                                `;
+                if(post.comments[0].id == sid)
+                
+                htmlcode += `<div class='edit-o' id='edit'><i class='op-edit fas fa-ellipsis-v'></i>
+                <div class='options-o' id='options'><button id='delete-comment' onclick='deleteCmt(this)'>Delete</button><div id='btn-spr'>
+                </div><button id='delete-comment' onclick='editCmt(this)'>Edit</button></div></div>
+                `;
+                else if(post.user_id == sid)
+                htmlcode += `<div class='edit-o' id='edit'><i class='op-edit fas fa-ellipsis-v'></i>
+                <div class='options-o' id='options'><button id='delete-comment' onclick='deleteCmt(this)'>Delete</button><div id='btn-spr'>
+                </div></div></div>
+                            `;
+                }
+            }
+            if(post.comments[3])
+                htmlcode += `<div id='see-all'><a href='${window.location.href}/post/i/${post.img.split('/')[3].split('.')[0]}'>See All comments </a></div>`;
+        }
 
-    Array.prototype.forEach.call(edit, function(elm, index){
-        elm.addEventListener("click", function (ev) {
-            Array.prototype.forEach.call(option, function(elm){
-                elm.style.display = "none";
-            });
-            option[index].style.display = "block";
-            ev.stopPropagation(); 
+        htmlcode += "</div></div>";
+        elm.innerHTML = htmlcode;
+        
+
+        loader.parentNode.insertBefore(elm, loader);
+        if(index == 0)
+            elm.scrollIntoView({ behavior: 'smooth', block: "start",inline: "end"});
+
+
+        var llike = document.getElementsByClassName('like');
+        llike = llike[llike.length - 1];
+        var lliked = document.getElementsByClassName('liked');
+        lliked = lliked[lliked.length - 1];
+        var nbr = document.getElementsByClassName('nbr');
+        nbr = nbr[nbr.length - 1];
+        if (post.liked)
+            llike.classList.add('to-hide');
+        if (post.liked)
+            lliked.classList.add('to-show');
+            
+        llike.addEventListener("click", function(){
+
+            llike.style.display = "none";
+            lliked.style.display = "inline";
+            var num = parseInt(nbr.innerHTML);
+            nbr.innerHTML = ++num;
+            likeToServer(1, window.location.href+post.img);
         });
-        
-    });
+
+        lliked.addEventListener("click", function(){
+
+            lliked.style.display = "none";
+            llike.style.display = "inline";
+            var num = parseInt(nbr.innerHTML);
+            nbr.innerHTML = --num;
+            likeToServer(0, window.location.href+post.img);
+        });
+
+        var edit = document.getElementsByClassName("op-edit");
+        var option = document.getElementsByClassName("options-o");
+
+        Array.prototype.forEach.call(edit, function(elm, index){
+            elm.addEventListener("click", function (ev) {
+                Array.prototype.forEach.call(option, function(elm){
+                    elm.style.display = "none";
+                });
+                option[index].style.display = "block";
+                ev.stopPropagation(); 
+            });
+            
+        });
+    }
+}
+else
+{
+    var loader = document.getElementById("load-more");
+    var n_pagination = document.getElementById("pagination");
+    
+    loader.style.display = "none";
+    n_pagination.style.display = "block";
 }

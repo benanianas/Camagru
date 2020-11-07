@@ -11,7 +11,7 @@ class Homepage extends Controller{
     {
         //pagination Beginning
         
-        $posts_per_page = 2;
+        $posts_per_page = 5;
         $posts_count = $this->model->postsNbr();
         $pages_nbr = ceil($posts_count / $posts_per_page);
         $page = 1;
@@ -20,11 +20,11 @@ class Homepage extends Controller{
             $this->view('homepage/publichome', $data);
             return;
         }
-        // if(isset($_GET['page']))
-        // {
-        //     if(is_numeric($_GET['page']) && $_GET['page'] > 0 && $_GET['page'] <= $pages_nbr )
-        //         $page = $_GET['page'];
-        // }
+        if(isset($_GET['page']))
+        {
+            if(is_numeric($_GET['page']) && $_GET['page'] > 0 && $_GET['page'] <= $pages_nbr )
+                $page = $_GET['page'];
+        }
         $from = ($page - 1)*$posts_per_page;
 
         // pagination End
@@ -37,6 +37,7 @@ class Homepage extends Controller{
             'max' =>  $pages_nbr
         ];
 
+        
         if($_SERVER['REQUEST_METHOD'] == 'POST')
         {
             if(isset($_POST['page']))
@@ -49,8 +50,8 @@ class Homepage extends Controller{
                     'max' =>  $pages_nbr
                 ];
 
-
-                echo json_encode($data);
+                if(!isset($_GET['page']))
+                    echo json_encode($data);
                 return;
             }
             if($_SESSION['token'] != $_POST['token'])
@@ -88,7 +89,8 @@ class Homepage extends Controller{
             }
             else if(isset($_POST['delete']))
             {
-                $this->model->deleteComment($_POST['cmt']);
+                $comments = $this->model->deleteComment($_POST['cmt']);
+                echo json_encode($comments);
             }
             else if(isset($_POST['edit']))
             {

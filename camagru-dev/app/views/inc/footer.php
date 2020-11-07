@@ -9,8 +9,11 @@ echo
 "<script>
 var csrfToken = '".$_SESSION["token"]."';
 var sid = '".$_SESSION['id']."'
-</script>"
+</script>";
 ?>
+<?php echo "<script>
+var infinite = false;
+</script>";?>
 <script src="<?php echo URLROOT ?>/js/main.js";></script>
 <?php if(isset($jsfile)) echo '<script src="'.URLROOT.'/js/'.$jsfile.'";></script>'?>
 </body>

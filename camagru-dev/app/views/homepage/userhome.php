@@ -47,7 +47,7 @@ foreach($data['posts'] as $elm)
                 
                 else
                 {
-                    for($i = 0; $i < 2; $i++)
+                    for($i = 0; $i < 3; $i++)
                     {
                         if ($elm->comments[$i])
                         {
@@ -66,7 +66,7 @@ foreach($data['posts'] as $elm)
                         ";
                         }
                     }
-                    if($elm->comments[2])
+                    if($elm->comments[3])
                     echo "<div id='see-all'><a href='".URLROOT.'/post/i/'.explode('.',end(explode('/',$elm->img)))[0]."'>See All comments </a></div>";
                 }
                 echo "
@@ -76,8 +76,7 @@ foreach($data['posts'] as $elm)
             </div>";
 }
             ?>
-
-            <!-- <?php 
+            <?php 
             $prev = $data['page'] - 1;
             $next = $data['page'] + 1;
             
@@ -91,10 +90,10 @@ foreach($data['posts'] as $elm)
             <i id="right" class="p-btn fas fa-arrow-circle-right" <?php if($next > $data['max']) echo "style='opacity: 0.5;'";?>></i>
             <?php if($next <= $data['max']) echo "</a>";?>
             </div>
-        </div> -->
 
         <div id="load-more">
-        See More
+        <span id="load-text">See More</span>
+        <div id="load-anim" class="loader"></div>
         </div>
     
 
@@ -144,7 +143,7 @@ foreach($data['posts'] as $elm)
 </div>
 </div>
 </div>
-
+</div>
 
         <?php if (isLoggedIn())
         $jsfile = "userhome.js";
