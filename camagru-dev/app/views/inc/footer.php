@@ -12,7 +12,8 @@ var sid = '".$_SESSION['id']."'
 </script>";
 ?>
 <?php echo "<script>
-var infinite = false;
+var infinite = true;
+var max = '".$data['max']."';
 </script>";?>
 <script src="<?php echo URLROOT ?>/js/main.js";></script>
 <?php if(isset($jsfile)) echo '<script src="'.URLROOT.'/js/'.$jsfile.'";></script>'?>

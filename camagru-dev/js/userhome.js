@@ -230,8 +230,18 @@ if (infinite)
     loader.style.display = "block";
     n_pagination.style.display = "none";
 
-    loader.onclick = function(){
+    // var lg = document.getElementById("thelogo");
+    // lg.
 
+
+    if(max && max == pageincookies())
+        loader.style.display = "none";
+
+    loader.onclick = function(){
+        var cookiepage = pageincookies();
+        if(cookiepage != 1)
+            page = cookiepage+1;
+        // alert("i m going to load"+ page +"and in cookie page is"+ pageincookies());
         document.getElementById('load-text').style.display = "none";
         document.getElementById('load-anim').style.display = "block";
         var xhr = new XMLHttpRequest();
@@ -239,16 +249,17 @@ if (infinite)
         {
             if(this.readyState == 4 && this.status == 200)
             {
+                
                 var ret = JSON.parse(this.responseText);
                 if (page == ret.max)
                     loader.style.display = "none";
                 ret.posts.forEach(addPost);
+                document.cookie = "pages="+page;
                 page++;
             }
         };
         xhr.open("POST", window.location.href , true);
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
-        
         setTimeout(() => {  
         document.getElementById('load-text').style.display = "block";
         document.getElementById('load-anim').style.display = "none";
@@ -370,4 +381,20 @@ else
     
     loader.style.display = "none";
     n_pagination.style.display = "block";
+}
+
+var ntype = window.performance.getEntriesByType("navigation")[0].type;
+
+
+
+
+function pageincookies()
+{
+    var cookies = document.cookie.split(';');
+    for (var i = 0; i < cookies.length; i++)
+    {
+        var ck = cookies[i].split('=');
+        if (ck[0].trim() == "pages")
+            return(parseInt(ck[1]));
+    }
 }

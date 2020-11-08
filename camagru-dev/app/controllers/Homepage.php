@@ -10,8 +10,11 @@ class Homepage extends Controller{
     public function index()
     {
         //pagination Beginning
-        
-        $posts_per_page = 5;
+        $ppp = 2;
+        $posts_per_page = $ppp;
+        $pageRefreshed = isset($_SERVER['HTTP_CACHE_CONTROL']) &&($_SERVER['HTTP_CACHE_CONTROL'] === 'max-age=0' ||  $_SERVER['HTTP_CACHE_CONTROL'] == 'no-cache'); 
+
+
         $posts_count = $this->model->postsNbr();
         $pages_nbr = ceil($posts_count / $posts_per_page);
         $page = 1;
@@ -20,11 +23,29 @@ class Homepage extends Controller{
             $this->view('homepage/publichome', $data);
             return;
         }
-        if(isset($_GET['page']))
+        if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['page']))
         {
             if(is_numeric($_GET['page']) && $_GET['page'] > 0 && $_GET['page'] <= $pages_nbr )
                 $page = $_GET['page'];
         }
+        else
+        {
+            if(isset($_COOKIE['pages']) && $_COOKIE['pages'] != '1' && !$pageRefreshed)
+            {
+                $posts_per_page = $posts_per_page * $_COOKIE['pages'];
+            }
+            else if($pageRefreshed)
+                setcookie('pages', '1');
+            // if(isset($_POST['refresh']))
+            // {
+            //     $posts_per_page = $ppp;
+            //     setcookie('pages', '1');
+            // }
+        }
+
+
+        
+
         $from = ($page - 1)*$posts_per_page;
 
         // pagination End
@@ -42,6 +63,7 @@ class Homepage extends Controller{
         {
             if(isset($_POST['page']))
             {
+                $posts_per_page = $ppp;
                 $from = ($_POST['page'] - 1)*$posts_per_page;
                 $posts = $this->model->getPosts($from, $posts_per_page);
                 $data = [
@@ -54,6 +76,10 @@ class Homepage extends Controller{
                     echo json_encode($data);
                 return;
             }
+            // if(isset($_POST['max']))
+            // {
+            //     echo ""
+            // }
             if($_SESSION['token'] != $_POST['token'])
             {
                 unset($_SESSION['token']);
