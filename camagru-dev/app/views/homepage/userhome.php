@@ -35,7 +35,9 @@ foreach($data['posts'] as $elm)
                         echo " to-show";
                     echo"' style='color:red;'></i>
                     <a href='";
-                    echo URLROOT.'/post/i/'.explode('.',end(explode('/',$elm->img)))[0];
+                    $tmp = explode('/',$elm->img);
+                    $tmp = end($tmp);
+                    echo URLROOT.'/post/i/'.explode('.',$tmp)[0];
                     echo "'><i class='far fa-comment'></i></a>
                 </div>
                 <div id='likes-number'><span class='nbr'>".$elm->likes."</span> likes</div>
@@ -49,7 +51,7 @@ foreach($data['posts'] as $elm)
                 {
                     for($i = 0; $i < 3; $i++)
                     {
-                        if ($elm->comments[$i])
+                        if (array_key_exists($i,$elm->comments))
                         {
                         echo "<div id='comment-holder' data-comment='".$elm->comments[$i]->id_c."'>
                             <div id='comment'>
@@ -66,7 +68,7 @@ foreach($data['posts'] as $elm)
                         ";
                         }
                     }
-                    if($elm->comments[3])
+                    if(array_key_exists('3',$elm->comments))
                     echo "<div id='see-all'><a href='".URLROOT.'/post/i/'.explode('.',end(explode('/',$elm->img)))[0]."'>See All comments </a></div>";
                 }
                 echo "

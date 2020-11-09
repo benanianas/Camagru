@@ -33,11 +33,14 @@ class Post extends Controller{
                     {
                         if($_POST['like'])
                         {
-                            $img = '/img/posts/'.end(explode('/',$_POST['img']));
+                            $tmp = explode('/',$_POST['img']);
+                            $img = '/img/posts/'.end($tmp);
                             if ($this->model->likePost($img))
                             {
                                 $notif = $this->model->getNotifdata($img);
-                                $notif->link = URLROOT."/post/i/".explode(".",end(explode("/",$_POST['img'])))[0];
+                                $tmp = explode("/",$_POST['img']);
+                                $tmp = end($tmp);
+                                $notif->link = URLROOT."/post/i/".explode(".",$tmp)[0];
                                 if ($notif->id != $_SESSION['id'] && $notif->likes_n)
                                     sendLikeNotif($notif);
                             }
@@ -45,21 +48,24 @@ class Post extends Controller{
                         }
                         else
                         {
-                            $img = '/img/posts/'.end(explode('/',$_POST['img']));
+                            $tmp = explode('/',$_POST['img']);
+                            $img = '/img/posts/'.end($tmp);
                             $this->model->unlikePost($img);
                         }
                     }
 
                     else if(isset($_POST['comment']))
                     {
-                        $img = '/img/posts/'.end(explode('/',$_POST['post'])).'.png';
+                        $tmp = explode('/',$_POST['post']);
+                        $img = '/img/posts/'.end($tmp).'.png';
                         if($cmt_id = $this->model->postComment($img, $_POST['comment']))
-                        echo $_SESSION['username'].'/'.$cmt_id;
+                            echo $_SESSION['username'].'/'.$cmt_id."/sent";
                     }
 
                     else if(isset($_POST['cmt-notif']))
                     {
-                        $img = '/img/posts/'.end(explode('/',$_POST['link'])).'.png';
+                        $tmp = explode('/',$_POST['link']);
+                        $img = '/img/posts/'.end($tmp).'.png';
                         $notif = $this->model->getNotifdata($img);
                         $notif->link = $_POST['link'];
                         if ($notif->id != $_SESSION['id'] && $notif->comments_n)

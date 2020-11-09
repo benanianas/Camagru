@@ -1,9 +1,8 @@
 <?php
 
-$s_email = 'camagru.social.noreply@gmail.com';
 function sendVerification($data, $token)
 {
-    $sender = $s_email;
+    $sender = 'camagru.social.noreply@gmail.com';
     $recipient = $data['email'];
 
     $subject = "Camagru verification mail";
@@ -26,7 +25,7 @@ function sendVerification($data, $token)
 
 function sendPasswordReset($data, $token)
 {
-    $sender = $s_email;
+    $sender = 'camagru.social.noreply@gmail.com';;
     $recipient = $data['email'];
 
     $subject = "Camagru Reset Password";
@@ -50,7 +49,7 @@ function sendPasswordReset($data, $token)
 
 function sendLikeNotif($data)
 {
-    $sender = $s_email;
+    $sender = 'camagru.social.noreply@gmail.com';;
     $recipient = $data->email;
 
     $subject = "Someone Liked your Post";
@@ -72,7 +71,7 @@ function sendLikeNotif($data)
 
 function sendCommentNotif($data)
 {
-    $sender = $s_email;
+    $sender = 'camagru.social.noreply@gmail.com';;
     $recipient = $data->email;
 
     $subject = "Someone commented on your Post";

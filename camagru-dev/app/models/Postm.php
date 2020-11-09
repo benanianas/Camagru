@@ -118,7 +118,7 @@ class Postm{
         
         $this->db->query("SELECT `user_id` FROM `posts` WHERE `id` = :post");
         $this->db->placeholder(":post", $post_id);
-        $post_owner = $this->db->single()->user_id;
+        $post_owner = $this->db->single();
         
         // echo $cmt_owner."   ".$post_owner;
         if ($cmt_owner == $_SESSION['id'] || $post_owner == $_SESSION['id'])

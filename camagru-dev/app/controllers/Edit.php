@@ -19,9 +19,6 @@ class Edit extends Controller{
             if ($_SERVER['REQUEST_METHOD'] == 'POST')
             {
                 $data = [
-                    'name' => $_POST['name'],
-                    'username' => $_POST['username'],
-                    'email' => $_POST['email'],
                     'pic' => $ret->p_photo,
                     'name_err' => '',
                     'username_err' => '',
@@ -75,7 +72,15 @@ class Edit extends Controller{
                 else
                 {
                 
-
+                    $data = [
+                        'name' => $_POST['name'],
+                        'username' => $_POST['username'],
+                        'email' => $_POST['email'],
+                        'pic' => $ret->p_photo,
+                        'name_err' => '',
+                        'username_err' => '',
+                        'email_err' => ''
+                    ];
 
                 if(empty($data['name']))
                     $data['name_err'] = 'Please enter your first name';
@@ -106,7 +111,7 @@ class Edit extends Controller{
                 {
                     if ($data['name'] != $ret->first_name)
                         $this->model->updateName($data, $_SESSION['id']);
-                    if ($data['usename'] != $ret->username)
+                    if ($data['username'] != $ret->username)
                         $this->model->updateUsername($data, $_SESSION['id']);
                     if ($data['email'] != $ret->email)
                     {

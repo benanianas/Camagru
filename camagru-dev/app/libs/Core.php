@@ -11,16 +11,16 @@ class Core {
         $url = $this->getUrl();
 
         //controller part
+       
+            if (isset($url[0]) && file_exists("app/controllers/".ucwords($url[0]).".php"))
+            {
+                //search for the first $url value in app/controllers & if exits set it as a $controller
+                $this->controller = ucwords($url[0]);
+                unset($url[0]);
+            }
+            else if(!empty($url[0]))
+                $this->controller =  'Notfound';
         
-        if (file_exists("app/controllers/".ucwords($url[0]).".php"))
-        {
-            //search for the first $url value in app/controllers & if exits set it as a $controller
-            $this->controller = ucwords($url[0]);
-            unset($url[0]);
-        }
-        else if(!empty($url[0]))
-            $this->controller =  'Notfound';
-
 
         require_once 'app/controllers/'.$this->controller.'.php';
         $this->controller = new $this->controller;

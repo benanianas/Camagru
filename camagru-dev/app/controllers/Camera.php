@@ -80,7 +80,8 @@ Class Camera extends Controller{
                 {
                     if(!$_POST['post'])
                     {
-                        $img = end(explode('/',$_POST['imgpath']));
+                        $tmp = explode('/',$_POST['imgpath']);
+                        $img = end($tmp);
                         unlink('/var/www/html/img/tmp/'.$img);
                     }
                     else
@@ -89,7 +90,8 @@ Class Camera extends Controller{
                             mkdir('/var/www/html/img/posts', 0777);
                             chmod('/var/www/html/img/posts', 0777);
                         }
-                        $img = end(explode('/',$_POST['imgpath']));
+                        $tmp = explode('/',$_POST['imgpath']);
+                        $img = end($tmp);
                         rename('/var/www/html/img/tmp/'.$img, '/var/www/html/img/posts/'.$img);
                         $this->model->postIt($_SESSION['id'], '/img/posts/'.$img);
                         echo URLROOT.'/img/posts/'.$img;
@@ -97,7 +99,8 @@ Class Camera extends Controller{
                 }
                 else if(isset($_POST['delete']))
                 {
-                    $img = end(explode('/',$_POST['imgpath']));
+                    $tmp = explode('/',$_POST['imgpath']);
+                    $img = end($tmp);
                     if($this->model->deletePost($_SESSION['id'], '/img/posts/'.$img))
                         unlink('/var/www/html/img/posts/'.$img); 
                 }

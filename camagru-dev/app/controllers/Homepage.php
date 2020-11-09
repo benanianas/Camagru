@@ -50,7 +50,7 @@ class Homepage extends Controller{
 
         // pagination End
 
-
+        
         $posts = $this->model->getPosts($from, $posts_per_page);
         $data = [
             'posts' => $posts,
@@ -91,11 +91,14 @@ class Homepage extends Controller{
             {
                 if($_POST['like'])
                 {
-                    $img = '/img/posts/'.end(explode('/',$_POST['img']));
+                    $tmp = explode('/',$_POST['img']);
+                    $img = '/img/posts/'.end($tmp);
                     if ($this->model->likePost($img))
                         {
                             $notif = $this->model->getNotifdata($img);
-                            $notif->link = URLROOT."/post/i/".explode(".",end(explode("/",$_POST['img'])))[0];
+                            $tmp = explode("/",$_POST['img']);
+                            $tmp = end($tmp);
+                            $notif->link = URLROOT."/post/i/".explode(".",$tmp)[0];
 
                             if ($notif->id != $_SESSION['id'] && $notif->likes_n)
                                 sendLikeNotif($notif);
@@ -103,13 +106,15 @@ class Homepage extends Controller{
                 }
                 else
                 {
-                    $img = '/img/posts/'.end(explode('/',$_POST['img']));
+                    $tmp = explode('/',$_POST['img']);
+                    $img = '/img/posts/'.end($tmp);
                     $this->model->unlikePost($img);
                 }
             }
             else if(isset($_POST['comment']))
             {
-                $img = '/img/posts/'.end(explode('/',$_POST['post'])).'.png';
+                $tmp = explode('/',$_POST['post']);
+                $img = '/img/posts/'.end($tmp).'.png';
                 $cmt_id = $this->model->postComment($img, $_POST['comment']);
                 echo $_SESSION['username'].'/'.$cmt_id;
             }

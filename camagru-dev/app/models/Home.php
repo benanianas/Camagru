@@ -141,6 +141,7 @@ class Home{
             $ret = $this->db->execute();
             $this->db->query("SELECT `id_c`, `id`,`username`, `comment` FROM `comments` JOIN `users` ON `comments`.`user_id` = `users`.`id` WHERE `post_id` = ".$post_id." ORDER BY `created_at` DESC LIMIT 4");
             $comments = $this->db->result();
+            $data = new stdClass();
             $data->c = $comments;
             $data->pid = $post_id;
             return $data;

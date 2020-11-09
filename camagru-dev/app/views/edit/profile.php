@@ -31,7 +31,7 @@
             <i class="fas fa-user"></i>
             </span>
         </div>
-        <p class="help is-danger"><?php if($data['name_err']){echo $data['name_err'];} ?></p>
+        <p class="help is-danger"><?php if(isset($data['name_err'])){echo $data['name_err'];} ?></p>
         </div>
         <div class="field">
         <label>Username</label>
@@ -41,7 +41,7 @@
             <i class="fas fa-user"></i>
             </span>
         </div>
-        <p class="help is-danger"><?php if($data['username_err']){echo $data['username_err'];} ?></p>
+        <p class="help is-danger"><?php if(isset($data['username_err'])){echo $data['username_err'];} ?></p>
         </div>
         <div class="field">
         <label>Email</label>
@@ -51,7 +51,7 @@
             <i class="fas fa-envelope"></i>
             </span>
         </div>
-        <p class="help is-danger"><?php if($data['email_err']){echo $data['email_err'];} ?></p>
+        <p class="help is-danger"><?php if(isset($data['email_err'])){echo $data['email_err'];} ?></p>
         <br>
         </div>
         <input type="hidden" name="token" value="<?php echo $_SESSION['token']?>">

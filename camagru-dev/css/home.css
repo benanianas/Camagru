@@ -360,6 +360,7 @@ margin-bottom: 10px;
     text-align: center;
     width: 100%;
     margin: auto;
+    display: none;
     /* background-color: gray; */
 }
 #p-divider{

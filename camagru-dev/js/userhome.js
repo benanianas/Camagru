@@ -11,7 +11,6 @@ var like_icons = document.getElementsByClassName("like"),
     options = document.getElementsByClassName("options-o");
 
 
-
     // pagination
 
         // var infinite = true;
@@ -82,6 +81,10 @@ function deleteCmt(elm)
     document.getElementById("delete-btn").onclick = function(){deleteComment(elm);};
 }
 
+function htmlschars(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') ;
+}
+
 function deleteComment(elm){
 
     // var img = elm.parentNode.parentNode.parentNode.parentNode.getElementsByTagName('img')[1].src;
@@ -89,7 +92,7 @@ function deleteComment(elm){
     img =  img.split('/');
     img = img[img.length - 1];
     img = img.split('.')[0];
-    console.log(img);
+    // console.log(img);
     
     //
     // elm.parentNode.parentNode.style.display = "none";
@@ -118,7 +121,7 @@ function deleteComment(elm){
                     htmlcode += `<div id='comment-holder' data-comment='${comments.c[i].id_c}'>
                                 <div id='comment'>
                                 <span class='c-user'>${comments.c[i].username}</span>
-                                <span class='comment'>${comments.c[i].comment}</span>
+                                <span class='comment'>${htmlschars(comments.c[i].comment)}</span>
                                 </div></div>
                                 `;
                 if(comments.c[0].id == sid)
@@ -230,8 +233,12 @@ if (infinite)
     loader.style.display = "block";
     n_pagination.style.display = "none";
 
-    // var lg = document.getElementById("thelogo");
-    // lg.
+    var lg = document.getElementById("thelogo");
+    lg.innerHTML = '<img src="'+link+'/img/logo.png" style="height: 39px;cursor: pointer;">';
+    lg.onclick = function()
+    {
+        location.reload();
+    };
 
 
     if(max && max == pageincookies())
@@ -301,7 +308,7 @@ if (infinite)
                     htmlcode += `<div id='comment-holder' data-comment='${post.comments[i].id_c}'>
                                 <div id='comment'>
                                 <span class='c-user'>${post.comments[i].username}</span>
-                                <span class='comment'>${post.comments[i].comment}</span>
+                                <span class='comment'>${htmlschars(post.comments[i].comment)}</span>
                                 </div></div>
                                 `;
                 if(post.comments[0].id == sid)
@@ -383,8 +390,6 @@ else
     n_pagination.style.display = "block";
 }
 
-var ntype = window.performance.getEntriesByType("navigation")[0].type;
-
 
 
 
@@ -398,3 +403,5 @@ function pageincookies()
             return(parseInt(ck[1]));
     }
 }
+
+// alert(document.cookie);

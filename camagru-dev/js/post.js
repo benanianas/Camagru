@@ -14,7 +14,6 @@ var like_icons = document.getElementsByClassName("like"),
     edits = document.getElementsByClassName("op-edit"),
     options = document.getElementsByClassName("options-o");
 
-
 comment.addEventListener("input", function(){
 
     if (comment.value.trim().length == 0)
@@ -51,8 +50,7 @@ comment.addEventListener("keyup", function(event) {
 
 var sendComment = function(){
  
-    if(empty != null)
-        empty.style.display = "none";
+    
     
     send.removeEventListener("click", sendComment);
     send.style.opacity = "0.5";
@@ -66,8 +64,10 @@ var sendComment = function(){
     {
         if(this.readyState == 4 && this.status == 200)
         {
-            // username = this.responseText;
-
+            if(this.responseText.split('/')[2] == "sent")
+            {
+            if(empty != null)
+            empty.style.display = "none";
             var newcomment = document.createElement("div");
             newcomment.innerHTML = "<div id='comment-holder' data-comment='"+this.responseText.split('/')[1]+"'><div id='comment'><span class='c-user'>"+
             this.responseText.split('/')[0]+
@@ -88,6 +88,12 @@ var sendComment = function(){
             });
             if(this.responseText.split('/')[1])
                 sendCommentNotif(window.location.href);
+            }
+            else
+            {
+                comment_err.innerText = "Something went wrong, Try commenting later!";
+                comment_err.style.display = "block";
+            }
         }
     };
 

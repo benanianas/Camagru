@@ -116,7 +116,6 @@
 </div>
 </div>
 
-
         <?php if (isLoggedIn())
         $jsfile = "post.js";
         else
