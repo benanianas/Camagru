@@ -137,8 +137,7 @@ like.addEventListener("click", function(){
 //////
 //// double
 post.addEventListener("dblclick", function(){
-
-    if(liked.style.display == "none")
+    if(window.getComputedStyle(liked, null).getPropertyValue("display") == "none")
     {
         like.style.display = "none";
         liked.style.display = "inline";

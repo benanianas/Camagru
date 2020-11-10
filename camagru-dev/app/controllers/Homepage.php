@@ -20,7 +20,7 @@ class Homepage extends Controller{
         $page = 1;
         if(!$posts_count)
         {
-            $this->view('homepage/publichome', $data);
+            $this->view('homepage/publichome', $data='');
             return;
         }
         if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['page']))

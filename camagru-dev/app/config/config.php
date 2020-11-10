@@ -1,9 +1,8 @@
 <?php
 
 define ('APPROOT', dirname(dirname(__FILE__)));
-define ('URLROOT', 'http://192.168.99.107:8000');
+define ('URLROOT', 'http://'.$_SERVER['HTTP_HOST']);
 define ('SITENAME', 'Camagru');
-
 
 //database params
 

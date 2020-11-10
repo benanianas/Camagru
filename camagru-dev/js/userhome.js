@@ -37,16 +37,18 @@ Array.prototype.forEach.call(like_icons, function(like, index) {
 
 Array.prototype.forEach.call(posts, function(post, index) {
 
-    if(liked_icons[index].style.display == "none")
-    {
-        post.addEventListener("dblclick", function(){
+    
+    post.addEventListener("dblclick", function(){
+        if(window.getComputedStyle(liked_icons[index], null).getPropertyValue("display") == "none")
+        {
             like_icons[index].style.display = "none";
             liked_icons[index].style.display = "inline";
             var num = parseInt(likes_num[index].innerHTML);
             likes_num[index].innerHTML = ++num;
             likeToServer(1, post.src);
-        });
-    }
+        }
+    });
+    
     
 });
 
