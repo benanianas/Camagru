@@ -133,7 +133,20 @@ like.addEventListener("click", function(){
     likes.innerHTML = ++num;
     likeToServer(1, post.src);
 });
+///////
+//////
+//// double
+post.addEventListener("dblclick", function(){
 
+    if(liked.style.display == "none")
+    {
+        like.style.display = "none";
+        liked.style.display = "inline";
+        var num = parseInt(likes.innerHTML);
+        likes.innerHTML = ++num;
+        likeToServer(1, post.src);
+    }
+});
 
 
 

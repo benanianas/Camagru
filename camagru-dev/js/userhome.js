@@ -31,6 +31,25 @@ Array.prototype.forEach.call(like_icons, function(like, index) {
     
 });
 
+///////
+//////
+//// double
+
+Array.prototype.forEach.call(posts, function(post, index) {
+
+    if(liked_icons[index].style.display == "none")
+    {
+        post.addEventListener("dblclick", function(){
+            like_icons[index].style.display = "none";
+            liked_icons[index].style.display = "inline";
+            var num = parseInt(likes_num[index].innerHTML);
+            likes_num[index].innerHTML = ++num;
+            likeToServer(1, post.src);
+        });
+    }
+    
+});
+
 Array.prototype.forEach.call(liked_icons, function(liked, index) {
 
     liked.addEventListener("click", function(){
@@ -112,7 +131,7 @@ function deleteComment(elm){
             var comments = JSON.parse(this.responseText);
             var htmlcode = "";
             // console.log(comments);
-            if (!comments.c[0])
+            if (comments && !comments.c[0])
                 htmlcode += `<div id='no-comment'>No comment yet !</div>`;
             for(i=0; i < 3; i++)
             {
@@ -159,7 +178,7 @@ function deleteComment(elm){
     };
     xhr.open("POST", window.location.href , true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
-    xhr.send("delete=1&cmt="+cmt_id+"&token="+csrfToken);
+    xhr.send("delete=1&cmt="+cmt_id+"&bimg="+img+"&token="+csrfToken);
 
     
 

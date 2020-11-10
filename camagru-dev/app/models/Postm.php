@@ -44,7 +44,10 @@ class Postm{
     {
         $this->db->query("SELECT `id` FROM `posts` WHERE `img` = :img");
         $this->db->placeholder(":img", $img);
-        $postId = $this->db->single()->id;
+        $ret = $this->db->single();
+        if(!$ret)
+            return;
+        $postId = $ret->id;
 
 
 
@@ -68,7 +71,10 @@ class Postm{
     {
         $this->db->query("SELECT `id` FROM `posts` WHERE `img` = :img");
         $this->db->placeholder(":img", $img);
-        $postId = $this->db->single()->id;
+        $ret = $this->db->single();
+        if(!$ret)
+            return;
+        $postId = $ret->id;
 
 
 
@@ -91,7 +97,10 @@ class Postm{
     {
         $this->db->query("SELECT `id` FROM `posts` WHERE `img` = :img");
         $this->db->placeholder(":img", $img);
-        $id = $this->db->single()->id;
+        $ret = $this->db->single();
+        if (!$ret)
+            return;
+        $id = $ret->id;
 
         $this->db->query("INSERT INTO `comments` (`post_id`, `user_id`, `comment`) VALUES (:id, :userid, :comment )");
         $this->db->placeholder(":id", $id);
@@ -111,9 +120,13 @@ class Postm{
         $this->db->query("SELECT `user_id`, `post_id` FROM `comments` WHERE `id_c` = :cmtid");
         $this->db->placeholder(":cmtid", $cmt_id);
         $ret = $this->db->single();
+        if(!$ret)
+            return;
 
-        $cmt_owner = $ret->user_id;
-        $post_id = $ret->post_id;
+        if(property_exists($ret, 'user_id'))
+            $cmt_owner = $ret->user_id;
+        if(property_exists($ret, 'post_id'))
+            $post_id = $ret->post_id;
 
         
         $this->db->query("SELECT `user_id` FROM `posts` WHERE `id` = :post");
@@ -145,6 +158,4 @@ class Postm{
         $this->db->placeholder(":img", $img);
         return $this->db->single();
     }
-
-
 }

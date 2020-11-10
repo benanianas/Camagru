@@ -120,7 +120,7 @@ class Homepage extends Controller{
             }
             else if(isset($_POST['delete']))
             {
-                $comments = $this->model->deleteComment($_POST['cmt']);
+                $comments = $this->model->deleteComment($_POST['cmt'], $_POST['bimg']);
                 echo json_encode($comments);
             }
             else if(isset($_POST['edit']))

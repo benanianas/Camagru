@@ -23,7 +23,7 @@
     <p>Camagru login</p>
     <form class="myform" action="<?php echo URLROOT?>/account/login" method="post">
     <?php 
-    if ($_SESSION['msg'])
+    if (array_key_exists('msg', $data) && $_SESSION['msg'])
     {
         echo '<article class="message is-success is-small"><div class="message-body ">';
         echo flash_msg('msg');
@@ -31,7 +31,7 @@
     }
     ?>
     <?php 
-    if ($data['verification'])
+    if (array_key_exists('verification', $data) && $data['verification'])
     {
         echo '<article class="message is-danger is-small"><div class="message-body ">';
         echo $data['verification']."<br><a href='";
@@ -60,7 +60,7 @@
         </div>
         <p class="help is-danger"><?php if($data['password_err']){echo $data['password_err'];} ?></p>
     </div>
-    <input type="hidden" name="link" value="<?= $data['link']?>">    
+    <input type="hidden" name="link" value="<?php if (array_key_exists('link', $data)) echo $data['link'];?>">    
         <div class="control">
     <input type="submit" value="Log In" class="button is-linkclass is-primary">
     <div class="f_pass"><a href="<?php echo URLROOT?>/account/reset_password">Forgot password ?</a></div>
