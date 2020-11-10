@@ -16,6 +16,18 @@ Class Account extends Controller{
     {
         if(isLoggedIn())
             redirect('/');
+        $data = [
+            'first_name' => '',
+            'username' => '',
+            'email' => '',
+            'password' => '',
+            'password_c' => '',
+            'first_name_err' => '',
+            'username_err' => '',
+            'email_err' => '',
+            'password_err' => '',
+            'password_c_err' => ''
+        ]; 
         if($_SERVER['REQUEST_METHOD'] == 'POST')
         {
             $data = [
@@ -198,6 +210,12 @@ Class Account extends Controller{
 
     public function verify($token = '')
     {
+        $data = [
+            'login' => '',
+            'login_err' => '',
+            'msg' => '',
+            'status' => ''
+        ];
         if(isLoggedIn())
             redirect('/');
         if(!empty($token))
@@ -263,7 +281,7 @@ Class Account extends Controller{
         else
         {
             $data = [
-                'login' => $_SERVER['login'],
+                'login' => '',
                 'login_err' => '',
                 'msg' => '',
                 'status' => ''
@@ -275,6 +293,12 @@ Class Account extends Controller{
 
     public function reset_password($token = '')
     {
+        $data = [
+            'login' => '',
+            'login_err' => '',
+            'msg' => '',
+            'status' => ''
+        ];
         if(isLoggedIn())
             redirect('/');
         if(!empty($token))
@@ -346,6 +370,12 @@ Class Account extends Controller{
     {
         if(isLoggedIn())
             redirect('/');
+        $data = [
+            'password' => '',
+            'password_c' => '',
+            'password_err' => '',
+            'password_c_err' => ''
+        ]; 
         if($_SERVER['REQUEST_METHOD'] == 'POST')
         {
             $data = [

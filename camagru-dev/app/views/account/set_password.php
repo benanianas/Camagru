@@ -26,7 +26,7 @@
     <p>Set a new passord</p>
     <form class="myform" action="<?php echo URLROOT?>/account/set_password" method="post">
     <?php 
-    if ($data['msg'])
+    if (array_key_exists('msg', $data) && $data['msg'])
     {
         echo '<article class="message ';
         echo ($data['status'] === 'danger') ? 'is-danger' : 'is-primary'; 

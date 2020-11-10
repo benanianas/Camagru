@@ -27,11 +27,11 @@ foreach($data['posts'] as $elm)
 
                 <div class='actions'>
                     <i class='like far fa-heart";
-                    if($elm->liked)
+                    if(property_exists($elm, 'liked') && $elm->liked)
                         echo " to-hide";
                     echo"'></i>
                     <i class='liked fas fa-heart";
-                    if($elm->liked)
+                    if(property_exists($elm, 'liked') && $elm->liked)
                         echo " to-show";
                     echo"' style='color:red;'></i>
                     <a href='";

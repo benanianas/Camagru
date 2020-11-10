@@ -23,7 +23,7 @@
     <p>Camagru login</p>
     <form class="myform" action="<?php echo URLROOT?>/account/login" method="post">
     <?php 
-    if (array_key_exists('msg', $data) && $_SESSION['msg'])
+    if (array_key_exists('msg', $_SESSION) && $_SESSION['msg'])
     {
         echo '<article class="message is-success is-small"><div class="message-body ">';
         echo flash_msg('msg');
