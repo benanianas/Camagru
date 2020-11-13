@@ -12,7 +12,7 @@ var sid = '".$_SESSION['id']."'
 </script>";
 ?>
 <?php echo "<script>
-var infinite = false;
+var infinite = true;
 var link = '".URLROOT."';";
 if ( is_array($data) && array_key_exists('max', $data))
     echo "var max ='".$data['max']."';";

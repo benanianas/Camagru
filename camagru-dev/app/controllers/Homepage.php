@@ -28,20 +28,20 @@ class Homepage extends Controller{
             if(is_numeric($_GET['page']) && $_GET['page'] > 0 && $_GET['page'] <= $pages_nbr )
                 $page = $_GET['page'];
         }
-        else
-        {
-            if(isset($_COOKIE['pages']) && $_COOKIE['pages'] != '1' && !$pageRefreshed)
-            {
-                $posts_per_page = $posts_per_page * $_COOKIE['pages'];
-            }
-            else if($pageRefreshed)
-                setcookie('pages', '1');
-            // if(isset($_POST['refresh']))
-            // {
-            //     $posts_per_page = $ppp;
-            //     setcookie('pages', '1');
-            // }
-        }
+        // else
+        // {
+        //     if(isset($_COOKIE['pages']) && $_COOKIE['pages'] != '1' && !$pageRefreshed)
+        //     {
+        //         $posts_per_page = $posts_per_page * $_COOKIE['pages'];
+        //     }
+        //     else if($pageRefreshed)
+        //         setcookie('pages', '1');
+        //     // if(isset($_POST['refresh']))
+        //     // {
+        //     //     $posts_per_page = $ppp;
+        //     //     setcookie('pages', '1');
+        //     // }
+        // }
 
 
         
@@ -76,10 +76,18 @@ class Homepage extends Controller{
                     echo json_encode($data);
                 return;
             }
-            // if(isset($_POST['max']))
-            // {
-            //     echo ""
-            // }
+            if(isset($_POST['spage']))
+            {
+                $posts = $this->model->getPosts($ppp, $ppp * ($_POST['spage'] - 1));
+                $data = [
+                    'posts' => $posts,
+                    'page' => $page,
+                    'max' =>  $pages_nbr
+                ];
+
+                echo json_encode($data);
+                return;
+            }
             if($_SESSION['token'] != $_POST['token'])
             {
                 unset($_SESSION['token']);
