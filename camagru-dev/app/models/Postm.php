@@ -122,23 +122,23 @@ class Postm{
         $ret = $this->db->single();
         if(!$ret)
             return;
-
-        if(property_exists($ret, 'user_id'))
+        else
+        {
             $cmt_owner = $ret->user_id;
-        if(property_exists($ret, 'post_id'))
             $post_id = $ret->post_id;
 
-        
-        $this->db->query("SELECT `user_id` FROM `posts` WHERE `id` = :post");
-        $this->db->placeholder(":post", $post_id);
-        $post_owner = $this->db->single();
-        
-        // echo $cmt_owner."   ".$post_owner;
-        if ($cmt_owner == $_SESSION['id'] || $post_owner == $_SESSION['id'])
-        {
-            $this->db->query("DELETE FROM `comments` WHERE `id_c` = :cmtid");
-            $this->db->placeholder(":cmtid", $cmt_id);
-            $ret = $this->db->execute();
+            
+            $this->db->query("SELECT `user_id` FROM `posts` WHERE `id` = :post");
+            $this->db->placeholder(":post", $post_id);
+            $post_owner = $this->db->single()->user_id;
+            
+            // echo $cmt_owner."   ".$post_owner;
+            if ($cmt_owner == $_SESSION['id'] || $post_owner == $_SESSION['id'])
+            {
+                $this->db->query("DELETE FROM `comments` WHERE `id_c` = :cmtid");
+                $this->db->placeholder(":cmtid", $cmt_id);
+                $ret = $this->db->execute();
+            }
         }
     }
 

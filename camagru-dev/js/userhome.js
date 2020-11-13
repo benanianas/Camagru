@@ -132,7 +132,7 @@ function deleteComment(elm){
         {
             var comments = JSON.parse(this.responseText);
             var htmlcode = "";
-            // console.log(comments);
+            // console.log(comments.c);
             if (comments && !comments.c[0])
                 htmlcode += `<div id='no-comment'>No comment yet !</div>`;
             for(i=0; i < 3; i++)
@@ -151,7 +151,7 @@ function deleteComment(elm){
                 <div class='options-o' id='options'><button id='delete-comment' onclick='deleteCmt(this)'>Delete</button><div id='btn-spr'>
                 </div><button id='delete-comment' onclick='editCmt(this)'>Edit</button></div></div>
                 `;
-                else if(comment.pid == sid)
+                else if(comments.poid == sid)
                 htmlcode += `<div class='edit-o' id='edit'><i class='op-edit fas fa-ellipsis-v'></i>
                 <div class='options-o' id='options'><button id='delete-comment' onclick='deleteCmt(this)'>Delete</button><div id='btn-spr'>
                 </div></div></div>

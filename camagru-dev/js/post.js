@@ -214,8 +214,6 @@ function deleteComment(elm){
     var cmt_id = elm.parentNode.parentNode.previousSibling.getAttribute("data-comment");
 
     var xhr = new XMLHttpRequest();
-    
-    
     xhr.open("POST", window.location.href , true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
     xhr.send("delete=1&cmt="+cmt_id+"&token="+csrfToken);
