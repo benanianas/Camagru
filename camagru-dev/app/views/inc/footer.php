@@ -11,12 +11,6 @@ var csrfToken = '".$_SESSION["token"]."';
 var sid = '".$_SESSION['id']."'
 </script>";
 ?>
-<?php echo "<script>
-var infinite = true;
-var link = '".URLROOT."';";
-if ( is_array($data) && array_key_exists('max', $data))
-    echo "var max ='".$data['max']."';";
-echo "</script>";?>
 <script src="<?php echo URLROOT ?>/js/main.js";></script>
 <?php if(isset($jsfile)) echo '<script src="'.URLROOT.'/js/'.$jsfile.'";></script>'?>
 </body>

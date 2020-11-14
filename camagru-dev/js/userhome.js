@@ -249,179 +249,178 @@ if (window.performance && window.performance.navigation.type != window.performan
     sessionStorage.setItem("page", 1);
 }
 
-if (infinite)
-{
-    var spage = sessionStorage.getItem('page');
-    var loader = document.getElementById("load-more");
-    var page = 2;
 
-    loader.style.display = "block";
-    if (spage && spage != 1)
+var spage = sessionStorage.getItem('page');
+var loader = document.getElementById("load-more");
+var page = 2;
+
+loader.style.display = "block";
+if (spage && spage != 1)
+{
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function()
     {
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function()
+        if(this.readyState == 4 && this.status == 200)
         {
-            if(this.readyState == 4 && this.status == 200)
+            var ret = JSON.parse(this.responseText);
+            ret.posts.forEach(addPost);
+            if(spage == ret.max)
+                loader.style.display = "none";
+        }
+    };
+    xhr.open("POST", window.location.href , true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+    xhr.send("spage="+spage);
+}
+
+
+
+loader.onclick = function(){
+    if(spage && spage != 1)
+        page = parseInt(spage) + 1;
+    document.getElementById('load-text').style.display = "none";
+    document.getElementById('load-anim').style.display = "block";
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function()
+    {
+        if(this.readyState == 4 && this.status == 200)
+        {
+            
+            var ret = JSON.parse(this.responseText);
+            if (page == ret.max)
+                loader.style.display = "none";
+            ret.posts.forEach(addPost);
+            sessionStorage.setItem("page", page);
+            page++;
+        }
+    };
+    xhr.open("POST", window.location.href , true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+    setTimeout(() => {  
+    document.getElementById('load-text').style.display = "block";
+    document.getElementById('load-anim').style.display = "none";
+    xhr.send("page="+page);
+}, 400);  
+};
+
+function addPost(post, index)
+{
+    var elm = document.createElement('div');
+    var htmlcode = `
+    <div class='post'>
+    <div class='post-header'>
+    <img class='profile' src='${post.p_photo}'>
+                    <div class='username'>${post.username}</div>
+                </div>
+                <img class='post-img' src='${window.location.href.split('/')[0]+post.img}' />
+
+                <div class='actions'>
+                    <i class='like far fa-heart'></i>
+                    <i class='liked fas fa-heart' style='color:red;'></i>
+                    <a href='${window.location.href.split('/')[0]}/post/i/${post.img.split('/')[3].split('.')[0]}'><i class='far fa-comment'></i></a>
+                </div>
+                <div id='likes-number'><span class='nbr'>${post.likes}</span> likes</div>
+                <div class='comments'>
+    `;
+
+    if (!post.comments[0])
+    {
+        htmlcode += `<div id='no-comment'>No comment yet !</div>`;
+    }
+    else
+    {
+        for(i=0; i < 3; i++)
+        {
+            if(post.comments[i])
             {
-                var ret = JSON.parse(this.responseText);
-                ret.posts.forEach(addPost);
-                if(spage == ret.max)
-                    loader.style.display = "none";
+                htmlcode += `<div id='comment-holder' data-comment='${post.comments[i].id_c}'>
+                            <div id='comment'>
+                            <span class='c-user'>${post.comments[i].username}</span>
+                            <span class='comment'>${htmlschars(post.comments[i].comment)}</span>
+                            </div></div>
+                            `;
+            if(post.comments[0].id == sid)
+            
+            htmlcode += `<div class='edit-o' id='edit'><i class='op-edit fas fa-ellipsis-v'></i>
+            <div class='options-o' id='options'><button id='delete-comment' onclick='deleteCmt(this)'>Delete</button><div id='btn-spr'>
+            </div><button id='delete-comment' onclick='editCmt(this)'>Edit</button></div></div>
+            `;
+            else if(post.user_id == sid)
+            htmlcode += `<div class='edit-o' id='edit'><i class='op-edit fas fa-ellipsis-v'></i>
+            <div class='options-o' id='options'><button id='delete-comment' onclick='deleteCmt(this)'>Delete</button><div id='btn-spr'>
+            </div></div></div>
+                        `;
             }
-        };
-        xhr.open("POST", window.location.href , true);
-        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
-        xhr.send("spage="+spage);
+        }
+        if(post.comments[3])
+            htmlcode += `<div id='see-all'><a href='${window.location.href}/post/i/${post.img.split('/')[3].split('.')[0]}'>See All comments </a></div>`;
     }
 
+    htmlcode += "</div></div>";
+    elm.innerHTML = htmlcode;
     
-    
-    loader.onclick = function(){
-        if(spage && spage != 1)
-            page = parseInt(spage) + 1;
-        document.getElementById('load-text').style.display = "none";
-        document.getElementById('load-anim').style.display = "block";
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function()
-        {
-            if(this.readyState == 4 && this.status == 200)
-            {
-                
-                var ret = JSON.parse(this.responseText);
-                if (page == ret.max)
-                    loader.style.display = "none";
-                ret.posts.forEach(addPost);
-                sessionStorage.setItem("page", page);
-                page++;
-            }
-        };
-        xhr.open("POST", window.location.href , true);
-        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
-        setTimeout(() => {  
-        document.getElementById('load-text').style.display = "block";
-        document.getElementById('load-anim').style.display = "none";
-        xhr.send("page="+page);
-    }, 400);  
-    };
 
-    function addPost(post, index)
-    {
-        var elm = document.createElement('div');
-        var htmlcode = `
-        <div class='post'>
-        <div class='post-header'>
-        <img class='profile' src='${post.p_photo}'>
-                        <div class='username'>${post.username}</div>
-                    </div>
-                    <img class='post-img' src='${window.location.href.split('/')[0]+post.img}' />
+    loader.parentNode.insertBefore(elm, loader);
+    // if(index == 0)
+    //     elm.scrollIntoView({ behavior: 'smooth', block: "start",inline: "end"});
 
-                    <div class='actions'>
-                        <i class='like far fa-heart'></i>
-                        <i class='liked fas fa-heart' style='color:red;'></i>
-                        <a href='${window.location.href.split('/')[0]}/post/i/${post.img.split('/')[3].split('.')[0]}'><i class='far fa-comment'></i></a>
-                    </div>
-                    <div id='likes-number'><span class='nbr'>${post.likes}</span> likes</div>
-                    <div class='comments'>
-        `;
 
-        if (!post.comments[0])
-        {
-            htmlcode += `<div id='no-comment'>No comment yet !</div>`;
-        }
-        else
-        {
-            for(i=0; i < 3; i++)
-            {
-                if(post.comments[i])
-                {
-                    htmlcode += `<div id='comment-holder' data-comment='${post.comments[i].id_c}'>
-                                <div id='comment'>
-                                <span class='c-user'>${post.comments[i].username}</span>
-                                <span class='comment'>${htmlschars(post.comments[i].comment)}</span>
-                                </div></div>
-                                `;
-                if(post.comments[0].id == sid)
-                
-                htmlcode += `<div class='edit-o' id='edit'><i class='op-edit fas fa-ellipsis-v'></i>
-                <div class='options-o' id='options'><button id='delete-comment' onclick='deleteCmt(this)'>Delete</button><div id='btn-spr'>
-                </div><button id='delete-comment' onclick='editCmt(this)'>Edit</button></div></div>
-                `;
-                else if(post.user_id == sid)
-                htmlcode += `<div class='edit-o' id='edit'><i class='op-edit fas fa-ellipsis-v'></i>
-                <div class='options-o' id='options'><button id='delete-comment' onclick='deleteCmt(this)'>Delete</button><div id='btn-spr'>
-                </div></div></div>
-                            `;
-                }
-            }
-            if(post.comments[3])
-                htmlcode += `<div id='see-all'><a href='${window.location.href}/post/i/${post.img.split('/')[3].split('.')[0]}'>See All comments </a></div>`;
-        }
-
-        htmlcode += "</div></div>";
-        elm.innerHTML = htmlcode;
+    var llike = document.getElementsByClassName('like');
+    llike = llike[llike.length - 1];
+    var lliked = document.getElementsByClassName('liked');
+    lliked = lliked[lliked.length - 1];
+    var nbr = document.getElementsByClassName('nbr');
+    nbr = nbr[nbr.length - 1];
+    var lpost = posts = document.getElementsByClassName("post-img");
+    lpost = lpost[lpost.length -1];
+    if (post.liked)
+        llike.classList.add('to-hide');
+    if (post.liked)
+        lliked.classList.add('to-show');
         
+    llike.addEventListener("click", function(){
 
-        loader.parentNode.insertBefore(elm, loader);
-        // if(index == 0)
-        //     elm.scrollIntoView({ behavior: 'smooth', block: "start",inline: "end"});
+        llike.style.display = "none";
+        lliked.style.display = "inline";
+        var num = parseInt(nbr.innerHTML);
+        nbr.innerHTML = ++num;
+        likeToServer(1, window.location.href+post.img);
+    });
 
+    lliked.addEventListener("click", function(){
 
-        var llike = document.getElementsByClassName('like');
-        llike = llike[llike.length - 1];
-        var lliked = document.getElementsByClassName('liked');
-        lliked = lliked[lliked.length - 1];
-        var nbr = document.getElementsByClassName('nbr');
-        nbr = nbr[nbr.length - 1];
-        var lpost = posts = document.getElementsByClassName("post-img");
-        lpost = lpost[lpost.length -1];
-        if (post.liked)
-            llike.classList.add('to-hide');
-        if (post.liked)
-            lliked.classList.add('to-show');
-            
-        llike.addEventListener("click", function(){
+        lliked.style.display = "none";
+        llike.style.display = "inline";
+        var num = parseInt(nbr.innerHTML);
+        nbr.innerHTML = --num;
+        likeToServer(0, window.location.href+post.img);
+    });
 
+    lpost.addEventListener("dblclick", function(){
+        if(window.getComputedStyle(lliked, null).getPropertyValue("display") == "none")
+        {
             llike.style.display = "none";
             lliked.style.display = "inline";
             var num = parseInt(nbr.innerHTML);
             nbr.innerHTML = ++num;
             likeToServer(1, window.location.href+post.img);
-        });
+        }
+    });
 
-        lliked.addEventListener("click", function(){
+    var edit = document.getElementsByClassName("op-edit");
+    var option = document.getElementsByClassName("options-o");
 
-            lliked.style.display = "none";
-            llike.style.display = "inline";
-            var num = parseInt(nbr.innerHTML);
-            nbr.innerHTML = --num;
-            likeToServer(0, window.location.href+post.img);
-        });
-
-        lpost.addEventListener("dblclick", function(){
-            if(window.getComputedStyle(lliked, null).getPropertyValue("display") == "none")
-            {
-                llike.style.display = "none";
-                lliked.style.display = "inline";
-                var num = parseInt(nbr.innerHTML);
-                nbr.innerHTML = ++num;
-                likeToServer(1, window.location.href+post.img);
-            }
-        });
-
-        var edit = document.getElementsByClassName("op-edit");
-        var option = document.getElementsByClassName("options-o");
-
-        Array.prototype.forEach.call(edit, function(elm, index){
-            elm.addEventListener("click", function (ev) {
-                Array.prototype.forEach.call(option, function(elm){
-                    elm.style.display = "none";
-                });
-                option[index].style.display = "block";
-                ev.stopPropagation(); 
+    Array.prototype.forEach.call(edit, function(elm, index){
+        elm.addEventListener("click", function (ev) {
+            Array.prototype.forEach.call(option, function(elm){
+                elm.style.display = "none";
             });
-            
+            option[index].style.display = "block";
+            ev.stopPropagation(); 
         });
-    }
+        
+    });
+}
 
 
 
@@ -584,15 +583,7 @@ if (infinite)
             
     //     });
     // }
-}
-else
-{
-    var loader = document.getElementById("load-more");
-    var n_pagination = document.getElementById("pagination");
-    
-    loader.style.display = "none";
-    n_pagination.style.display = "block";
-}
+
 
 
 

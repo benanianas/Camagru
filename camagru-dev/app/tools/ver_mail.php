@@ -8,7 +8,7 @@ function sendVerification($data, $token)
     $subject = "Camagru verification mail";
     $link = URLROOT."/account/verify/".$token;
     $message = " <img style='display:block;margin: 0 auto;' src='".URLROOT."/img/camagrugreen.png'>";
-    $message .= "<div class='mail' style ='padding: 40px; '><h1>Reset Your Password</h1>";
+    $message .= "<div class='mail' style ='padding: 40px; '><h1>Confirm your email</h1>";
     $message .= "Hi ".$data['first_name'].", Tap the button below to confirm your email address. If you didn't create an account with Camagru, you can safely delete this email.<br>";
     $message .= "this link expires after 24 hours.<br>";
     $message .= "<div style='margin-top:20px; margin-bottom: 20px; text-align: center; width: 100%;'><a href='".$link."' style='background-color: #00C99C;border: none;color: white;padding: 15px 32px;
